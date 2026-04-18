@@ -13,7 +13,10 @@
       "Bash(git commit -m 'Add .gitignore, remove node_modules from tracking *)",
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:5174)",
-      "Bash(git commit -m 'Add code splitting: lazy-load ResultsPage + Recharts chunk *)"
+      "Bash(git commit -m 'Add code splitting: lazy-load ResultsPage + Recharts chunk *)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(pkill -f \"vite --port 5173\")",
+      "Bash(node *)"
     ]
   }
 }

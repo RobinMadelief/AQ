@@ -1,74 +1,122 @@
-// Scoring logic: tally archetype answer counts and determine primary archetype + domain scores
+// Scoring: splits answers into perception (belief) vs behavior layers,
+// computes dominant archetype for each, and builds radar data for both.
 
 import { ARCHETYPES } from './archetypes.js'
 import { ALL_QUESTIONS } from './questions.js'
 
-/**
- * Given the array of user answers [{questionId, archetype}], compute:
- * - archetypeCounts: { skeptic: N, delegator: N, experimenter: N, amplifier: N }
- * - primaryArchetype: string key of dominant archetype
- * - domainScores: { [domain]: 0-100 } based on how "Amplifier-aligned" answers are in that domain
- * - radarData: formatted for Recharts RadarChart
- */
-export function computeResults(answers, selectedDomains) {
-  const archetypeCounts = { skeptic: 0, delegator: 0, experimenter: 0, amplifier: 0 }
+const TIEBREAKER = ['amplifier', 'experimenter', 'skeptic', 'delegator']
+const ARCHETYPE_KEYS = ['skeptic', 'delegator', 'experimenter', 'amplifier']
 
-  for (const answer of answers) {
-    if (archetypeCounts[answer.archetype] !== undefined) {
-      archetypeCounts[answer.archetype]++
-    }
+function zeroCounts() {
+  return { skeptic: 0, delegator: 0, experimenter: 0, amplifier: 0 }
+}
+
+function countArchetypes(answerSet) {
+  const counts = zeroCounts()
+  for (const a of answerSet) {
+    if (counts[a.archetype] !== undefined) counts[a.archetype]++
+  }
+  return counts
+}
+
+function getDominant(counts) {
+  const max = Math.max(...Object.values(counts))
+  return TIEBREAKER.find(k => counts[k] === max)
+}
+
+// Returns a 0–100 score for each archetype given a set of answers
+function toRadarScores(counts, total) {
+  const t = total || 1
+  const out = {}
+  for (const k of ARCHETYPE_KEYS) {
+    out[k] = Math.round((counts[k] / t) * 100)
+  }
+  return out
+}
+
+export function computeResults(answers, selectedDomains) {
+  // Split answers into perception and behavior layers
+  const perceptionAnswers = []
+  const behaviorAnswers = []
+  for (const a of answers) {
+    const q = ALL_QUESTIONS.find(q => q.id === a.questionId)
+    if (q?.layer === 'perception') perceptionAnswers.push(a)
+    else behaviorAnswers.push(a)
   }
 
-  // Primary archetype = highest count; ties broken by order: amplifier > experimenter > skeptic > delegator
-  const tiebreaker = ['amplifier', 'experimenter', 'skeptic', 'delegator']
-  const maxCount = Math.max(...Object.values(archetypeCounts))
-  const tied = tiebreaker.filter(k => archetypeCounts[k] === maxCount)
-  const primaryArchetype = tied[0]
+  // Count archetype selections per layer
+  const beliefCounts  = countArchetypes(perceptionAnswers)
+  const behaviorCounts = countArchetypes(behaviorAnswers)
+  const totalCounts   = countArchetypes(answers)
 
-  // Domain scores: for each selected domain, score = avg of archetype quality weights for answers in that domain
-  // Weights: amplifier=100, experimenter=60, skeptic=50, delegator=30
+  // Dominant archetype per layer
+  const beliefArchetype   = getDominant(beliefCounts)
+  const behaviorArchetype = getDominant(behaviorCounts)
+  const primaryArchetype  = getDominant(totalCounts)
+
+  // Radar data: 4 axes (one per archetype), two series (belief + behavior)
+  const beliefScores   = toRadarScores(beliefCounts,  perceptionAnswers.length)
+  const behaviorScores = toRadarScores(behaviorCounts, behaviorAnswers.length)
+
+  const archetypeRadarData = ARCHETYPE_KEYS.map(key => ({
+    subject: ARCHETYPES[key].name.replace('The ', ''),
+    belief:   beliefScores[key],
+    behavior: behaviorScores[key],
+  }))
+
+  // Gap callout — the headline moment on the results page
+  const beliefName   = ARCHETYPES[beliefArchetype].name
+  const behaviorName = ARCHETYPES[behaviorArchetype].name
+
+  const gapCallout = beliefArchetype === behaviorArchetype
+    ? {
+        hasGap: false,
+        beliefLabel: beliefName,
+        behaviorLabel: behaviorName,
+        headline: `Consistent ${beliefName}.`,
+        subtext: 'Your beliefs about AI and your actual behaviors align. That consistency is rare and worth understanding.',
+      }
+    : {
+        hasGap: true,
+        beliefLabel: beliefName,
+        behaviorLabel: behaviorName,
+        headline: `You think like ${beliefName}. But you act like ${behaviorName}.`,
+        subtext: 'The gap between how you think about AI and how you actually use it is the core insight of your AQ profile.',
+      }
+
+  // Domain scores (amplifier-alignment %) — used in next steps selection
   const weights = { amplifier: 100, experimenter: 60, skeptic: 50, delegator: 30 }
-
   const domainScores = {}
   for (const domain of selectedDomains) {
     const domainAnswers = answers.filter(a => {
       const q = ALL_QUESTIONS.find(q => q.id === a.questionId)
-      return q && q.domains.includes(domain)
+      return q?.domains?.includes(domain)
     })
     if (domainAnswers.length === 0) {
-      domainScores[domain] = 55 // default neutral score
+      domainScores[domain] = 55
     } else {
       const total = domainAnswers.reduce((sum, a) => sum + (weights[a.archetype] || 50), 0)
-      // Scale slightly to avoid 0 or 100 extremes — keep in 25-95 range
-      const raw = total / domainAnswers.length
-      domainScores[domain] = Math.round(25 + (raw / 100) * 70)
+      domainScores[domain] = Math.round(25 + (total / domainAnswers.length / 100) * 70)
     }
   }
 
-  // RadarChart expects: [{ domain: 'Work', score: 75 }, ...]
-  const radarData = selectedDomains.map(domain => ({
-    domain: shortenDomainLabel(domain),
-    fullDomain: domain,
-    score: domainScores[domain],
-  }))
-
   return {
-    archetypeCounts,
+    // Raw counts
+    archetypeCounts: totalCounts,
+    beliefCounts,
+    behaviorCounts,
+    // Dominant archetypes
     primaryArchetype,
-    archetype: ARCHETYPES[primaryArchetype],
+    beliefArchetype,
+    behaviorArchetype,
+    // Archetype data objects
+    archetype:            ARCHETYPES[primaryArchetype],
+    beliefArchetypeData:  ARCHETYPES[beliefArchetype],
+    behaviorArchetypeData: ARCHETYPES[behaviorArchetype],
+    // Chart + callout
+    gapCallout,
+    archetypeRadarData,
     domainScores,
-    radarData,
     totalAnswered: answers.length,
   }
-}
-
-function shortenDomainLabel(domain) {
-  const map = {
-    'Work & Productivity': 'Work',
-    'Learning & Education': 'Learning',
-    'Daily Life': 'Daily Life',
-    'Health & Performance': 'Health',
-    'Creativity': 'Creativity',
-  }
-  return map[domain] || domain
 }

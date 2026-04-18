@@ -10,6 +10,7 @@ export default function QuestionsPage({ questions, onComplete }) {
   const question = questions[currentIndex]
   const total = questions.length
   const isLast = currentIndex === total - 1
+  const isPerception = question.layer === 'perception'
 
   function handleSelect(archetype) {
     if (animating) return
@@ -38,8 +39,9 @@ export default function QuestionsPage({ questions, onComplete }) {
   const answerLabels = ['A', 'B', 'C', 'D']
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 bg-white">
       <div className="max-w-2xl w-full">
+
         {/* Progress */}
         <div className="mb-10">
           <ProgressBar current={currentIndex + 1} total={total} />
@@ -47,20 +49,35 @@ export default function QuestionsPage({ questions, onComplete }) {
 
         {/* Question card */}
         <div
-          className={`card p-8 mb-6 transition-opacity duration-200 ${animating ? 'opacity-0' : 'opacity-100'}`}
+          className={`card p-6 sm:p-8 mb-6 transition-opacity duration-200 ${animating ? 'opacity-0' : 'opacity-100'}`}
         >
-          {/* Situation */}
-          <div className="mb-6">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Scenario</p>
-            <p className="text-slate-700 leading-relaxed mb-4">{question.situation}</p>
-            <p className="text-lg font-semibold text-slate-900">{question.question}</p>
-          </div>
+          {/* Situation (behavior questions only) */}
+          {question.situation && (
+            <div className="mb-5">
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">Scenario</p>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base bg-slate-50 rounded-xl px-4 py-3.5 border border-slate-100">
+                {question.situation}
+              </p>
+            </div>
+          )}
+
+          {/* Perception questions: subtle label (no "Scenario" callout, just the question) */}
+          {!question.situation && (
+            <div className="mb-2">
+              <p className="text-xs font-semibold text-accent-500 uppercase tracking-widest mb-4">Reflect</p>
+            </div>
+          )}
+
+          {/* Question */}
+          <p className="text-lg sm:text-xl font-bold text-slate-900 leading-snug mb-6">
+            {question.question}
+          </p>
 
           {/* Divider */}
-          <div className="border-t border-slate-100 mb-6" />
+          <div className="border-t border-slate-100 mb-5" />
 
-          {/* Answers */}
-          <div className="space-y-3">
+          {/* Answer choices */}
+          <div className="space-y-2.5">
             {question.answers.map((answer, idx) => {
               const isSelected = selected === answer.archetype
               return (
@@ -69,11 +86,11 @@ export default function QuestionsPage({ questions, onComplete }) {
                   onClick={() => handleSelect(answer.archetype)}
                   className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-150 flex items-start gap-4
                     ${isSelected
-                      ? 'bg-accent-50 border-accent-500'
+                      ? 'bg-accent-50 border-accent-500 shadow-sm'
                       : 'bg-white border-slate-200 hover:border-accent-300 hover:bg-slate-50 cursor-pointer'
                     }`}
                 >
-                  <span className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold transition-colors duration-150
+                  <span className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-150
                     ${isSelected ? 'bg-accent-500 text-white' : 'bg-slate-100 text-slate-500'}`}
                   >
                     {answerLabels[idx]}
@@ -87,7 +104,7 @@ export default function QuestionsPage({ questions, onComplete }) {
           </div>
         </div>
 
-        {/* Next button */}
+        {/* Navigation */}
         <div className="flex justify-end">
           <button
             onClick={handleNext}
