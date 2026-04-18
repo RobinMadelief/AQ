@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import LandingPage from './pages/LandingPage.jsx'
 import ContextPage from './pages/ContextPage.jsx'
 import DomainPage from './pages/DomainPage.jsx'
 import QuestionsPage from './pages/QuestionsPage.jsx'
-import ResultsPage from './pages/ResultsPage.jsx'
 import { selectQuestions } from './data/questions.js'
 import { computeResults } from './data/scoring.js'
+
+// Lazy-load results page so Recharts is only fetched after the assessment
+const ResultsPage = lazy(() => import('./pages/ResultsPage.jsx'))
 
 const STEPS = {
   LANDING: 'landing',
@@ -69,11 +71,13 @@ export default function App() {
         <QuestionsPage questions={questions} onComplete={handleQuestionsComplete} />
       )}
       {step === STEPS.RESULTS && results && (
-        <ResultsPage
-          results={results}
-          selectedDomains={selectedDomains}
-          onRestart={handleRestart}
-        />
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400 text-sm">Loading results…</div>}>
+          <ResultsPage
+            results={results}
+            selectedDomains={selectedDomains}
+            onRestart={handleRestart}
+          />
+        </Suspense>
       )}
     </div>
   )

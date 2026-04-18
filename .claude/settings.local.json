@@ -8,7 +8,12 @@
       "Bash(npx tailwindcss *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'Initial commit: AQ — AI Quotient Assessment *)"
+      "Bash(git commit -m 'Initial commit: AQ — AI Quotient Assessment *)",
+      "Bash(git rm *)",
+      "Bash(git commit -m 'Add .gitignore, remove node_modules from tracking *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5174)",
+      "Bash(git commit -m 'Add code splitting: lazy-load ResultsPage + Recharts chunk *)"
     ]
   }
 }
