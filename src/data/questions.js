@@ -1,59 +1,87 @@
 // Questions in two layers.
-// layer: 'perception' — five Likert statements about AI beliefs (always shown, type: 'likert')
+// layer: 'perception' — five multiple-choice statements about AI beliefs (always shown)
 // layer: 'behavior'   — scenario questions about actual AI use (domain/context filtered, 10 shown)
 //
-// Behavior answers map to one of five archetypes: skeptic | delegator | experimenter | amplifier | architect
+// All answers map to one of five archetypes: skeptic | delegator | experimenter | amplifier | architect
 // Answer order is shuffled at runtime in selectQuestions() so the mapping is never predictable.
 
-// ─── LAYER 1: PERCEPTION (Likert Belief Statements) ────────────────────────────
-// Each is a 1–5 Likert scale: 1 = Strongly Disagree, 5 = Strongly Agree
-// Answers are stored as { questionId, likertValue } — no archetype mapping.
+// ─── LAYER 1: PERCEPTION (Belief Statements, Multiple Choice) ─────────────────
 
 const PERCEPTION_QUESTIONS = [
   {
     id: 'l_1',
     layer: 'perception',
-    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    statement: 'When I use AI for important work, I still feel like the author.',
+    question: 'When I use AI for important work, I still feel like the author.',
+    answers: [
+      { text: 'Yes. I do the real thinking. AI handles the parts I do not care about.', archetype: 'skeptic' },
+      { text: 'Not always, but that does not matter much to me. Good output is what counts.', archetype: 'delegator' },
+      { text: 'It depends on the tool. Some feel like mine, some do not.', archetype: 'experimenter' },
+      { text: 'Yes. AI extends my thinking, but my judgment shapes everything that matters.', archetype: 'amplifier' },
+      { text: 'Yes. I designed the system that produced it, so authorship sits with me.', archetype: 'architect' },
+    ],
   },
   {
     id: 'l_2',
     layer: 'perception',
-    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    statement: 'I find it hard to imagine doing my best work without AI.',
+    question: 'I find it hard to imagine doing my best work without AI.',
+    answers: [
+      { text: 'Not really. My best work comes from my own thinking, not tools.', archetype: 'skeptic' },
+      { text: 'Yes. AI removes the friction that used to slow me down.', archetype: 'delegator' },
+      { text: 'Somewhat. I keep finding new tools that make more things possible.', archetype: 'experimenter' },
+      { text: 'Yes. AI helps me do more without trading away the thinking I care about.', archetype: 'amplifier' },
+      { text: 'Yes. The systems I have built are central to how I work now.', archetype: 'architect' },
+    ],
   },
   {
     id: 'l_3',
     layer: 'perception',
-    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    statement: 'AI has changed what I see as possible, not just how efficient I am.',
+    question: 'AI has changed what I see as possible, not just how efficient I am.',
+    answers: [
+      { text: 'Not really. The possibilities were always there. I just have a faster tool.', archetype: 'skeptic' },
+      { text: 'Yes. I can produce things now that I simply could not before.', archetype: 'delegator' },
+      { text: 'Yes. Every tool I try opens up something I had not considered.', archetype: 'experimenter' },
+      { text: 'Yes. AI raised the ceiling of what I can think through and produce.', archetype: 'amplifier' },
+      { text: 'Yes. It changed the scale at which I can design and build things.', archetype: 'architect' },
+    ],
   },
   {
     id: 'l_4',
     layer: 'perception',
-    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    statement: 'The more I use AI, the more deliberate I have become about when not to.',
+    question: 'The more I use AI, the more deliberate I have become about when not to.',
+    answers: [
+      { text: 'That was my starting point. I never used it casually.', archetype: 'skeptic' },
+      { text: 'Not really. If AI can help, I use it.', archetype: 'delegator' },
+      { text: 'Somewhat. I am still working out which situations actually benefit from it.', archetype: 'experimenter' },
+      { text: 'Yes. Knowing when to keep it out is part of using it well.', archetype: 'amplifier' },
+      { text: 'Yes. I think carefully about which decisions need to stay outside the system.', archetype: 'architect' },
+    ],
   },
   {
     id: 'l_5',
     layer: 'perception',
-    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    statement: 'I think about AI as infrastructure, not just a tool.',
+    question: 'I think about AI as infrastructure, not just a tool.',
+    answers: [
+      { text: 'I do not think about it that way. It is an occasional resource, nothing more.', archetype: 'skeptic' },
+      { text: 'Not really. I use tools when I need them. Infrastructure feels like too much.', archetype: 'delegator' },
+      { text: 'Somewhat. I see it more as a space to explore than something I build around.', archetype: 'experimenter' },
+      { text: 'Partly. I have integrated it deeply enough that it shapes how I work.', archetype: 'amplifier' },
+      { text: 'Yes. I build around it the same way you build around any core infrastructure.', archetype: 'architect' },
+    ],
   },
 ]
 
@@ -392,8 +420,10 @@ function shuffle(arr) {
 }
 
 export function selectQuestions(context, selectedDomains) {
-  // Likert perception questions — no answer shuffling needed
-  const perceptionQs = PERCEPTION_QUESTIONS.map(q => ({ ...q }))
+  const perceptionQs = PERCEPTION_QUESTIONS.map(q => ({
+    ...q,
+    answers: shuffle([...q.answers]),
+  }))
 
   const behaviorEligible = BEHAVIOR_QUESTIONS.filter(q => {
     const domainMatch = q.domains.some(d => selectedDomains.includes(d))

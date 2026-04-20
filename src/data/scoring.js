@@ -4,15 +4,6 @@ import { ALL_QUESTIONS } from './questions.js'
 const TIEBREAKER = ['architect', 'amplifier', 'experimenter', 'skeptic', 'delegator']
 const ARCHETYPE_KEYS = ['skeptic', 'delegator', 'experimenter', 'amplifier', 'architect']
 
-// Likert statement → which archetypes score high (agree = signal) or low (disagree = signal)
-const LIKERT_MAP = {
-  l_1: { high: ['amplifier', 'architect'], low: ['skeptic', 'delegator'] },
-  l_2: { high: ['delegator', 'amplifier', 'architect'], low: ['skeptic'] },
-  l_3: { high: ['amplifier', 'architect'], low: ['skeptic', 'delegator'] },
-  l_4: { high: ['amplifier', 'architect'], low: ['experimenter', 'delegator'] },
-  l_5: { high: ['architect'], low: ['skeptic', 'delegator', 'experimenter'] },
-}
-
 function zeroCounts() {
   return { skeptic: 0, delegator: 0, experimenter: 0, amplifier: 0, architect: 0 }
 }
@@ -39,48 +30,19 @@ function toRadarScores(counts, total) {
   return out
 }
 
-// Compute belief scores (0–100) from Likert answers only
-function computeLikertBeliefScores(likertAnswers) {
-  const rawScores = zeroCounts()
-  const n = likertAnswers.length
-
-  for (const answer of likertAnswers) {
-    const map = LIKERT_MAP[answer.questionId]
-    if (!map) continue
-    const v = answer.likertValue  // 1–5
-    const highScore = (v - 1) / 4   // 0 at v=1, 1.0 at v=5
-    const lowScore  = (5 - v) / 4   // 1.0 at v=1, 0 at v=5
-
-    for (const k of ARCHETYPE_KEYS) {
-      if (map.high.includes(k)) {
-        rawScores[k] += highScore
-      } else if (map.low.includes(k)) {
-        rawScores[k] += lowScore
-      } else {
-        rawScores[k] += 0.5  // neutral — statement does not discriminate this archetype
-      }
-    }
-  }
-
-  const result = {}
-  for (const k of ARCHETYPE_KEYS) {
-    result[k] = n > 0 ? Math.round((rawScores[k] / n) * 100) : 0
-  }
-  return result
-}
-
 export function computeResults(answers, selectedDomains) {
-  // Split answers by type
-  const likertAnswers   = answers.filter(a => a.likertValue !== undefined)
-  const behaviorAnswers = answers.filter(a => a.archetype  !== undefined)
+  // Split answers by layer
+  const perceptionAnswers = answers.filter(a => a.layer === 'perception')
+  const behaviorAnswers   = answers.filter(a => a.layer === 'behavior')
 
   // Behavior counts drive the primary archetype
-  const behaviorCounts  = countArchetypes(behaviorAnswers)
+  const behaviorCounts    = countArchetypes(behaviorAnswers)
   const behaviorArchetype = getDominant(behaviorCounts)
 
-  // Likert answers drive the belief profile
-  const beliefScores    = computeLikertBeliefScores(likertAnswers)
-  const beliefArchetype = getDominant(beliefScores)
+  // Perception answers drive the belief profile
+  const beliefCounts    = countArchetypes(perceptionAnswers)
+  const beliefScores    = toRadarScores(beliefCounts, perceptionAnswers.length)
+  const beliefArchetype = getDominant(beliefCounts)
 
   // Primary archetype is behavior-only
   const primaryArchetype = behaviorArchetype
