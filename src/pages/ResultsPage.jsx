@@ -452,7 +452,7 @@ function ShareCard({ cardRef, archetype }) {
     >
       {/* Wordmark */}
       <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', fontSize: 20, fontWeight: 400, marginBottom: 28 }}>
-        Archetypes.ai
+        aq-beta.vercel.app
       </div>
 
       {/* Divider */}
@@ -470,7 +470,7 @@ function ShareCard({ cardRef, archetype }) {
 
       {/* Illustration */}
       <div style={{ marginBottom: 36 }}>
-        <div style={{ background: '#F5EFE6', borderRadius: 18, width: 160, height: 160, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ background: '#F5EFE6', borderRadius: 24, width: 240, height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img src={ARCHETYPE_IMAGES[archetype.id] || skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
@@ -528,10 +528,10 @@ function ShareCard({ cardRef, archetype }) {
       {/* Footer */}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
         <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
-          archetypes.ai
+          aq-beta.vercel.app
         </div>
-        <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontFamily: "'Inter', system-ui, sans-serif" }}>
-          Take the test at archetypes.ai
+        <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, fontFamily: "'Inter', system-ui, sans-serif" }}>
+          Take the test at aq-beta.vercel.app
         </div>
       </div>
     </div>
