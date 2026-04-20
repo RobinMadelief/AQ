@@ -47,13 +47,18 @@ function RevealSection({ children, delay = 0, className = '' }) {
   )
 }
 
+// ── Thin section divider with 48px vertical spacing ───────────────────────────
+function SectionDivider() {
+  return <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '48px 0' }} />
+}
+
 // ── Habits section ────────────────────────────────────────────────────────────
-function HabitsSection({ habits, compact = false }) {
+function HabitsSection({ habits }) {
   if (!habits) return null
   return (
-    <div className={compact ? 'grid sm:grid-cols-2 gap-5' : 'grid sm:grid-cols-2 gap-6'}>
+    <div className="grid sm:grid-cols-2 gap-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em' }}>Drop</p>
+        <div className="section-label mb-4">Drop</div>
         <ul className="space-y-3">
           {habits.drop.map((h, i) => (
             <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
@@ -64,7 +69,7 @@ function HabitsSection({ habits, compact = false }) {
         </ul>
       </div>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em' }}>Build</p>
+        <div className="section-label mb-4">Build</div>
         <ul className="space-y-3">
           {habits.build.map((h, i) => (
             <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
@@ -78,24 +83,28 @@ function HabitsSection({ habits, compact = false }) {
   )
 }
 
-// ── Compact archetype card (row of 5) ────────────────────────────────────────
+// ── Compact archetype card (grid of 5) ────────────────────────────────────────
 function ArchetypeCompactCard({ a, isYou, onClick }) {
+  if (isYou) {
+    return (
+      <div
+        className="flex flex-col items-center p-5 text-center w-full"
+        style={{ borderRadius: 8, border: '1px solid rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.1)' }}
+      >
+        <ArchetypeIllustration archetypeId={a.id} size={72} />
+        <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#ffffff' }}>{a.name}</h3>
+        <p className="text-xs font-medium uppercase" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>You are here</p>
+      </div>
+    )
+  }
   return (
     <button
       onClick={onClick}
       className="flex flex-col items-center p-5 text-center cursor-pointer transition-all duration-150 w-full"
-      style={isYou
-        ? { borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', borderLeft: '3px solid rgba(255,255,255,0.6)', background: 'rgba(255,255,255,0.1)' }
-        : { borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }
-      }
-      onMouseEnter={e => { if (!isYou) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
-      onMouseLeave={e => { if (!isYou) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
+      style={{ borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
     >
-      {isYou && (
-        <p className="text-[9px] uppercase font-semibold mb-1" style={{ letterSpacing: '0.12em', color: 'rgba(255,255,255,0.6)' }}>
-          your result
-        </p>
-      )}
       <ArchetypeIllustration archetypeId={a.id} size={72} />
       <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#ffffff' }}>{a.name}</h3>
       <p className="text-xs italic leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{a.tagline}</p>
@@ -222,7 +231,42 @@ const LEARNING_RESOURCES = {
   ],
 }
 
-// ── Full expanded archetype card ──────────────────────────────────────────────
+// ── Learning resource row (Section 4: full-row clickable with hover state) ────
+function LearningRow({ r }) {
+  return (
+    <a
+      href={r.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="learning-row"
+    >
+      <span
+        className="flex-shrink-0 text-xs font-bold uppercase tracking-wide mt-0.5"
+        style={{ color: 'rgba(255,255,255,0.6)', minWidth: 48 }}
+      >
+        {r.type}
+      </span>
+      <div className="flex-1 min-w-0">
+        <p className="learning-row-title font-semibold text-sm leading-snug" style={{ color: '#ffffff' }}>
+          {r.title}
+          <span className="font-normal" style={{ color: 'rgba(255,255,255,0.45)' }}> by {r.author}</span>
+        </p>
+        <p className="text-xs mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{r.why}</p>
+      </div>
+      <svg
+        className="learning-row-icon flex-shrink-0 w-4 h-4 mt-0.5"
+        style={{ color: 'rgba(255,255,255,0.3)', transition: 'color 0.15s' }}
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg>
+    </a>
+  )
+}
+
+// ── Full expanded archetype card (explore section) ────────────────────────────
 function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
   const nextSteps = (() => {
     if (isYou && selectedDomains?.length) {
@@ -244,13 +288,13 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       }
     >
       {/* Header */}
-      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="flex-shrink-0">
             <ArchetypeIllustration archetypeId={a.id} size={96} />
           </div>
           <div className="flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            <p className="text-xs font-medium uppercase tracking-widest mb-1.5" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>
               {isYou ? 'Your Archetype' : 'Archetype'}
             </p>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-1" style={{ color: '#ffffff' }}>{a.name}</h2>
@@ -261,7 +305,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       </div>
 
       {/* Quote */}
-      <div className="px-6 sm:px-8 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
+      <div className="px-6 sm:px-8 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <blockquote
           className="text-lg sm:text-xl font-medium italic pl-5 leading-relaxed"
           style={{ color: 'rgba(255,255,255,0.82)', borderLeft: '3px solid rgba(255,255,255,0.4)' }}
@@ -270,33 +314,33 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
         </blockquote>
       </div>
 
-      {/* Strengths + Blind Spot */}
-      <div className="px-6 sm:px-8 py-8 grid sm:grid-cols-2 gap-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
-        <div>
-          <div className="section-label mb-5">Strengths</div>
-          <ul className="space-y-3.5">
-            {a.strengths.map((s, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
-                <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="section-label mb-5">Blind Spot</div>
-          <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{a.blindSpot}</p>
-        </div>
+      {/* Strengths */}
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="section-label mb-5">Strengths</div>
+        <ul className="space-y-3.5">
+          {a.strengths.map((s, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+              <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
+              {s}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Blind Spot */}
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="section-label mb-5">Blind Spot</div>
+        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{a.blindSpot}</p>
       </div>
 
       {/* Habits */}
-      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="section-label mb-5">Habits</div>
         <HabitsSection habits={a.habits} />
       </div>
 
       {/* Next Steps */}
-      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)', background: 'rgba(0,0,0,0.1)' }}>
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.1)' }}>
         <div className="section-label mb-1.5">Next Steps</div>
         {isYou && selectedDomains?.length > 0 && (
           <p className="text-xs mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>Tailored to your selected domains: {selectedDomains.join(', ')}</p>
@@ -321,33 +365,8 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       {resources.length > 0 && (
         <div className="px-6 sm:px-8 py-8">
           <div className="section-label mb-5">Learning Path</div>
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
-            {resources.map((r, i) => (
-              <a
-                key={i}
-                href={r.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block group py-4"
-                style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
-              >
-                <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 text-xs font-bold uppercase tracking-wide mt-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                    {r.type}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm leading-snug" style={{ color: '#ffffff' }}>
-                      {r.title}
-                      <span className="font-normal" style={{ color: 'rgba(255,255,255,0.45)' }}> by {r.author}</span>
-                    </p>
-                    <p className="text-xs mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{r.why}</p>
-                  </div>
-                  <svg className="flex-shrink-0 w-4 h-4 mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </div>
-              </a>
-            ))}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            {resources.map((r, i) => <LearningRow key={i} r={r} />)}
           </div>
         </div>
       )}
@@ -367,32 +386,84 @@ function ShareCard({ cardRef, archetype, gapCallout }) {
         width: 540,
         height: 540,
         backgroundColor: '#6B1020',
-        padding: 60,
+        padding: 64,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        fontFamily: "'Inter', system-ui, sans-serif",
         boxSizing: 'border-box',
       }}
     >
+      {/* Wordmark */}
       <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', fontSize: 18, fontWeight: 400 }}>
         Archetypes.ai
       </div>
+
+      {/* Main content */}
       <div>
-        <div style={{ color: '#ffffff', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 24, letterSpacing: '-1px' }}>
+        <div style={{ color: '#ffffff', fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontSize: 52, fontWeight: 400, lineHeight: 1.1, marginBottom: 20 }}>
           {archetype.name}
         </div>
-        <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 17, fontStyle: 'italic', lineHeight: 1.55, marginBottom: 24 }}>
-          "{archetype.quote}"
+        <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 16, fontStyle: 'italic', fontFamily: "Georgia, 'Times New Roman', serif", lineHeight: 1.55, marginBottom: 20 }}>
+          &ldquo;{archetype.quote}&rdquo;
         </div>
         {gapCallout.headline && (
-          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.5 }}>
+          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, lineHeight: 1.5, fontFamily: "'Inter', system-ui, sans-serif" }}>
             {gapCallout.headline}
           </div>
         )}
       </div>
-      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12, letterSpacing: '0.04em' }}>
+
+      {/* Footer */}
+      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12, letterSpacing: '0.04em', fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}>
         archetypes.ai
+      </div>
+    </div>
+  )
+}
+
+// ── Share modal (Section 5) ───────────────────────────────────────────────────
+function ShareModal({ dataUrl, onClose }) {
+  function handleDownload() {
+    const link = document.createElement('a')
+    link.download = 'archetypes-ai-result.png'
+    link.href = dataUrl
+    link.click()
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ backgroundColor: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
+      onClick={onClose}
+    >
+      <div
+        style={{ background: '#3d0a12', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 16, padding: 32, maxWidth: 480, width: '100%' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-5">
+          <span className="section-label">Share Card</span>
+          <button
+            onClick={onClose}
+            style={{ color: 'rgba(255,255,255,0.5)', cursor: 'pointer', lineHeight: 0, background: 'none', border: 'none' }}
+          >
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <img
+          src={dataUrl}
+          alt="Share card preview"
+          style={{ width: '100%', borderRadius: 8, display: 'block', border: '1px solid rgba(255,255,255,0.1)' }}
+        />
+        <div className="flex gap-3 mt-5">
+          <button onClick={handleDownload} className="btn-primary" style={{ flex: 1 }}>
+            Download image
+          </button>
+          <button onClick={onClose} className="btn-secondary" style={{ flex: 1 }}>
+            Close
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -401,15 +472,12 @@ function ShareCard({ cardRef, archetype, gapCallout }) {
 // ── Main ResultsPage ──────────────────────────────────────────────────────────
 export default function ResultsPage({ results, selectedDomains, onRestart }) {
   const [selectedArchetype, setSelectedArchetype] = useState(null)
+  const [shareModalUrl, setShareModalUrl] = useState(null)
   const [shareStatus, setShareStatus] = useState(null)
   const [pdfStatus, setPdfStatus] = useState(null)
   const shareCardRef = useRef(null)
 
-  const {
-    archetype,
-    archetypeRadarData,
-    gapCallout,
-  } = results
+  const { archetype, archetypeRadarData, gapCallout } = results
 
   const personalNextSteps = (() => {
     for (const domain of selectedDomains) {
@@ -426,29 +494,15 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
     try {
       const { default: html2canvas } = await import('html2canvas')
       const el = shareCardRef.current
-      const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#6B1020' })
-
-      let copied = false
-      if (navigator.clipboard?.write) {
-        try {
-          await new Promise(resolve => canvas.toBlob(async (blob) => {
-            try {
-              await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-              copied = true
-            } catch {}
-            resolve()
-          }, 'image/png'))
-        } catch {}
-      }
-
-      if (copied) {
-        setShareStatus('copied')
-      } else {
-        const url = canvas.toDataURL('image/png')
-        window.open(url, '_blank')
-        setShareStatus('opened')
-      }
-      setTimeout(() => setShareStatus(null), 3000)
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#6B1020',
+      })
+      const dataUrl = canvas.toDataURL('image/png')
+      setShareModalUrl(dataUrl)
+      setShareStatus(null)
     } catch (err) {
       console.error(err)
       setShareStatus(null)
@@ -466,16 +520,19 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
       const el = document.getElementById('results-pdf-content')
       const fullCanvas = await html2canvas(el, {
-        scale: 1.5,
+        scale: 2,
         useCORS: true,
+        allowTaint: true,
         backgroundColor: '#6B1020',
         logging: false,
       })
 
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' })
-      const pdfWidth  = pdf.internal.pageSize.getWidth()
+      const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' })
+      pdf.setProperties({ title: 'Your Archetypes.ai Result' })
+
+      const pdfWidth = pdf.internal.pageSize.getWidth()
       const pdfHeight = pdf.internal.pageSize.getHeight()
-      const scale     = fullCanvas.width / pdfWidth
+      const scale = fullCanvas.width / pdfWidth
       const totalPages = Math.ceil(fullCanvas.height / (pdfHeight * scale))
 
       for (let page = 0; page < totalPages; page++) {
@@ -485,7 +542,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
         if (srcH <= 0) break
 
         const pageCanvas = document.createElement('canvas')
-        pageCanvas.width  = fullCanvas.width
+        pageCanvas.width = fullCanvas.width
         pageCanvas.height = srcH
         const ctx = pageCanvas.getContext('2d')
         ctx.drawImage(fullCanvas, 0, srcY, fullCanvas.width, srcH, 0, 0, fullCanvas.width, srcH)
@@ -507,6 +564,9 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#6B1020' }}>
 
+      {/* Share modal overlay */}
+      {shareModalUrl && <ShareModal dataUrl={shareModalUrl} onClose={() => setShareModalUrl(null)} />}
+
       {/* Off-screen share card for html2canvas */}
       <ShareCard cardRef={shareCardRef} archetype={archetype} gapCallout={gapCallout} />
 
@@ -525,51 +585,91 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
       {/* ── PDF capture target ───────────────────────────────────────────────── */}
       <div id="results-pdf-content">
-        <div className="max-w-[960px] mx-auto px-4 sm:px-6 py-10 space-y-12">
+        <div className="max-w-[960px] mx-auto px-4 sm:px-6 py-12">
 
-          {/* ── Archetype Hero ─────────────────────────────────────────────── */}
+          {/* ── 1. Gap callout — one punchy sentence, centered, italic ────────── */}
           <RevealSection delay={80}>
-            <div className="px-1">
-              <div className="section-label mb-4">Your archetype</div>
-              <h1 className="leading-tight mb-3" style={{ fontSize: 48, fontWeight: 600, color: '#ffffff' }}>
-                {archetype.name}
-              </h1>
-              <p className="text-base italic" style={{ color: 'rgba(255,255,255,0.9)' }}>{archetype.tagline}</p>
-            </div>
-          </RevealSection>
-
-          {/* ── Gap Callout ────────────────────────────────────────────────── */}
-          <RevealSection delay={160}>
-            <div
-              className="px-6 py-6"
-              style={{ border: '1px solid rgba(255,255,255,0.12)', borderLeft: '3px solid rgba(255,255,255,0.5)', borderRadius: 4, background: 'rgba(255,255,255,0.06)' }}
-            >
-              {gapCallout.hasGap ? (
-                <>
-                  <p className="text-xl sm:text-2xl font-bold leading-snug mb-1" style={{ color: '#ffffff' }}>
-                    You think like <span style={{ color: 'rgba(255,255,255,0.7)' }}>{gapCallout.beliefLabel}.</span>
-                  </p>
-                  <p className="text-xl sm:text-2xl font-bold leading-snug mb-4" style={{ color: 'rgba(255,255,255,0.82)' }}>
-                    But you act like {gapCallout.behaviorLabel}.
-                  </p>
-                </>
-              ) : (
-                <p className="text-xl sm:text-2xl font-bold leading-snug mb-4" style={{ color: '#ffffff' }}>
-                  Consistent <span style={{ color: 'rgba(255,255,255,0.7)' }}>{gapCallout.beliefLabel}.</span>
-                </p>
-              )}
-              <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                {gapCallout.subtext}
+            <div className="text-center py-2">
+              <p style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontStyle: 'italic',
+                fontSize: 18,
+                color: 'rgba(255,255,255,0.82)',
+                lineHeight: 1.6,
+              }}>
+                {gapCallout.headline}
               </p>
             </div>
           </RevealSection>
 
-          {/* ── Radar Chart ────────────────────────────────────────────────── */}
-          <RevealSection delay={220}>
+          <SectionDivider />
+
+          {/* ── 2. Archetype card — hero moment ──────────────────────────────── */}
+          <RevealSection delay={160}>
+            <div className="flex justify-center">
+              <div style={{
+                maxWidth: 520,
+                width: '100%',
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: 12,
+                padding: 32,
+                textAlign: 'center',
+              }}>
+                <p style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontStyle: 'italic',
+                  fontSize: 13,
+                  color: 'rgba(255,255,255,0.5)',
+                  marginBottom: 12,
+                }}>
+                  Your AI archetype is
+                </p>
+                <h1 style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontStyle: 'italic',
+                  fontSize: 44,
+                  fontWeight: 400,
+                  color: '#ffffff',
+                  lineHeight: 1.1,
+                  marginBottom: 24,
+                }}>
+                  {archetype.name}
+                </h1>
+                <div className="flex justify-center mb-5">
+                  <ArchetypeIllustration archetypeId={archetype.id} size={72} />
+                </div>
+                <p style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontStyle: 'italic',
+                  fontSize: 15,
+                  color: 'rgba(255,255,255,0.7)',
+                  lineHeight: 1.65,
+                  marginBottom: 24,
+                }}>
+                  &ldquo;{archetype.quote}&rdquo;
+                </p>
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginBottom: 20 }} />
+                <p style={{
+                  fontSize: 13,
+                  color: 'rgba(255,255,255,0.75)',
+                  lineHeight: 1.8,
+                  textAlign: 'left',
+                }}>
+                  {archetype.intro}
+                </p>
+              </div>
+            </div>
+          </RevealSection>
+
+          <SectionDivider />
+
+          {/* ── 3. Radar chart ────────────────────────────────────────────────── */}
+          <RevealSection delay={240}>
             <div>
-              <div className="mb-4 px-1">
+              <div className="mb-4">
                 <div className="section-label mb-1">Belief vs. Behavior</div>
-                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.45)' }}>
                   Each axis represents one archetype. The gap between the two shapes is your key insight.
                 </p>
               </div>
@@ -615,56 +715,47 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
             </div>
           </RevealSection>
 
-          {/* ── Personal Archetype Profile ──────────────────────────────────── */}
-          <RevealSection delay={360}>
-            {/* Illustration + intro */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 px-1">
-              <div className="flex-shrink-0">
-                <ArchetypeIllustration archetypeId={archetype.id} size={96} />
-              </div>
-              <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{archetype.intro}</p>
+          <SectionDivider />
+
+          {/* ── 4. Detailed profile ───────────────────────────────────────────── */}
+          <RevealSection delay={320}>
+
+            {/* Strengths */}
+            <div>
+              <div className="section-label mb-5">Strengths</div>
+              <ul className="space-y-3.5">
+                {archetype.strengths.map((s, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                    <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
+                    {s}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Quote */}
-            <div className="py-6" style={{ borderTop: '1px solid rgba(255,255,255,0.15)', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
-              <blockquote
-                className="text-lg sm:text-xl font-medium italic pl-5 leading-relaxed"
-                style={{ color: 'rgba(255,255,255,0.82)', borderLeft: '3px solid rgba(255,255,255,0.4)' }}
-              >
-                {archetype.quote}
-              </blockquote>
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '36px 0' }} />
+
+            {/* Blind Spot */}
+            <div>
+              <div className="section-label mb-5">Blind Spot</div>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{archetype.blindSpot}</p>
             </div>
 
-            {/* Strengths + Blind Spot */}
-            <div className="py-8 grid sm:grid-cols-2 gap-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
-              <div>
-                <div className="section-label mb-5">Strengths</div>
-                <ul className="space-y-3.5">
-                  {archetype.strengths.map((s, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
-                      <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <div className="section-label mb-5">Blind Spot</div>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{archetype.blindSpot}</p>
-              </div>
-            </div>
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '36px 0' }} />
 
             {/* Habits */}
-            <div className="py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+            <div>
               <div className="section-label mb-5">Habits</div>
               <HabitsSection habits={archetype.habits} />
             </div>
 
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '36px 0' }} />
+
             {/* Next Steps */}
-            <div className="py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+            <div>
               <div className="section-label mb-1.5">Next Steps</div>
               {selectedDomains.length > 0 && (
-                <p className="text-xs mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                <p className="text-xs mt-2 mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>
                   Tailored to your selected domains: {selectedDomains.join(', ')}
                 </p>
               )}
@@ -684,48 +775,30 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
               </ol>
             </div>
 
-            {/* Learning Resources */}
             {personalResources.length > 0 && (
-              <div className="py-8">
-                <div className="section-label mb-5">Your Learning Path</div>
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-                  {personalResources.map((r, i) => (
-                    <a
-                      key={i}
-                      href={r.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block group py-4"
-                      style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="flex-shrink-0 text-xs font-bold uppercase tracking-wide mt-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                          {r.type}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-sm leading-snug" style={{ color: '#ffffff' }}>
-                            {r.title}
-                            <span className="font-normal" style={{ color: 'rgba(255,255,255,0.45)' }}> by {r.author}</span>
-                          </p>
-                          <p className="text-xs mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{r.why}</p>
-                        </div>
-                        <svg className="flex-shrink-0 w-4 h-4 mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </div>
-                    </a>
-                  ))}
+              <>
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '36px 0' }} />
+
+                {/* Learning Path */}
+                <div>
+                  <div className="section-label mb-5">Your Learning Path</div>
+                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                    {personalResources.map((r, i) => <LearningRow key={i} r={r} />)}
+                  </div>
                 </div>
-              </div>
+              </>
             )}
+
           </RevealSection>
 
-          {/* ── Explore all archetypes ──────────────────────────────────────── */}
-          <RevealSection delay={480}>
+          <SectionDivider />
+
+          {/* ── 5. Explore all archetypes ─────────────────────────────────────── */}
+          <RevealSection delay={420}>
             <div>
-              <div className="mb-6 px-1">
+              <div className="mb-6">
                 <div className="section-label mb-2">Explore all archetypes</div>
-                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Click any card to see the full profile. Your archetype is highlighted.</p>
+                <p className="text-sm mt-2" style={{ color: 'rgba(255,255,255,0.45)' }}>Click any card to see the full profile.</p>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
                 {Object.values(ARCHETYPES).map(a => (
@@ -748,9 +821,49 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
             </div>
           </RevealSection>
 
-          {/* ── Restart CTA ────────────────────────────────────────────────── */}
+          <SectionDivider />
+
+          {/* ── Share + PDF ───────────────────────────────────────────────────── */}
+          <RevealSection delay={500}>
+            <div>
+              <div className="section-label mb-3">Share your result</div>
+              <p className="text-sm mt-2 mb-6" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                Save your archetype as an image for social sharing, or download the full profile as a PDF.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={handleCopyShareCard}
+                  disabled={shareStatus === 'loading'}
+                  className="btn-secondary"
+                >
+                  {shareStatus === 'loading' && (
+                    <svg className="animate-spin mr-2 w-3 h-3" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                  )}
+                  {shareStatus === 'loading' ? 'Generating…' : 'Copy share card'}
+                </button>
+                <button
+                  onClick={handleDownloadPDF}
+                  disabled={pdfStatus === 'loading'}
+                  className="btn-secondary"
+                >
+                  {pdfStatus === 'loading' && (
+                    <svg className="animate-spin mr-2 w-3 h-3" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                  )}
+                  {pdfStatus === 'loading' ? 'Generating…' : pdfStatus === 'done' ? 'Downloaded' : 'Download as PDF'}
+                </button>
+              </div>
+            </div>
+          </RevealSection>
+
+          {/* ── Restart CTA ───────────────────────────────────────────────────── */}
           <RevealSection delay={580}>
-            <div className="text-center py-8">
+            <div className="text-center py-12">
               <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.45)' }}>Retake with a different context or domain selection.</p>
               <button onClick={onRestart} className="btn-secondary">
                 Start Over
@@ -759,46 +872,6 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
           </RevealSection>
 
         </div>
-      </div>
-
-      {/* ── Share your result ────────────────────────────────────────────────── */}
-      <div className="max-w-[960px] mx-auto px-4 sm:px-6 pb-16">
-        <RevealSection delay={660}>
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: 40 }}>
-            <div className="section-label mb-3">Share your result</div>
-            <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.55)' }}>
-              Save your archetype as an image for social sharing, or download the full profile as a PDF.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={handleCopyShareCard}
-                disabled={shareStatus === 'loading'}
-                className="btn-secondary"
-              >
-                {shareStatus === 'loading' && (
-                  <svg className="animate-spin mr-2 w-3 h-3" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                )}
-                {shareStatus === 'copied' ? 'Copied to clipboard' : shareStatus === 'opened' ? 'Opened in new tab' : shareStatus === 'loading' ? 'Generating…' : 'Copy share card'}
-              </button>
-              <button
-                onClick={handleDownloadPDF}
-                disabled={pdfStatus === 'loading'}
-                className="btn-secondary"
-              >
-                {pdfStatus === 'loading' && (
-                  <svg className="animate-spin mr-2 w-3 h-3" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                )}
-                {pdfStatus === 'loading' ? 'Generating…' : pdfStatus === 'done' ? 'Downloaded' : 'Download as PDF'}
-              </button>
-            </div>
-          </div>
-        </RevealSection>
       </div>
 
     </div>
