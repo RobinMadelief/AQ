@@ -14,7 +14,7 @@ export default function LandingPage({ onStart }) {
       {/* ── Nav ────────────────────────────────────────────────────────────── */}
       <header className="bg-white px-6 sm:px-10 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid #e8e8e4' }}>
         <div className="flex items-center gap-3">
-          <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 18, color: '#1a3a2a' }}>Archetypes.ai</span>
+          <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 16, color: '#1a3a2a' }}>Archetypes.ai</span>
         </div>
         <span className="text-xs hidden sm:block tracking-wide" style={{ color: '#888780' }}>~10 min · Free</span>
       </header>
@@ -27,7 +27,7 @@ export default function LandingPage({ onStart }) {
           className="max-w-2xl mx-auto"
           style={{
             fontFamily: "Georgia, 'Times New Roman', serif",
-            fontSize: 58,
+            fontSize: 'clamp(36px, 8vw, 58px)',
             fontWeight: 400,
             fontStyle: 'italic',
             lineHeight: 1.1,
@@ -36,8 +36,23 @@ export default function LandingPage({ onStart }) {
             marginBottom: 18,
           }}
         >
-          Discover your AI personality.
+          Archetypes.ai
         </h1>
+
+        <p
+          className="max-w-2xl mx-auto"
+          style={{
+            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontSize: 26,
+            fontStyle: 'italic',
+            lineHeight: 1.3,
+            color: '#2c2c2a',
+            marginBottom: 14,
+          }}
+        >
+          <span style={{ fontWeight: 400 }}>Discover your </span>
+          <span style={{ fontWeight: 700 }}>AI personality.</span>
+        </p>
 
         <p
           className="max-w-2xl mx-auto"
@@ -46,7 +61,7 @@ export default function LandingPage({ onStart }) {
             fontSize: 15,
             fontWeight: 400,
             fontStyle: 'normal',
-            lineHeight: 1.6,
+            lineHeight: 1.3,
             letterSpacing: '0.04em',
             color: '#5a7a66',
             marginBottom: 28,
