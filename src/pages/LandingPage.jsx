@@ -1,11 +1,15 @@
 import skepticImg from '../assets/skeptic.png'
+import delegatorImg from '../assets/delegator.png'
+import experimenterImg from '../assets/experimenter.png'
+import amplifierImg from '../assets/amplifier.png'
+import architectImg from '../assets/architect.png'
 
 const ARCHETYPE_PREVIEWS = [
-  { id: 'skeptic',       label: 'The Skeptic',      quote: '"I\'d rather do it myself."' },
-  { id: 'delegator',    label: 'The Delegator',    quote: '"Why do it myself if AI can?"' },
-  { id: 'experimenter', label: 'The Experimenter', quote: '"Have you tried this new tool?"' },
-  { id: 'amplifier',    label: 'The Amplifier',    quote: '"AI helps me be more of who I am."' },
-  { id: 'architect',    label: 'The Architect',    quote: '"I don\'t just use AI. I build with it."' },
+  { id: 'skeptic',       label: 'The Skeptic',      quote: '"I\'d rather do it myself."',               img: skepticImg },
+  { id: 'delegator',    label: 'The Delegator',    quote: '"Why do it myself if AI can?"',             img: delegatorImg },
+  { id: 'experimenter', label: 'The Experimenter', quote: '"Have you tried this new tool?"',           img: experimenterImg },
+  { id: 'amplifier',    label: 'The Amplifier',    quote: '"AI helps me be more of who I am."',       img: amplifierImg },
+  { id: 'architect',    label: 'The Architect',    quote: '"I don\'t just use AI. I build with it."', img: architectImg },
 ]
 
 export default function LandingPage({ onStart }) {
@@ -115,7 +119,7 @@ export default function LandingPage({ onStart }) {
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4 }}
               >
                 <div style={{ background: '#F5EFE6', borderRadius: 12, width: 80, height: 80, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <img src={skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={a.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div>
                   <p className="font-semibold text-sm mb-1" style={{ color: '#ffffff' }}>{a.label}</p>

@@ -5,9 +5,22 @@ import {
 } from 'recharts'
 import { ARCHETYPES } from '../data/archetypes.js'
 import skepticImg from '../assets/skeptic.png'
+import delegatorImg from '../assets/delegator.png'
+import experimenterImg from '../assets/experimenter.png'
+import amplifierImg from '../assets/amplifier.png'
+import architectImg from '../assets/architect.png'
+
+const ARCHETYPE_IMAGES = {
+  skeptic: skepticImg,
+  delegator: delegatorImg,
+  experimenter: experimenterImg,
+  amplifier: amplifierImg,
+  architect: architectImg,
+}
 
 // ── Illustration box helper ───────────────────────────────────────────────────
-function ArchetypeImg({ size, borderRadius = 14 }) {
+function ArchetypeImg({ archetypeId, size, borderRadius = 14 }) {
+  const src = ARCHETYPE_IMAGES[archetypeId] || skepticImg
   return (
     <div style={{
       background: '#F5EFE6',
@@ -20,7 +33,7 @@ function ArchetypeImg({ size, borderRadius = 14 }) {
       overflow: 'hidden',
       flexShrink: 0,
     }}>
-      <img src={skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
     </div>
   )
 }
@@ -110,7 +123,7 @@ function ArchetypeCompactCard({ a, isYou, onClick }) {
         className="flex flex-col items-center p-5 text-center w-full"
         style={{ borderRadius: 8, border: '1px solid rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.1)' }}
       >
-        <ArchetypeImg size={100} borderRadius={14} />
+        <ArchetypeImg archetypeId={a.id} size={100} borderRadius={14} />
         <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#ffffff' }}>{a.name}</h3>
         <p className="text-xs font-medium uppercase" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>You are here</p>
       </div>
@@ -124,7 +137,7 @@ function ArchetypeCompactCard({ a, isYou, onClick }) {
       onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
       onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
     >
-      <ArchetypeImg size={100} borderRadius={14} />
+      <ArchetypeImg archetypeId={a.id} size={100} borderRadius={14} />
       <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#ffffff' }}>{a.name}</h3>
       <p className="text-xs italic leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{a.tagline}</p>
     </button>
@@ -326,7 +339,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="flex-shrink-0">
-            <ArchetypeImg size={100} borderRadius={14} />
+            <ArchetypeImg archetypeId={a.id} size={100} borderRadius={14} />
           </div>
           <div className="flex-1">
             <p className="text-xs font-medium uppercase tracking-widest mb-1.5" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>
@@ -419,17 +432,6 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
   )
 }
 
-// ── Blend semi-transparent color against page background ──────────────────────
-function toSolidColor(cssColor) {
-  const m = cssColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
-  if (!m) return null
-  const r = parseInt(m[1]), g = parseInt(m[2]), b = parseInt(m[3])
-  const a = m[4] !== undefined ? parseFloat(m[4]) : 1
-  if (a === 0) return null
-  if (a >= 1) return `rgb(${r},${g},${b})`
-  return `rgb(${Math.round(a*r+(1-a)*107)},${Math.round(a*g+(1-a)*16)},${Math.round(a*b+(1-a)*32)})`
-}
-
 // ── Share card (off-screen, captured by html2canvas) ─────────────────────────
 function ShareCard({ cardRef, archetype }) {
   return (
@@ -468,8 +470,8 @@ function ShareCard({ cardRef, archetype }) {
 
       {/* Illustration */}
       <div style={{ marginBottom: 36 }}>
-        <div style={{ background: '#F5EFE6', borderRadius: 16, width: 140, height: 140, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ background: '#F5EFE6', borderRadius: 18, width: 160, height: 160, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src={ARCHETYPE_IMAGES[archetype.id] || skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
 
@@ -524,8 +526,13 @@ function ShareCard({ cardRef, archetype }) {
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 28 }} />
 
       {/* Footer */}
-      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
-        archetypes.ai
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
+          archetypes.ai
+        </div>
+        <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontFamily: "'Inter', system-ui, sans-serif" }}>
+          Take the test at archetypes.ai
+        </div>
       </div>
     </div>
   )
@@ -584,7 +591,6 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
   const [selectedArchetype, setSelectedArchetype] = useState(null)
   const [shareModalUrl, setShareModalUrl] = useState(null)
   const [shareStatus, setShareStatus] = useState(null)
-  const [pdfStatus, setPdfStatus] = useState(null)
   const shareCardRef = useRef(null)
 
   const { archetype, archetypeRadarData, gapCallout } = results
@@ -621,101 +627,6 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
     }
   }
 
-  async function handleDownloadPDF() {
-    if (pdfStatus === 'loading') return
-    setPdfStatus('loading')
-    try {
-      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
-        import('html2canvas'),
-        import('jspdf'),
-      ])
-
-      const el = document.getElementById('results-pdf-content')
-
-      // Force white text and solid backgrounds before capture
-      const allNodes = [el, ...el.querySelectorAll('*')]
-      const styleBackups = []
-      for (const node of allNodes) {
-        if (node.nodeType !== 1) continue
-        const computed = window.getComputedStyle(node)
-        const savedColor = node.style.color
-        const savedBg = node.style.backgroundColor
-        styleBackups.push({ node, color: savedColor, backgroundColor: savedBg })
-        node.style.color = '#ffffff'
-        const computedBg = computed.backgroundColor
-        if (computedBg && computedBg !== 'rgba(0, 0, 0, 0)' && computedBg !== 'transparent') {
-          const solid = toSolidColor(computedBg)
-          if (solid) node.style.backgroundColor = solid
-        }
-      }
-
-      let fullCanvas
-      try {
-        fullCanvas = await html2canvas(el, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#6B1020',
-          logging: false,
-        })
-      } finally {
-        // Always restore styles
-        for (const { node, color, backgroundColor } of styleBackups) {
-          node.style.color = color
-          node.style.backgroundColor = backgroundColor
-        }
-      }
-
-      // Check canvas is not blank
-      const ctx = fullCanvas.getContext('2d')
-      const sample = ctx.getImageData(0, 0, Math.min(200, fullCanvas.width), Math.min(200, fullCanvas.height))
-      let hasContent = false
-      for (let i = 0; i < sample.data.length; i += 4) {
-        if (sample.data[i] > 80 || sample.data[i+1] > 20 || sample.data[i+2] > 30) {
-          hasContent = true
-          break
-        }
-      }
-      if (!hasContent) {
-        setPdfStatus('error')
-        return
-      }
-
-      const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' })
-      pdf.setProperties({ title: 'Your Archetypes.ai Result' })
-
-      const pdfWidth = pdf.internal.pageSize.getWidth()
-      const pdfHeight = pdf.internal.pageSize.getHeight()
-      const scale = fullCanvas.width / pdfWidth
-      const totalPages = Math.ceil(fullCanvas.height / (pdfHeight * scale))
-
-      for (let page = 0; page < totalPages; page++) {
-        if (page > 0) pdf.addPage()
-        const srcY = Math.round(page * pdfHeight * scale)
-        const srcH = Math.round(Math.min(pdfHeight * scale, fullCanvas.height - srcY))
-        if (srcH <= 0) break
-
-        const pageCanvas = document.createElement('canvas')
-        pageCanvas.width = fullCanvas.width
-        pageCanvas.height = srcH
-        const pctx = pageCanvas.getContext('2d')
-        pctx.drawImage(fullCanvas, 0, srcY, fullCanvas.width, srcH, 0, 0, fullCanvas.width, srcH)
-
-        const imgData = pageCanvas.toDataURL('image/jpeg', 0.88)
-        const renderedH = srcH / scale
-        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedH)
-      }
-
-      pdf.save('archetypes-ai-result.pdf')
-      setPdfStatus('done')
-      setTimeout(() => setPdfStatus(null), 3000)
-    } catch (err) {
-      console.error(err)
-      setPdfStatus('error')
-      setTimeout(() => setPdfStatus(null), 6000)
-    }
-  }
-
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#6B1020' }}>
 
@@ -738,8 +649,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
         </div>
       </header>
 
-      {/* ── PDF capture target ───────────────────────────────────────────────── */}
-      <div id="results-pdf-content">
+      <div>
         <div className="max-w-[960px] mx-auto px-4 sm:px-6 py-12">
 
           {/* ── 1. Gap callout ──────────────────────────────────────────────── */}
@@ -792,7 +702,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                   {archetype.name}
                 </h1>
                 <div className="flex justify-center mb-6">
-                  <ArchetypeImg size={160} borderRadius={20} />
+                  <ArchetypeImg archetypeId={archetype.id} size={160} borderRadius={20} />
                 </div>
                 <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginBottom: 20 }} />
                 <p style={{
@@ -978,12 +888,12 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
           <SectionDivider />
 
-          {/* ── Share + PDF ───────────────────────────────────────────────────── */}
+          {/* ── Share ────────────────────────────────────────────────────────── */}
           <RevealSection delay={500}>
             <div>
               <div className="section-label mb-3">Share your result</div>
               <p className="text-sm mt-2 mb-6" style={{ color: 'rgba(255,255,255,0.55)' }}>
-                Save your archetype as an image for social sharing, or download the full profile as a PDF.
+                Save your archetype as an image for social sharing.
               </p>
               <div className="flex flex-wrap gap-3">
                 <button
@@ -997,27 +907,9 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
                   )}
-                  {shareStatus === 'loading' ? 'Generating…' : 'Copy share card'}
-                </button>
-                <button
-                  onClick={handleDownloadPDF}
-                  disabled={pdfStatus === 'loading'}
-                  className="btn-secondary"
-                >
-                  {pdfStatus === 'loading' && (
-                    <svg className="animate-spin mr-2 w-3 h-3" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                    </svg>
-                  )}
-                  {pdfStatus === 'loading' ? 'Generating…' : pdfStatus === 'done' ? 'Downloaded' : 'Download as PDF'}
+                  {shareStatus === 'loading' ? 'Generating…' : 'Share your result'}
                 </button>
               </div>
-              {pdfStatus === 'error' && (
-                <p className="text-sm mt-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  PDF export is not available right now. Please use the share card or take a screenshot instead.
-                </p>
-              )}
             </div>
           </RevealSection>
 
