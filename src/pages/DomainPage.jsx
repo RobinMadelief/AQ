@@ -60,12 +60,12 @@ export default function DomainPage({ onSelect }) {
   const canContinue = selected.length >= 2
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16">
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16" style={{ backgroundColor: '#fafaf8' }}>
       <div className="max-w-2xl w-full">
         <div className="mb-10 text-center">
-          <p className="text-xs font-semibold text-accent-600 uppercase tracking-wider mb-3">Step 2 of 2</p>
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">Where does AI show up most in your life?</h2>
-          <p className="text-slate-500 leading-relaxed">
+          <div className="section-label justify-center mb-3">Step 2 of 2</div>
+          <h2 className="text-3xl font-bold mb-3" style={{ color: '#1a3a2a' }}>Where does AI show up most in your life?</h2>
+          <p className="leading-relaxed" style={{ color: '#888780' }}>
             Pick 2–3 domains. Your results will be tailored to these areas.
           </p>
         </div>
@@ -81,17 +81,23 @@ export default function DomainPage({ onSelect }) {
                 key={domain}
                 onClick={() => toggle(domain)}
                 disabled={isDisabled}
-                className={`w-full text-left p-5 rounded-xl border-2 transition-all duration-200 flex items-center gap-4
-                  ${isSelected
-                    ? 'bg-accent-50 border-accent-500 shadow-sm'
-                    : isDisabled
-                      ? 'bg-slate-50 border-slate-100 opacity-40 cursor-not-allowed'
-                      : 'bg-white border-slate-200 hover:border-accent-300 hover:shadow-sm cursor-pointer'
-                  }`}
+                className="w-full text-left p-5 flex items-center gap-4 transition-all duration-200"
+                style={{
+                  borderRadius: 4,
+                  border: isSelected ? '1.5px solid #2d9e5f' : '1px solid #e8e8e4',
+                  backgroundColor: isSelected ? '#f7fbf8' : '#ffffff',
+                  opacity: isDisabled ? 0.4 : 1,
+                  cursor: isDisabled ? 'not-allowed' : 'pointer',
+                }}
               >
                 {/* Checkbox */}
-                <div className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors duration-200
-                  ${isSelected ? 'bg-accent-500 border-accent-500' : 'border-slate-300'}`}
+                <div
+                  className="flex-shrink-0 w-5 h-5 flex items-center justify-center transition-colors duration-200"
+                  style={{
+                    borderRadius: 4,
+                    border: isSelected ? 'none' : '2px solid #e8e8e4',
+                    backgroundColor: isSelected ? '#2d9e5f' : 'transparent',
+                  }}
                 >
                   {isSelected && (
                     <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -100,15 +106,15 @@ export default function DomainPage({ onSelect }) {
                   )}
                 </div>
                 {/* Icon */}
-                <div className={`flex-shrink-0 ${isSelected ? 'text-accent-600' : 'text-slate-400'}`}>
+                <div style={{ color: isSelected ? '#2d9e5f' : '#888780' }}>
                   {meta.icon}
                 </div>
                 {/* Text */}
                 <div>
-                  <div className={`font-semibold text-sm ${isSelected ? 'text-accent-800' : 'text-slate-700'}`}>
+                  <div className="font-semibold text-sm" style={{ color: isSelected ? '#1a3a2a' : '#5f5e5a' }}>
                     {domain}
                   </div>
-                  <div className="text-xs text-slate-500 mt-0.5">{meta.description}</div>
+                  <div className="text-xs mt-0.5" style={{ color: '#888780' }}>{meta.description}</div>
                 </div>
               </button>
             )
@@ -116,16 +122,17 @@ export default function DomainPage({ onSelect }) {
         </div>
 
         <div className="flex items-center justify-between">
-          <p className="text-sm text-slate-500">
+          <p className="text-sm" style={{ color: '#888780' }}>
             {selected.length === 0 && 'Select at least 2 domains'}
             {selected.length === 1 && 'Select 1 more'}
-            {selected.length === 2 && 'Good — or add one more'}
+            {selected.length === 2 && 'Good. Add one more if you like.'}
             {selected.length === 3 && 'Maximum selected'}
           </p>
           <button
             onClick={() => canContinue && onSelect(selected)}
             disabled={!canContinue}
-            className={`btn-primary ${!canContinue ? 'opacity-40 cursor-not-allowed' : ''}`}
+            className="btn-primary"
+            style={{ opacity: canContinue ? 1 : 0.4, cursor: canContinue ? 'pointer' : 'not-allowed' }}
           >
             Continue
             <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

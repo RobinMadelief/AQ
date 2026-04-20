@@ -10,36 +10,32 @@ export default function QuestionsPage({ questions, onComplete }) {
   const question = questions[currentIndex]
   const total = questions.length
   const isLast = currentIndex === total - 1
-  const isPerception = question.layer === 'perception'
 
   function handleSelect(archetype) {
-    if (animating) return
+    if (animating || selected !== null) return
     setSelected(archetype)
-  }
 
-  function handleNext() {
-    if (!selected || animating) return
+    const newAnswers = [...answers, { questionId: question.id, archetype }]
 
-    const newAnswers = [...answers, { questionId: question.id, archetype: selected }]
-
-    if (isLast) {
-      onComplete(newAnswers)
-      return
-    }
-
-    setAnimating(true)
     setTimeout(() => {
-      setAnswers(newAnswers)
-      setCurrentIndex(i => i + 1)
-      setSelected(null)
-      setAnimating(false)
-    }, 220)
+      if (isLast) {
+        onComplete(newAnswers)
+        return
+      }
+      setAnimating(true)
+      setTimeout(() => {
+        setAnswers(newAnswers)
+        setCurrentIndex(i => i + 1)
+        setSelected(null)
+        setAnimating(false)
+      }, 220)
+    }, 400)
   }
 
   const answerLabels = ['A', 'B', 'C', 'D']
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12 bg-white">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-12" style={{ backgroundColor: '#fafaf8' }}>
       <div className="max-w-2xl w-full">
 
         {/* Progress */}
@@ -49,32 +45,32 @@ export default function QuestionsPage({ questions, onComplete }) {
 
         {/* Question card */}
         <div
-          className={`card p-6 sm:p-8 mb-6 transition-opacity duration-200 ${animating ? 'opacity-0' : 'opacity-100'}`}
+          className={`bg-white p-6 sm:p-8 transition-opacity duration-200 ${animating ? 'opacity-0' : 'opacity-100'}`}
+          style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}
         >
-          {/* Situation (behavior questions only) */}
+          {/* Scenario label + situation */}
           {question.situation && (
             <div className="mb-5">
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2.5">Scenario</p>
-              <p className="text-slate-600 leading-relaxed text-sm sm:text-base bg-slate-50 rounded-xl px-4 py-3.5 border border-slate-100">
+              <div className="section-label mb-2.5">Scenario</div>
+              <p className="leading-relaxed text-sm sm:text-base px-4 py-3.5" style={{ color: '#5f5e5a', backgroundColor: '#fafaf8', border: '1px solid #e8e8e4', borderRadius: 4 }}>
                 {question.situation}
               </p>
             </div>
           )}
 
-          {/* Perception questions: subtle label (no "Scenario" callout, just the question) */}
           {!question.situation && (
             <div className="mb-2">
-              <p className="text-xs font-semibold text-accent-500 uppercase tracking-widest mb-4">Reflect</p>
+              <div className="section-label mb-4">Reflect</div>
             </div>
           )}
 
           {/* Question */}
-          <p className="text-lg sm:text-xl font-bold text-slate-900 leading-snug mb-6">
+          <p className="text-lg sm:text-xl font-medium leading-snug mb-6" style={{ color: '#0a1a10', fontWeight: 500 }}>
             {question.question}
           </p>
 
           {/* Divider */}
-          <div className="border-t border-slate-100 mb-5" />
+          <div className="mb-5" style={{ borderTop: '1px solid #e8e8e4' }} />
 
           {/* Answer choices */}
           <div className="space-y-2.5">
@@ -84,18 +80,36 @@ export default function QuestionsPage({ questions, onComplete }) {
                 <button
                   key={idx}
                   onClick={() => handleSelect(answer.archetype)}
-                  className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-150 flex items-start gap-4
-                    ${isSelected
-                      ? 'bg-accent-50 border-accent-500 shadow-sm'
-                      : 'bg-white border-slate-200 hover:border-accent-300 hover:bg-slate-50 cursor-pointer'
-                    }`}
+                  disabled={selected !== null}
+                  className="w-full text-left p-4 flex items-start gap-4 transition-all duration-150"
+                  style={{
+                    borderRadius: 4,
+                    border: isSelected
+                      ? '1.5px solid #2d9e5f'
+                      : '1px solid #e8e8e4',
+                    backgroundColor: isSelected
+                      ? '#f7fbf8'
+                      : selected !== null
+                        ? '#ffffff'
+                        : '#ffffff',
+                    opacity: selected !== null && !isSelected ? 0.4 : 1,
+                    cursor: selected !== null ? 'default' : 'pointer',
+                  }}
                 >
-                  <span className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold transition-all duration-150
-                    ${isSelected ? 'bg-accent-500 text-white' : 'bg-slate-100 text-slate-500'}`}
+                  <span
+                    className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-xs font-bold transition-all duration-150"
+                    style={{
+                      borderRadius: 4,
+                      backgroundColor: isSelected ? '#2d9e5f' : '#f5f5f3',
+                      color: isSelected ? '#ffffff' : '#888780',
+                    }}
                   >
                     {answerLabels[idx]}
                   </span>
-                  <span className={`text-sm leading-relaxed pt-0.5 ${isSelected ? 'text-slate-800 font-medium' : 'text-slate-600'}`}>
+                  <span
+                    className="text-sm leading-relaxed pt-0.5"
+                    style={{ color: isSelected ? '#1a3a2a' : '#5f5e5a', fontWeight: isSelected ? 500 : 400 }}
+                  >
                     {answer.text}
                   </span>
                 </button>
@@ -104,19 +118,6 @@ export default function QuestionsPage({ questions, onComplete }) {
           </div>
         </div>
 
-        {/* Navigation */}
-        <div className="flex justify-end">
-          <button
-            onClick={handleNext}
-            disabled={!selected}
-            className={`btn-primary ${!selected ? 'opacity-30 cursor-not-allowed' : ''}`}
-          >
-            {isLast ? 'See My Results' : 'Next'}
-            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </button>
-        </div>
       </div>
     </div>
   )
