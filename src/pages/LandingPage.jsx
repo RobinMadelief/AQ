@@ -28,20 +28,23 @@ export default function LandingPage({ onStart }) {
         </h1>
 
         {/* Tagline */}
-        <p className="max-w-xl mx-auto font-semibold leading-relaxed mb-2" style={{ fontSize: '1.25rem', color: '#0a1a10' }}>
-          Discover your AI personality.
-        </p>
-        <p className="max-w-xl mx-auto leading-relaxed mb-12" style={{ fontSize: '1rem', color: '#5f5e5a' }}>
-          Know your type. Grow with AI.
-        </p>
+        <h2
+          className="max-w-2xl mx-auto mb-12"
+          style={{
+            fontSize: 'clamp(52px, 6vw, 60px)',
+            lineHeight: 1.15,
+            letterSpacing: '0.015em',
+            color: '#0a1a10',
+          }}
+        >
+          <span style={{ fontWeight: 300, fontStyle: 'italic' }}>Discover your </span>
+          <span style={{ fontWeight: 500 }}>AI personality.</span>
+        </h2>
 
         {/* Framing card */}
         <div className="max-w-2xl w-full mx-auto mb-12 p-8 sm:p-10 text-left bg-white" style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}>
-          <p className="leading-relaxed mb-4 text-sm sm:text-base" style={{ color: '#5f5e5a' }}>
-            This isn't a test you pass or fail. It's a mirror that reflects your current relationship with AI: how you use it, how much you rely on it, and whether it's making you more capable or slowly replacing the thinking that makes you irreplaceable.
-          </p>
-          <p className="leading-relaxed text-sm sm:text-base" style={{ color: '#888780' }}>
-            Fifteen scenarios. Honest answers. A profile that, if we've done our job, will feel uncomfortably accurate.
+          <p className="leading-relaxed text-sm sm:text-base" style={{ color: '#5f5e5a' }}>
+            AI is changing how people work, learn, and think. This assessment helps you understand where you stand and where you could go. Fifteen questions. A personal profile. No right answers.
           </p>
         </div>
 
