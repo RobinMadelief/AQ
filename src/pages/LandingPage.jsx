@@ -22,27 +22,22 @@ export default function LandingPage({ onStart }) {
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <div className="px-6 sm:px-10 py-20 flex flex-col items-center text-center" style={{ backgroundColor: '#f7f9f7', borderBottom: '1px solid #dde8e0' }}>
 
-        {/* Wordmark */}
-        <h1 className="font-black leading-none tracking-tighter mb-10" style={{ fontSize: 'clamp(48px, 10vw, 96px)', color: '#0a1a10' }}>
-          Archetypes.ai
-        </h1>
-
-        {/* Tagline */}
-        <h2
+        {/* Primary heading */}
+        <h1
           className="max-w-2xl mx-auto"
           style={{
             fontFamily: "Georgia, 'Times New Roman', serif",
-            fontSize: 'clamp(36px, 6vw, 58px)',
+            fontSize: 58,
             fontWeight: 400,
             fontStyle: 'italic',
             lineHeight: 1.1,
             letterSpacing: '-0.8px',
             color: '#0a1a10',
-            marginBottom: 14,
+            marginBottom: 18,
           }}
         >
           Discover your AI personality.
-        </h2>
+        </h1>
 
         <p
           className="max-w-2xl mx-auto"
@@ -61,7 +56,7 @@ export default function LandingPage({ onStart }) {
         </p>
 
         {/* Framing card */}
-        <div className="max-w-2xl w-full mx-auto mb-12 p-8 sm:p-10 text-left bg-white" style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}>
+        <div className="max-w-[600px] w-full mx-auto mb-12 p-8 sm:p-10 text-left bg-white" style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}>
           <p className="leading-relaxed text-sm sm:text-base" style={{ color: '#5f5e5a' }}>
             AI is changing how people work, learn, and think. This assessment helps you understand where you stand and where you could go. Fifteen questions. A personal profile. No right answers.
           </p>
