@@ -116,7 +116,7 @@ const BEHAVIOR_QUESTIONS = [
     answers: [
       { text: 'I\'m skeptical. Automating that part means losing the understanding that comes with doing it.', archetype: 'skeptic' },
       { text: 'I\'m in. Anything that saves time is worth trying.', archetype: 'delegator' },
-      { text: 'I\'m curious — I want to see how it compares to the other tools I\'ve been testing.', archetype: 'experimenter' },
+      { text: 'I\'m curious. I want to see how it compares to the other tools I\'ve been testing.', archetype: 'experimenter' },
       { text: 'I think about which parts actually need my judgment, then automate the rest.', archetype: 'amplifier' },
       { text: 'I evaluate whether it fits into my existing system or if I should rebuild that layer.', archetype: 'architect' },
     ],
@@ -148,7 +148,7 @@ const BEHAVIOR_QUESTIONS = [
     answers: [
       { text: 'I re-read it, find a different source, or ask someone. I want to figure it out myself.', archetype: 'skeptic' },
       { text: 'I ask AI to explain it and move on once it clicks.', archetype: 'delegator' },
-      { text: 'I try a couple of tools — one for explanation, one for visuals — and see what lands.', archetype: 'experimenter' },
+      { text: 'I try a couple of tools, one for explanation and one for visuals, and see what lands.', archetype: 'experimenter' },
       { text: 'I ask AI to explain it, then test myself by explaining it back without looking.', archetype: 'amplifier' },
       { text: 'I have a learning system set up that surfaces weak areas and routes me to the right explanation.', archetype: 'architect' },
     ],
@@ -227,7 +227,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I quietly ask AI what to say before responding.', archetype: 'delegator' },
       { text: 'I look for a coaching or advice tool that might help me help them better.', archetype: 'experimenter' },
       { text: 'I listen first, form my own view, then later check if I\'m missing any important angles.', archetype: 'amplifier' },
-      { text: 'I think it through myself — this kind of judgment is not something I route through a system.', archetype: 'architect' },
+      { text: 'I think it through myself. This kind of judgment is not something I route through a system.', archetype: 'architect' },
     ],
   },
   {
@@ -238,7 +238,7 @@ const BEHAVIOR_QUESTIONS = [
     situation: 'You\'re planning a trip you\'ve been looking forward to for months.',
     question: 'How do you approach the planning?',
     answers: [
-      { text: 'I enjoy the planning myself — research, maps, building the itinerary by hand.', archetype: 'skeptic' },
+      { text: 'I enjoy the planning myself: research, maps, building the itinerary by hand.', archetype: 'skeptic' },
       { text: 'I give AI my dates and preferences and let it generate the full itinerary.', archetype: 'delegator' },
       { text: 'I compare what a few different AI travel tools come up with.', archetype: 'experimenter' },
       { text: 'I decide what I want the trip to feel like, use AI for logistics, then make the final calls myself.', archetype: 'amplifier' },
@@ -304,7 +304,7 @@ const BEHAVIOR_QUESTIONS = [
     answers: [
       { text: 'I step away, take a walk, and wait for something to come naturally.', archetype: 'skeptic' },
       { text: 'I describe the project to AI and use whatever it comes up with as my direction.', archetype: 'delegator' },
-      { text: 'I try a few AI creative tools — image generators, brainstorming apps — to spark something.', archetype: 'experimenter' },
+      { text: 'I try a few AI creative tools, image generators, brainstorming apps, to see what sparks something.', archetype: 'experimenter' },
       { text: 'I rough out my own ideas first, then use AI to expand and pressure-test them.', archetype: 'amplifier' },
       { text: 'I run the brief through a creative ideation workflow I have set up for exactly this.', archetype: 'architect' },
     ],
@@ -314,7 +314,7 @@ const BEHAVIOR_QUESTIONS = [
     layer: 'behavior',
     domains: ['Creativity'],
     context: null,
-    situation: 'You need to produce a piece of creative writing — a short story, a speech, or a blog post — that represents you.',
+    situation: 'You need to produce a piece of creative writing, a short story, a speech, or a blog post, that represents you.',
     question: 'How do you produce it?',
     answers: [
       { text: 'I write it entirely myself. Something that represents me needs to come from me.', archetype: 'skeptic' },

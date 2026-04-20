@@ -1,59 +1,64 @@
 import { useState } from 'react'
 import ProgressBar from '../components/ProgressBar.jsx'
 
-const LIKERT_LABELS = {
-  1: 'Strongly Disagree',
-  2: 'Disagree',
-  3: 'Neutral',
-  4: 'Agree',
-  5: 'Strongly Agree',
-}
+function LikertScale({ onSelect, selected }) {
+  const [hovered, setHovered] = useState(null)
 
-function LikertScale({ onSelect, selected, animating }) {
   return (
     <div>
-      {/* Scale buttons */}
-      <div className="flex items-center gap-2 sm:gap-3 justify-between mt-2 mb-3">
-        {[1, 2, 3, 4, 5].map(value => {
-          const isSelected = selected === value
-          return (
-            <button
-              key={value}
-              onClick={() => onSelect(value)}
-              disabled={selected !== null}
-              className="flex-1 flex flex-col items-center gap-2 transition-all duration-150"
-              style={{ cursor: selected !== null ? 'default' : 'pointer', opacity: selected !== null && !isSelected ? 0.35 : 1 }}
-            >
-              <div
+      {/* Continuous scale */}
+      <div style={{ position: 'relative', paddingTop: 16, paddingBottom: 16, marginBottom: 10 }}>
+        {/* Connecting line */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: 9,
+          right: 9,
+          height: 1,
+          background: 'rgba(255,255,255,0.2)',
+          transform: 'translateY(-50%)',
+          pointerEvents: 'none',
+        }} />
+        {/* Markers */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative' }}>
+          {[1, 2, 3, 4, 5].map(value => {
+            const isSelected = selected === value
+            const isHov = hovered === value && selected === null
+            return (
+              <button
+                key={value}
+                onClick={() => onSelect(value)}
+                disabled={selected !== null}
+                onMouseEnter={() => { if (selected === null) setHovered(value) }}
+                onMouseLeave={() => setHovered(null)}
                 style={{
-                  width: '100%',
-                  aspectRatio: '1',
-                  maxWidth: 56,
-                  borderRadius: 4,
-                  border: isSelected ? '2px solid rgba(255,255,255,0.8)' : '1px solid rgba(255,255,255,0.18)',
-                  background: isSelected ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.05)',
+                  width: isHov ? 22 : 18,
+                  height: isHov ? 22 : 18,
+                  borderRadius: '50%',
+                  border: isSelected ? 'none' : `1.5px solid ${isHov ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)'}`,
+                  background: isSelected ? '#ffffff' : 'transparent',
+                  cursor: selected !== null ? 'default' : 'pointer',
+                  padding: 0,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 15,
-                  fontWeight: isSelected ? 700 : 500,
-                  color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.55)',
                   transition: 'all 0.15s',
-                  margin: '0 auto',
+                  opacity: selected !== null && !isSelected ? 0.3 : 1,
+                  flexShrink: 0,
                 }}
-                onMouseEnter={e => { if (selected === null) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.45)'; e.currentTarget.style.color = 'rgba(255,255,255,0.85)' } }}
-                onMouseLeave={e => { if (selected === null) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)'; e.currentTarget.style.color = 'rgba(255,255,255,0.55)' } }}
               >
-                {value}
-              </div>
-            </button>
-          )
-        })}
+                {isSelected && (
+                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#6B1020' }} />
+                )}
+              </button>
+            )
+          })}
+        </div>
       </div>
-      {/* Endpoint labels */}
-      <div className="flex items-center justify-between">
-        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Strongly Disagree</span>
-        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Strongly Agree</span>
+      {/* Labels */}
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Strongly disagree</span>
+        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Strongly agree</span>
       </div>
     </div>
   )
@@ -157,7 +162,7 @@ export default function QuestionsPage({ questions, onComplete }) {
                 <div className="section-label mb-3">Reflect</div>
               </div>
 
-              {/* Statement — large, centered */}
+              {/* Statement */}
               <p
                 className="text-center font-medium leading-snug mb-8"
                 style={{ color: '#ffffff', fontWeight: 500, fontSize: 'clamp(16px, 2.8vw, 22px)' }}
@@ -172,7 +177,6 @@ export default function QuestionsPage({ questions, onComplete }) {
               <LikertScale
                 onSelect={handleLikertSelect}
                 selected={selected}
-                animating={animating}
               />
             </>
           ) : (

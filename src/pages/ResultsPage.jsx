@@ -3,8 +3,27 @@ import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
   ResponsiveContainer, Tooltip,
 } from 'recharts'
-import ArchetypeIllustration from '../components/ArchetypeIllustration.jsx'
 import { ARCHETYPES } from '../data/archetypes.js'
+import skepticImg from '../assets/skeptic.png'
+
+// ── Illustration box helper ───────────────────────────────────────────────────
+function ArchetypeImg({ size, borderRadius = 14 }) {
+  return (
+    <div style={{
+      background: '#F5EFE6',
+      borderRadius,
+      width: size,
+      height: size,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+      flexShrink: 0,
+    }}>
+      <img src={skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+    </div>
+  )
+}
 
 // ── Custom radar tooltip ──────────────────────────────────────────────────────
 function RadarTooltip({ active, payload }) {
@@ -47,7 +66,7 @@ function RevealSection({ children, delay = 0, className = '' }) {
   )
 }
 
-// ── Thin section divider with 48px vertical spacing ───────────────────────────
+// ── Thin section divider ───────────────────────────────────────────────────────
 function SectionDivider() {
   return <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '48px 0' }} />
 }
@@ -61,7 +80,7 @@ function HabitsSection({ habits }) {
         <div className="section-label mb-4">Drop</div>
         <ul className="space-y-3">
           {habits.drop.map((h, i) => (
-            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>
               <span className="flex-shrink-0 mt-1.5" style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: 'rgba(239,68,68,0.45)', display: 'block', flexShrink: 0 }} />
               {h}
             </li>
@@ -72,7 +91,7 @@ function HabitsSection({ habits }) {
         <div className="section-label mb-4">Build</div>
         <ul className="space-y-3">
           {habits.build.map((h, i) => (
-            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>
               <span className="flex-shrink-0 mt-1.5" style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: 'rgba(16,185,129,0.5)', display: 'block', flexShrink: 0 }} />
               {h}
             </li>
@@ -91,7 +110,7 @@ function ArchetypeCompactCard({ a, isYou, onClick }) {
         className="flex flex-col items-center p-5 text-center w-full"
         style={{ borderRadius: 8, border: '1px solid rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.1)' }}
       >
-        <ArchetypeIllustration archetypeId={a.id} size={72} />
+        <ArchetypeImg size={100} borderRadius={14} />
         <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#ffffff' }}>{a.name}</h3>
         <p className="text-xs font-medium uppercase" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>You are here</p>
       </div>
@@ -105,133 +124,148 @@ function ArchetypeCompactCard({ a, isYou, onClick }) {
       onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
       onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
     >
-      <ArchetypeIllustration archetypeId={a.id} size={72} />
+      <ArchetypeImg size={100} borderRadius={14} />
       <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#ffffff' }}>{a.name}</h3>
       <p className="text-xs italic leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{a.tagline}</p>
     </button>
   )
 }
 
-// ── Learning resources list ───────────────────────────────────────────────────
+// ── Learning resources ────────────────────────────────────────────────────────
 const LEARNING_RESOURCES = {
-  skeptic: [
-    {
-      type: 'Article',
-      title: 'Get started with Claude',
-      author: 'Anthropic',
-      why: 'The simplest way to take your first real step with AI.',
-      url: 'https://support.claude.com/en/articles/8114491-get-started-with-claude',
-    },
-    {
-      type: 'Course',
-      title: 'Elements of AI',
-      author: 'University of Helsinki',
-      why: 'No math, no coding, no overwhelm. Just a clear introduction to what AI actually is.',
-      url: 'https://elementsofai.com',
-    },
-    {
-      type: 'Guide',
-      title: 'How to create AI agents',
-      author: 'Zapier',
-      why: 'A plain-English introduction to what agents do and how to build one without writing any code.',
-      url: 'https://zapier.com/blog/how-to-create-ai-agents',
-    },
-  ],
-  delegator: [
-    {
-      type: 'Tool',
-      title: 'Try vibe coding',
-      author: 'Lovable',
-      why: 'Describe what you want to build and watch it appear. Free to start, no coding required.',
-      url: 'https://lovable.dev',
-    },
-    {
-      type: 'Tutorial',
-      title: 'Prompt Engineering Interactive Tutorial',
-      author: 'Anthropic',
-      why: 'Learn to direct AI with precision instead of just accepting whatever it gives you.',
-      url: 'https://github.com/anthropics/prompt-eng-interactive-tutorial',
-    },
-    {
-      type: 'Guide',
-      title: 'Learn Prompting',
-      author: 'LearnPrompting.org',
-      why: 'Free, open source, cited by OpenAI and Google. The practical guide to getting better results from any AI tool.',
-      url: 'https://learnprompting.org',
-    },
-  ],
-  experimenter: [
-    {
-      type: 'Course',
-      title: 'Introduction to Agent Skills',
-      author: 'Anthropic',
-      why: 'Learn to build reusable agents step by step instead of jumping between tools.',
-      url: 'https://anthropic.skilljar.com/introduction-to-agent-skills',
-    },
-    {
-      type: 'Course',
-      title: 'AI Agents Course',
-      author: 'Hugging Face',
-      why: 'Free, hands-on, community-driven. Build real agents with LlamaIndex and LangGraph.',
-      url: 'https://huggingface.co/learn/agents-course',
-    },
-    {
-      type: 'Tutorial',
-      title: 'Getting started with n8n',
-      author: 'n8n',
-      why: 'Pick one use case and build one agent. Go deep for 30 days.',
-      url: 'https://n8n.io/get-started',
-    },
-  ],
-  amplifier: [
-    {
-      type: 'Guide',
-      title: 'Lovable Agent Mode',
-      author: 'Lovable',
-      why: 'Build full apps autonomously. The tool that turns your vision into a working product.',
-      url: 'https://docs.lovable.dev/features/agent-mode',
-    },
-    {
-      type: 'Guide',
-      title: 'Building Effective Agents',
-      author: 'Anthropic',
-      why: "Written by Anthropic's own engineers. The real thing for people ready to build seriously.",
-      url: 'https://www.anthropic.com/research/building-effective-agents',
-    },
-    {
-      type: 'Course',
-      title: 'MCP Course',
-      author: 'Hugging Face',
-      why: 'Free, cutting edge, and genuinely advanced. Build a production-ready application with Anthropic, Slack, and GitHub integration.',
-      url: 'https://huggingface.co/mcp-course',
-    },
-  ],
-  architect: [
-    {
-      type: 'Tutorial',
-      title: 'Build AI agents with n8n',
-      author: 'n8n',
-      why: 'The tool serious builders use. Open-source, self-hostable, and powerful enough to orchestrate real multi-step agents.',
-      url: 'https://n8n.io/get-started',
-    },
-    {
-      type: 'Guide',
-      title: 'Building Effective Agents',
-      author: 'Anthropic',
-      why: "Written by Anthropic's own engineers. The real thing for people ready to build seriously.",
-      url: 'https://www.anthropic.com/research/building-effective-agents',
-    },
-    {
-      type: 'Course',
-      title: 'MCP Course',
-      author: 'Hugging Face',
-      why: 'Free, cutting edge, genuinely advanced. Build a production-ready application with Anthropic, Slack, and GitHub integration.',
-      url: 'https://huggingface.co/mcp-course',
-    },
-  ],
+  skeptic: {
+    bridge: 'These resources will help you take exactly those first steps.',
+    items: [
+      {
+        type: 'Article',
+        title: 'Get started with Claude',
+        author: 'Anthropic',
+        why: 'The simplest way to take your first real step with AI.',
+        url: 'https://support.claude.com/en/articles/8114491-get-started-with-claude',
+      },
+      {
+        type: 'Course',
+        title: 'Elements of AI',
+        author: 'University of Helsinki',
+        why: 'No maths, no coding, no overwhelm. A clear introduction to what AI actually is.',
+        url: 'https://elementsofai.com',
+      },
+      {
+        type: 'Guide',
+        title: 'How to create AI agents',
+        author: 'Zapier',
+        why: 'A plain-language introduction to what agents do and how to build one without writing any code.',
+        url: 'https://zapier.com/blog/how-to-create-ai-agents',
+      },
+    ],
+  },
+  delegator: {
+    bridge: 'These resources will help you get more control over what AI does for you.',
+    items: [
+      {
+        type: 'Tool',
+        title: 'Try vibe coding',
+        author: 'Lovable',
+        why: 'Describe what you want to build and watch it appear. Free to start, no coding required.',
+        url: 'https://lovable.dev',
+      },
+      {
+        type: 'Tutorial',
+        title: 'Prompt Engineering Interactive Tutorial',
+        author: 'Anthropic',
+        why: 'Learn to direct AI with precision instead of just accepting whatever it gives you.',
+        url: 'https://github.com/anthropics/prompt-eng-interactive-tutorial',
+      },
+      {
+        type: 'Guide',
+        title: 'Learn Prompting',
+        author: 'LearnPrompting.org',
+        why: 'Free, open source, cited by OpenAI and Google. The practical guide to getting better results from any AI tool.',
+        url: 'https://learnprompting.org',
+      },
+    ],
+  },
+  experimenter: {
+    bridge: 'These resources will help you go deeper on the tools worth keeping.',
+    items: [
+      {
+        type: 'Course',
+        title: 'Introduction to Agent Skills',
+        author: 'Anthropic',
+        why: 'Learn to build reusable agents step by step instead of jumping between tools.',
+        url: 'https://anthropic.skilljar.com/introduction-to-agent-skills',
+      },
+      {
+        type: 'Course',
+        title: 'AI Agents Course',
+        author: 'Hugging Face',
+        why: 'Free, hands-on, community-driven. Build real agents with LlamaIndex and LangGraph.',
+        url: 'https://huggingface.co/learn/agents-course',
+      },
+      {
+        type: 'Tutorial',
+        title: 'Getting started with n8n',
+        author: 'n8n',
+        why: 'Pick one use case and build one agent. Go deep for 30 days.',
+        url: 'https://n8n.io/get-started',
+      },
+    ],
+  },
+  amplifier: {
+    bridge: 'These resources will help you build and audit more rigorously.',
+    items: [
+      {
+        type: 'Guide',
+        title: 'Lovable Agent Mode',
+        author: 'Lovable',
+        why: 'Build full apps autonomously. The tool that turns your vision into a working product.',
+        url: 'https://docs.lovable.dev/features/agent-mode',
+      },
+      {
+        type: 'Guide',
+        title: 'Building Effective Agents',
+        author: 'Anthropic',
+        why: "Written by Anthropic's own engineers. The reference for people ready to build seriously.",
+        url: 'https://www.anthropic.com/research/building-effective-agents',
+      },
+      {
+        type: 'Course',
+        title: 'MCP Course',
+        author: 'Hugging Face',
+        why: 'Free and advanced. Build a production-ready application with Anthropic, Slack, and GitHub integration.',
+        url: 'https://huggingface.co/mcp-course',
+      },
+    ],
+  },
+  architect: {
+    bridge: 'These resources will help you go further on exactly what you just committed to.',
+    items: [
+      {
+        type: 'Tutorial',
+        title: 'Build AI agents with n8n',
+        author: 'n8n',
+        why: 'The tool serious builders use. Open-source, self-hostable, and powerful enough to orchestrate real multi-step agents.',
+        url: 'https://n8n.io/get-started',
+      },
+      {
+        type: 'Guide',
+        title: 'Building Effective Agents',
+        author: 'Anthropic',
+        why: "Written by Anthropic's own engineers. The reference for people ready to build seriously.",
+        url: 'https://www.anthropic.com/research/building-effective-agents',
+      },
+      {
+        type: 'Course',
+        title: 'MCP Course',
+        author: 'Hugging Face',
+        why: 'Free and advanced. Build a production-ready application with Anthropic, Slack, and GitHub integration.',
+        url: 'https://huggingface.co/mcp-course',
+      },
+    ],
+  },
 }
 
-// ── Learning resource row (Section 4: full-row clickable with hover state) ────
+// ── Learning resource row ─────────────────────────────────────────────────────
 function LearningRow({ r }) {
   return (
     <a
@@ -277,7 +311,8 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
     return a.nextSteps.default
   })()
 
-  const resources = LEARNING_RESOURCES[a.id] || []
+  const resourceData = LEARNING_RESOURCES[a.id] || {}
+  const resourceItems = resourceData.items || []
 
   return (
     <div
@@ -291,7 +326,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="flex-shrink-0">
-            <ArchetypeIllustration archetypeId={a.id} size={96} />
+            <ArchetypeImg size={100} borderRadius={14} />
           </div>
           <div className="flex-1">
             <p className="text-xs font-medium uppercase tracking-widest mb-1.5" style={{ color: 'rgba(255,255,255,0.5)', letterSpacing: '0.1em' }}>
@@ -299,7 +334,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
             </p>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-1" style={{ color: '#ffffff' }}>{a.name}</h2>
             <p className="text-base font-medium italic mb-4" style={{ color: 'rgba(255,255,255,0.9)' }}>{a.tagline}</p>
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{a.intro}</p>
+            <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>{a.intro}</p>
           </div>
         </div>
       </div>
@@ -308,7 +343,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       <div className="px-6 sm:px-8 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <blockquote
           className="text-lg sm:text-xl font-medium italic pl-5 leading-relaxed"
-          style={{ color: 'rgba(255,255,255,0.82)', borderLeft: '3px solid rgba(255,255,255,0.4)' }}
+          style={{ color: 'rgba(255,255,255,0.88)', borderLeft: '3px solid rgba(255,255,255,0.4)' }}
         >
           {a.quote}
         </blockquote>
@@ -319,7 +354,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
         <div className="section-label mb-5">Strengths</div>
         <ul className="space-y-3.5">
           {a.strengths.map((s, i) => (
-            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>
               <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
               {s}
             </li>
@@ -330,7 +365,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       {/* Blind Spot */}
       <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="section-label mb-5">Blind Spot</div>
-        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{a.blindSpot}</p>
+        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>{a.blindSpot}</p>
       </div>
 
       {/* Habits */}
@@ -342,13 +377,18 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       {/* Next Steps */}
       <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.1)' }}>
         <div className="section-label mb-1.5">Next Steps</div>
+        {a.nextSteps.bridge && (
+          <p className="text-sm italic mt-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            {a.nextSteps.bridge}
+          </p>
+        )}
         {isYou && selectedDomains?.length > 0 && (
           <p className="text-xs mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>Tailored to your selected domains: {selectedDomains.join(', ')}</p>
         )}
         {(!isYou || !selectedDomains?.length) && <div className="mb-5" />}
         <ol className="space-y-4">
           {nextSteps.map((step, i) => (
-            <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+            <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>
               <span
                 className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-xs font-bold"
                 style={{ borderRadius: 4, backgroundColor: '#ffffff', color: '#6B1020' }}
@@ -362,11 +402,16 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       </div>
 
       {/* Learning Resources */}
-      {resources.length > 0 && (
+      {resourceItems.length > 0 && (
         <div className="px-6 sm:px-8 py-8">
-          <div className="section-label mb-5">Learning Path</div>
+          <div className="section-label mb-2">Learning Path</div>
+          {resourceData.bridge && (
+            <p className="text-sm italic mt-2 mb-5" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              {resourceData.bridge}
+            </p>
+          )}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-            {resources.map((r, i) => <LearningRow key={i} r={r} />)}
+            {resourceItems.map((r, i) => <LearningRow key={i} r={r} />)}
           </div>
         </div>
       )}
@@ -374,8 +419,19 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
   )
 }
 
+// ── Blend semi-transparent color against page background ──────────────────────
+function toSolidColor(cssColor) {
+  const m = cssColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
+  if (!m) return null
+  const r = parseInt(m[1]), g = parseInt(m[2]), b = parseInt(m[3])
+  const a = m[4] !== undefined ? parseFloat(m[4]) : 1
+  if (a === 0) return null
+  if (a >= 1) return `rgb(${r},${g},${b})`
+  return `rgb(${Math.round(a*r+(1-a)*107)},${Math.round(a*g+(1-a)*16)},${Math.round(a*b+(1-a)*32)})`
+}
+
 // ── Share card (off-screen, captured by html2canvas) ─────────────────────────
-function ShareCard({ cardRef, archetype, gapCallout }) {
+function ShareCard({ cardRef, archetype }) {
   return (
     <div
       ref={cardRef}
@@ -383,45 +439,99 @@ function ShareCard({ cardRef, archetype, gapCallout }) {
         position: 'fixed',
         left: -9999,
         top: 0,
-        width: 540,
-        height: 540,
+        width: 1080,
+        height: 1440,
         backgroundColor: '#6B1020',
-        padding: 64,
+        padding: 80,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
         boxSizing: 'border-box',
       }}
     >
       {/* Wordmark */}
-      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', fontSize: 18, fontWeight: 400 }}>
+      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', fontSize: 20, fontWeight: 400, marginBottom: 28 }}>
         Archetypes.ai
       </div>
 
-      {/* Main content */}
-      <div>
-        <div style={{ color: '#ffffff', fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontSize: 52, fontWeight: 400, lineHeight: 1.1, marginBottom: 20 }}>
-          {archetype.name}
-        </div>
-        <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 16, fontStyle: 'italic', fontFamily: "Georgia, 'Times New Roman', serif", lineHeight: 1.55, marginBottom: 20 }}>
-          &ldquo;{archetype.quote}&rdquo;
-        </div>
-        {gapCallout.headline && (
-          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, lineHeight: 1.5, fontFamily: "'Inter', system-ui, sans-serif" }}>
-            {gapCallout.headline}
-          </div>
-        )}
+      {/* Divider */}
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 36 }} />
+
+      {/* "Your AI archetype is" */}
+      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', fontSize: 18, marginBottom: 16 }}>
+        Your AI archetype is
       </div>
 
+      {/* Archetype name */}
+      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 700, fontSize: 68, color: '#ffffff', lineHeight: 1.05, marginBottom: 36 }}>
+        {archetype.name}
+      </div>
+
+      {/* Illustration */}
+      <div style={{ marginBottom: 36 }}>
+        <div style={{ background: '#F5EFE6', borderRadius: 16, width: 140, height: 140, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src={skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+      </div>
+
+      {/* Quote */}
+      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.88)', fontSize: 22, lineHeight: 1.55, marginBottom: 40 }}>
+        {archetype.quote}
+      </div>
+
+      {/* Divider */}
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 36 }} />
+
+      {/* About you label */}
+      <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', marginBottom: 18 }}>
+        About you
+      </div>
+
+      {/* Intro */}
+      <div style={{ color: 'rgba(255,255,255,0.88)', fontSize: 18, lineHeight: 1.7, marginBottom: 40, fontFamily: "'Inter', system-ui, sans-serif" }}>
+        {archetype.intro}
+      </div>
+
+      {/* Divider */}
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 36 }} />
+
+      {/* Two columns */}
+      <div style={{ display: 'flex', gap: 48, marginBottom: 40, flex: '0 0 auto' }}>
+        {/* Strengths */}
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', marginBottom: 18 }}>
+            Strengths
+          </div>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {archetype.strengths.map((s, i) => (
+              <li key={i} style={{ color: 'rgba(255,255,255,0.88)', fontSize: 16, lineHeight: 1.5, fontFamily: "'Inter', system-ui, sans-serif" }}>
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* Blind spot */}
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', marginBottom: 18 }}>
+            Blind spot
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.88)', fontSize: 16, lineHeight: 1.5, margin: 0, fontFamily: "'Inter', system-ui, sans-serif" }}>
+            {archetype.blindSpot}
+          </p>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 28 }} />
+
       {/* Footer */}
-      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12, letterSpacing: '0.04em', fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}>
+      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
         archetypes.ai
       </div>
     </div>
   )
 }
 
-// ── Share modal (Section 5) ───────────────────────────────────────────────────
+// ── Share modal ───────────────────────────────────────────────────────────────
 function ShareModal({ dataUrl, onClose }) {
   function handleDownload() {
     const link = document.createElement('a')
@@ -437,7 +547,7 @@ function ShareModal({ dataUrl, onClose }) {
       onClick={onClose}
     >
       <div
-        style={{ background: '#3d0a12', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 16, padding: 32, maxWidth: 480, width: '100%' }}
+        style={{ background: '#3d0a12', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 16, padding: 32, maxWidth: 420, width: '100%' }}
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-5">
@@ -454,7 +564,7 @@ function ShareModal({ dataUrl, onClose }) {
         <img
           src={dataUrl}
           alt="Share card preview"
-          style={{ width: '100%', borderRadius: 8, display: 'block', border: '1px solid rgba(255,255,255,0.1)' }}
+          style={{ maxWidth: '100%', maxHeight: 500, width: 'auto', height: 'auto', display: 'block', margin: '0 auto', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)' }}
         />
         <div className="flex gap-3 mt-5">
           <button onClick={handleDownload} className="btn-primary" style={{ flex: 1 }}>
@@ -486,7 +596,8 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
     return archetype.nextSteps.default
   })()
 
-  const personalResources = LEARNING_RESOURCES[archetype.id] || []
+  const personalResourceData = LEARNING_RESOURCES[archetype.id] || {}
+  const personalResourceItems = personalResourceData.items || []
 
   async function handleCopyShareCard() {
     if (shareStatus === 'loading') return
@@ -499,6 +610,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#6B1020',
+        logging: false,
       })
       const dataUrl = canvas.toDataURL('image/png')
       setShareModalUrl(dataUrl)
@@ -519,13 +631,55 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
       ])
 
       const el = document.getElementById('results-pdf-content')
-      const fullCanvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#6B1020',
-        logging: false,
-      })
+
+      // Force white text and solid backgrounds before capture
+      const allNodes = [el, ...el.querySelectorAll('*')]
+      const styleBackups = []
+      for (const node of allNodes) {
+        if (node.nodeType !== 1) continue
+        const computed = window.getComputedStyle(node)
+        const savedColor = node.style.color
+        const savedBg = node.style.backgroundColor
+        styleBackups.push({ node, color: savedColor, backgroundColor: savedBg })
+        node.style.color = '#ffffff'
+        const computedBg = computed.backgroundColor
+        if (computedBg && computedBg !== 'rgba(0, 0, 0, 0)' && computedBg !== 'transparent') {
+          const solid = toSolidColor(computedBg)
+          if (solid) node.style.backgroundColor = solid
+        }
+      }
+
+      let fullCanvas
+      try {
+        fullCanvas = await html2canvas(el, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#6B1020',
+          logging: false,
+        })
+      } finally {
+        // Always restore styles
+        for (const { node, color, backgroundColor } of styleBackups) {
+          node.style.color = color
+          node.style.backgroundColor = backgroundColor
+        }
+      }
+
+      // Check canvas is not blank
+      const ctx = fullCanvas.getContext('2d')
+      const sample = ctx.getImageData(0, 0, Math.min(200, fullCanvas.width), Math.min(200, fullCanvas.height))
+      let hasContent = false
+      for (let i = 0; i < sample.data.length; i += 4) {
+        if (sample.data[i] > 80 || sample.data[i+1] > 20 || sample.data[i+2] > 30) {
+          hasContent = true
+          break
+        }
+      }
+      if (!hasContent) {
+        setPdfStatus('error')
+        return
+      }
 
       const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' })
       pdf.setProperties({ title: 'Your Archetypes.ai Result' })
@@ -544,8 +698,8 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
         const pageCanvas = document.createElement('canvas')
         pageCanvas.width = fullCanvas.width
         pageCanvas.height = srcH
-        const ctx = pageCanvas.getContext('2d')
-        ctx.drawImage(fullCanvas, 0, srcY, fullCanvas.width, srcH, 0, 0, fullCanvas.width, srcH)
+        const pctx = pageCanvas.getContext('2d')
+        pctx.drawImage(fullCanvas, 0, srcY, fullCanvas.width, srcH, 0, 0, fullCanvas.width, srcH)
 
         const imgData = pageCanvas.toDataURL('image/jpeg', 0.88)
         const renderedH = srcH / scale
@@ -557,7 +711,8 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
       setTimeout(() => setPdfStatus(null), 3000)
     } catch (err) {
       console.error(err)
-      setPdfStatus(null)
+      setPdfStatus('error')
+      setTimeout(() => setPdfStatus(null), 6000)
     }
   }
 
@@ -567,7 +722,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
       {/* Share modal overlay */}
       {shareModalUrl && <ShareModal dataUrl={shareModalUrl} onClose={() => setShareModalUrl(null)} />}
 
-      {/* Off-screen share card for html2canvas */}
+      {/* Off-screen share card */}
       <ShareCard cardRef={shareCardRef} archetype={archetype} gapCallout={gapCallout} />
 
       {/* ── Header ──────────────────────────────────────────────────────────── */}
@@ -587,14 +742,14 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
       <div id="results-pdf-content">
         <div className="max-w-[960px] mx-auto px-4 sm:px-6 py-12">
 
-          {/* ── 1. Gap callout — one punchy sentence, centered, italic ────────── */}
+          {/* ── 1. Gap callout ──────────────────────────────────────────────── */}
           <RevealSection delay={80}>
             <div className="text-center py-2">
               <p style={{
                 fontFamily: "Georgia, 'Times New Roman', serif",
                 fontStyle: 'italic',
                 fontSize: 18,
-                color: 'rgba(255,255,255,0.82)',
+                color: 'rgba(255,255,255,0.88)',
                 lineHeight: 1.6,
               }}>
                 {gapCallout.headline}
@@ -604,7 +759,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
           <SectionDivider />
 
-          {/* ── 2. Archetype card — hero moment ──────────────────────────────── */}
+          {/* ── 2. Archetype hero card ───────────────────────────────────────── */}
           <RevealSection delay={160}>
             <div className="flex justify-center">
               <div style={{
@@ -632,27 +787,17 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                   fontWeight: 400,
                   color: '#ffffff',
                   lineHeight: 1.1,
-                  marginBottom: 24,
+                  marginBottom: 28,
                 }}>
                   {archetype.name}
                 </h1>
-                <div className="flex justify-center mb-5">
-                  <ArchetypeIllustration archetypeId={archetype.id} size={72} />
+                <div className="flex justify-center mb-6">
+                  <ArchetypeImg size={160} borderRadius={20} />
                 </div>
-                <p style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                  fontStyle: 'italic',
-                  fontSize: 15,
-                  color: 'rgba(255,255,255,0.7)',
-                  lineHeight: 1.65,
-                  marginBottom: 24,
-                }}>
-                  &ldquo;{archetype.quote}&rdquo;
-                </p>
                 <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginBottom: 20 }} />
                 <p style={{
                   fontSize: 13,
-                  color: 'rgba(255,255,255,0.75)',
+                  color: 'rgba(255,255,255,0.88)',
                   lineHeight: 1.8,
                   textAlign: 'left',
                 }}>
@@ -725,7 +870,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
               <div className="section-label mb-5">Strengths</div>
               <ul className="space-y-3.5">
                 {archetype.strengths.map((s, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                  <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>
                     <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
                     {s}
                   </li>
@@ -738,7 +883,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
             {/* Blind Spot */}
             <div>
               <div className="section-label mb-5">Blind Spot</div>
-              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{archetype.blindSpot}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>{archetype.blindSpot}</p>
             </div>
 
             <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '36px 0' }} />
@@ -754,15 +899,20 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
             {/* Next Steps */}
             <div>
               <div className="section-label mb-1.5">Next Steps</div>
+              {archetype.nextSteps.bridge && (
+                <p className="text-sm italic mt-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  {archetype.nextSteps.bridge}
+                </p>
+              )}
               {selectedDomains.length > 0 && (
-                <p className="text-xs mt-2 mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                <p className="text-xs mt-1 mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>
                   Tailored to your selected domains: {selectedDomains.join(', ')}
                 </p>
               )}
               {!selectedDomains.length && <div className="mb-5" />}
               <ol className="space-y-4">
                 {personalNextSteps.map((step, i) => (
-                  <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                  <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>
                     <span
                       className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-xs font-bold"
                       style={{ borderRadius: 4, backgroundColor: '#ffffff', color: '#6B1020' }}
@@ -775,15 +925,20 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
               </ol>
             </div>
 
-            {personalResources.length > 0 && (
+            {personalResourceItems.length > 0 && (
               <>
                 <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', margin: '36px 0' }} />
 
                 {/* Learning Path */}
                 <div>
-                  <div className="section-label mb-5">Your Learning Path</div>
+                  <div className="section-label mb-2">Your Learning Path</div>
+                  {personalResourceData.bridge && (
+                    <p className="text-sm italic mt-2 mb-5" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                      {personalResourceData.bridge}
+                    </p>
+                  )}
                   <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                    {personalResources.map((r, i) => <LearningRow key={i} r={r} />)}
+                    {personalResourceItems.map((r, i) => <LearningRow key={i} r={r} />)}
                   </div>
                 </div>
               </>
@@ -858,6 +1013,11 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                   {pdfStatus === 'loading' ? 'Generating…' : pdfStatus === 'done' ? 'Downloaded' : 'Download as PDF'}
                 </button>
               </div>
+              {pdfStatus === 'error' && (
+                <p className="text-sm mt-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  PDF export is not available right now. Please use the share card or take a screenshot instead.
+                </p>
+              )}
             </div>
           </RevealSection>
 

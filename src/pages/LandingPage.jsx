@@ -1,4 +1,4 @@
-import ArchetypeIllustration from '../components/ArchetypeIllustration.jsx'
+import skepticImg from '../assets/skeptic.png'
 
 const ARCHETYPE_PREVIEWS = [
   { id: 'skeptic',       label: 'The Skeptic',      quote: '"I\'d rather do it myself."' },
@@ -114,7 +114,9 @@ export default function LandingPage({ onStart }) {
                 className="flex flex-col items-center text-center gap-4 p-6"
                 style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4 }}
               >
-                <ArchetypeIllustration archetypeId={a.id} size={72} />
+                <div style={{ background: '#F5EFE6', borderRadius: 12, width: 80, height: 80, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <img src={skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
                 <div>
                   <p className="font-semibold text-sm mb-1" style={{ color: '#ffffff' }}>{a.label}</p>
                   <p className="text-xs font-medium leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>{a.quote}</p>
