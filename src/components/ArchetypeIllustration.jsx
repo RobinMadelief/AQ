@@ -119,11 +119,51 @@ function AmplifierIllustration({ size = 120 }) {
   )
 }
 
+function ArchitectIllustration({ size = 120 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Ground */}
+      <rect x="28" y="98" width="64" height="5" rx="2.5" fill="#6366f1" opacity="0.12"/>
+      {/* Body — upright, deliberate */}
+      <rect x="44" y="50" width="32" height="48" rx="10" fill="#6366f1" opacity="0.12"/>
+      {/* Head */}
+      <circle cx="60" cy="34" r="18" fill="#6366f1" opacity="0.15"/>
+      {/* Network nodes — outer ring */}
+      <circle cx="18" cy="22" r="5" fill="#6366f1" opacity="0.28"/>
+      <circle cx="102" cy="20" r="5" fill="#6366f1" opacity="0.28"/>
+      <circle cx="12" cy="62" r="4" fill="#6366f1" opacity="0.22"/>
+      <circle cx="108" cy="58" r="4" fill="#6366f1" opacity="0.22"/>
+      <circle cx="20" cy="98" r="4" fill="#6366f1" opacity="0.18"/>
+      <circle cx="100" cy="98" r="4" fill="#6366f1" opacity="0.18"/>
+      {/* Connections: outer nodes to each other */}
+      <line x1="18" y1="22" x2="102" y2="20" stroke="#6366f1" strokeWidth="1" opacity="0.18"/>
+      <line x1="18" y1="22" x2="12" y2="62" stroke="#6366f1" strokeWidth="1" opacity="0.18"/>
+      <line x1="102" y1="20" x2="108" y2="58" stroke="#6366f1" strokeWidth="1" opacity="0.18"/>
+      <line x1="12" y1="62" x2="20" y2="98" stroke="#6366f1" strokeWidth="1" opacity="0.18"/>
+      <line x1="108" y1="58" x2="100" y2="98" stroke="#6366f1" strokeWidth="1" opacity="0.18"/>
+      <line x1="20" y1="98" x2="100" y2="98" stroke="#6366f1" strokeWidth="1" opacity="0.14"/>
+      {/* Connections: outer nodes to figure */}
+      <line x1="18" y1="22" x2="48" y2="34" stroke="#6366f1" strokeWidth="1" opacity="0.22" strokeDasharray="3 3"/>
+      <line x1="102" y1="20" x2="72" y2="34" stroke="#6366f1" strokeWidth="1" opacity="0.22" strokeDasharray="3 3"/>
+      <line x1="12" y1="62" x2="44" y2="68" stroke="#6366f1" strokeWidth="1" opacity="0.2" strokeDasharray="3 3"/>
+      <line x1="108" y1="58" x2="76" y2="68" stroke="#6366f1" strokeWidth="1" opacity="0.2" strokeDasharray="3 3"/>
+      {/* Eyes — focused, planning */}
+      <circle cx="53" cy="33" r="3.5" fill="#312e81" opacity="0.6"/>
+      <circle cx="67" cy="33" r="3.5" fill="#312e81" opacity="0.6"/>
+      <circle cx="54.5" cy="31.5" r="1.2" fill="white" opacity="0.7"/>
+      <circle cx="68.5" cy="31.5" r="1.2" fill="white" opacity="0.7"/>
+      {/* Central hub ring */}
+      <circle cx="60" cy="60" r="46" stroke="#6366f1" strokeWidth="1" opacity="0.08"/>
+    </svg>
+  )
+}
+
 const illustrations = {
   skeptic: SkepticIllustration,
   delegator: DelegatorIllustration,
   experimenter: ExperimenterIllustration,
   amplifier: AmplifierIllustration,
+  architect: ArchitectIllustration,
 }
 
 export default function ArchetypeIllustration({ archetypeId, size = 120 }) {

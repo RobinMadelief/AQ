@@ -1,4 +1,4 @@
-// The four AQ archetypes with full profile content
+// The five AQ archetypes with full profile content
 
 export const ARCHETYPES = {
   skeptic: {
@@ -18,6 +18,16 @@ export const ARCHETYPES = {
       'Deep ownership: when something succeeds, you know exactly why. When it fails, you learn from it.',
     ],
     blindSpot: `While you're working hard to maintain authenticity, the gap between you and your field is quietly widening. Others are using AI not to replace their thinking, but to do more of it, faster and at higher stakes. The risk isn't that AI will make you inauthentic. It's that protecting yourself from it may mean doing more of the low-value work while missing the high-leverage opportunities.`,
+    habits: {
+      drop: [
+        'Assuming AI use means losing your edge',
+        'Rewriting from scratch when AI could handle the first draft',
+      ],
+      build: [
+        'Using AI to challenge one assumption per week',
+        'Trying one AI tool for 30 days to gain a deeper understanding',
+      ],
+    },
     nextSteps: {
       default: [
         'Use AI as a devil\'s advocate: form your own opinion first, then prompt it to steelman the opposite view.',
@@ -69,6 +79,16 @@ export const ARCHETYPES = {
       'Speed under pressure: when deadlines hit, you have a system that delivers',
     ],
     blindSpot: `The risk isn't what you're producing. It's what you're not building. Every time AI does the thinking, you skip the cognitive reps that compound into expertise. Writing that summary yourself was slow, but it also forced you to understand the material. Solving that problem yourself was inefficient, but you'd recognize the pattern next time. Over time, the gap between your output and your actual capability quietly widens.`,
+    habits: {
+      drop: [
+        'Sending AI output that sounds inauthentic',
+        'Using AI before forming your own view first',
+      ],
+      build: [
+        'Writing your own first sentence before asking AI to continue',
+        'Rewriting one AI draft per day to make it sound authentic and like you',
+      ],
+    },
     nextSteps: {
       default: [
         'Reclaim one task per day from AI. Pick something small, do it yourself, and notice what you learn from the friction.',
@@ -120,6 +140,16 @@ export const ARCHETYPES = {
       'High openness: you bring ideas from unexpected places and make surprising connections',
     ],
     blindSpot: `Novelty is seductive. But there's a difference between exploring and accumulating. You've probably started more workflows than you've finished, and installed more tools than you've mastered. The problem isn't curiosity. Insight without integration produces noise, not signal. The next breakthrough for you isn't a new tool. It's depth: staying long enough in one place to actually change how you work.`,
+    habits: {
+      drop: [
+        'Switching tools before mastering the current one',
+        'Building workflows for their own sake rather than real impact',
+      ],
+      build: [
+        'Picking one tool per month and going deep',
+        'Documenting what actually worked, not just what was interesting',
+      ],
+    },
     nextSteps: {
       default: [
         'Pick one AI tool and one specific use case. Commit to using only those for 30 days, then evaluate.',
@@ -171,6 +201,16 @@ export const ARCHETYPES = {
       'Continuous growth: you\'re not just using AI, you\'re using it to become better at what you already care about',
     ],
     blindSpot: `As AI improves, this relationship requires ongoing vigilance. The tools you use today will be dramatically more capable in 12 months, and with more capability comes more temptation to hand over tasks that used to sharpen you. The Amplifier who doesn't stay intentional gradually becomes a Delegator who doesn't notice. Your edge is reflection: keep asking whether you're using AI to grow, or just to produce.`,
+    habits: {
+      drop: [
+        'Using AI for tasks that genuinely need your full attention',
+        'Letting AI polish work that still needs your real thinking',
+      ],
+      build: [
+        'Build your first simple agent for a task you do regularly',
+        'Regularly auditing which AI habits are still serving you',
+      ],
+    },
     nextSteps: {
       default: [
         'Write your personal AI philosophy. In one page, describe what you use AI for, what you don\'t, and why.',
@@ -204,7 +244,68 @@ export const ARCHETYPES = {
       ],
     },
   },
+
+  architect: {
+    id: 'architect',
+    name: 'The Architect',
+    tagline: '"I don\'t just use AI. I build with it."',
+    color: '#6366f1',
+    colorClass: 'text-indigo-500',
+    bgClass: 'bg-indigo-50',
+    borderClass: 'border-indigo-300',
+    accentClass: 'bg-indigo-500',
+    intro: `You have moved past the question of whether to use AI. You are now designing how it works around you. While others are still choosing tools, you are building systems. Your relationship with AI is less about prompting and more about architecture. Workflows, agents, automations that extend what you can do at scale. Most people are not here yet. You are.`,
+    quote: '"I don\'t just use AI. I build with it."',
+    strengths: [
+      'Systems thinking: you see the whole workflow, not just the individual step',
+      'Builds for scale: you design solutions that keep working without your constant attention',
+      'Turns AI into infrastructure: for you, AI is not a tool you pick up — it is the foundation you build on',
+    ],
+    blindSpot: `Systems can become a way of avoiding the messy human work that still matters. Not everything should be automated. The risk is optimizing away the friction that produces insight, the conversations that build trust, the slow work that compounds into wisdom. Keep asking: is this automation creating leverage, or just distance?`,
+    habits: {
+      drop: [
+        'Automating decisions that still need human judgment',
+        'Automating processes before understanding them manually',
+      ],
+      build: [
+        'Documenting one system per month so others can replicate it',
+        'Testing whether each automation creates meaningful impact',
+      ],
+    },
+    nextSteps: {
+      default: [
+        'Document one system you have built so someone else could run it without your help.',
+        'Identify one workflow you have automated and measure whether it has created the impact you intended.',
+        'Explore multi-agent orchestration: your next frontier is systems that coordinate other systems.',
+      ],
+      'Work & Productivity': [
+        'Map out one complete workflow end-to-end, then identify the single step that still needs human judgment.',
+        'Document a system you have built well enough for a colleague to run it independently.',
+        'Research one multi-agent framework (n8n, LangGraph, or similar) and build a small proof of concept this month.',
+      ],
+      'Learning & Education': [
+        'Build a personal knowledge system that uses AI to surface connections across your notes automatically.',
+        'Document your learning system so clearly that someone else could adopt it without your help.',
+        'Experiment with an AI tutor agent that adapts to your knowledge gaps rather than following a fixed curriculum.',
+      ],
+      'Daily Life': [
+        'Identify the three most repetitive tasks in your week and build one automation that handles at least one of them.',
+        'Document one personal system you have built so clearly you could hand it to someone else.',
+        'Audit your personal automations: are they saving real time, or are they just impressive?',
+      ],
+      'Health & Performance': [
+        'Build a personal health tracking system that aggregates data from multiple sources into one view.',
+        'Identify which parts of your performance routine still need human judgment and protect those deliberately.',
+        'Document your optimization system so you can spot drift — when you stop doing what was working.',
+      ],
+      'Creativity': [
+        'Build a creative pipeline that handles the mechanical parts of your process so you can focus on the parts only you can do.',
+        'Document your creative system: the prompts, tools, and sequences that produce your best work.',
+        'Experiment with a multi-step creative agent that moves from brief to draft to critique automatically.',
+      ],
+    },
+  },
 }
 
-// Map answer choices to archetypes (A=skeptic, B=delegator, C=experimenter, D=amplifier)
-export const ARCHETYPE_ORDER = ['skeptic', 'delegator', 'experimenter', 'amplifier']
+// Map answer choices to archetypes (A=skeptic, B=delegator, C=experimenter, D=amplifier, E=architect)
+export const ARCHETYPE_ORDER = ['skeptic', 'delegator', 'experimenter', 'amplifier', 'architect']

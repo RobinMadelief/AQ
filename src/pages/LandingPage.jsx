@@ -5,6 +5,7 @@ const ARCHETYPE_PREVIEWS = [
   { id: 'delegator',    label: 'The Delegator',    quote: '"Why do it myself if AI can?"' },
   { id: 'experimenter', label: 'The Experimenter', quote: '"Have you tried this new tool?"' },
   { id: 'amplifier',    label: 'The Amplifier',    quote: '"AI helps me be more of who I am."' },
+  { id: 'architect',    label: 'The Architect',    quote: '"I don\'t just use AI. I build with it."' },
 ]
 
 export default function LandingPage({ onStart }) {
@@ -95,18 +96,18 @@ export default function LandingPage({ onStart }) {
         </div>
       </div>
 
-      {/* ── Four Archetypes ──────────────────────────────────────────────────── */}
+      {/* ── Five Archetypes ──────────────────────────────────────────────────── */}
       <section className="px-6 sm:px-10 py-16">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-[960px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-label justify-center mb-3">What you'll discover</div>
-            <h2 className="font-bold mb-3" style={{ fontSize: '1.5rem', color: '#ffffff' }}>Four archetypes. One honest mirror.</h2>
+            <h2 className="font-bold mb-3" style={{ fontSize: '1.5rem', color: '#ffffff' }}>Five archetypes. One honest mirror.</h2>
             <p className="max-w-lg mx-auto text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
               Your answers reveal not just which archetype you are, but the gap between how you think about AI and how you actually use it.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-14">
             {ARCHETYPE_PREVIEWS.map(a => (
               <div
                 key={a.id}
@@ -125,7 +126,7 @@ export default function LandingPage({ onStart }) {
           {/* Bottom strip */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
             <div className="flex items-center gap-6 flex-wrap justify-center sm:justify-start">
-              {['4 archetypes', '15 scenarios', 'Domain-adapted results', 'Belief vs. behavior gap'].map(item => (
+              {['5 archetypes', '15 questions', 'Domain-adapted results', 'Belief vs. behavior gap'].map(item => (
                 <span key={item} className="flex items-center gap-1.5 text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
                   <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.4)', display: 'inline-block' }} />
                   {item}

@@ -47,7 +47,38 @@ function RevealSection({ children, delay = 0, className = '' }) {
   )
 }
 
-// ── Compact archetype card (row of 4) ────────────────────────────────────────
+// ── Habits section ────────────────────────────────────────────────────────────
+function HabitsSection({ habits, compact = false }) {
+  if (!habits) return null
+  return (
+    <div className={compact ? 'grid sm:grid-cols-2 gap-5' : 'grid sm:grid-cols-2 gap-6'}>
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em' }}>Drop</p>
+        <ul className="space-y-3">
+          {habits.drop.map((h, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+              <span className="flex-shrink-0 mt-1.5" style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: 'rgba(239,68,68,0.45)', display: 'block', flexShrink: 0 }} />
+              {h}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em' }}>Build</p>
+        <ul className="space-y-3">
+          {habits.build.map((h, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+              <span className="flex-shrink-0 mt-1.5" style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: 'rgba(16,185,129,0.5)', display: 'block', flexShrink: 0 }} />
+              {h}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+// ── Compact archetype card (row of 5) ────────────────────────────────────────
 function ArchetypeCompactCard({ a, isYou, onClick }) {
   return (
     <button
@@ -166,80 +197,29 @@ const LEARNING_RESOURCES = {
       url: 'https://huggingface.co/mcp-course',
     },
   ],
-}
-
-// ── Your Time, Your Way section ──────────────────────────────────────────────
-const TIME_DATA = {
-  skeptic: {
-    humanMoment: "Imagine finishing your most dreaded weekly task in half the time, with your own thinking still clearly at the center of it.",
-    defaultYearly: 50,
-    defaultWeekly: 1,
-  },
-  delegator: {
-    humanMoment: "Imagine getting the same output you get today, but with your fingerprint back on every piece of it.",
-    defaultYearly: 60,
-    defaultWeekly: 3,
-  },
-  experimenter: {
-    humanMoment: "Imagine one tool that you know so deeply it feels like a genuine extension of how your mind works.",
-    defaultYearly: 80,
-    defaultWeekly: 4,
-  },
-  amplifier: {
-    humanMoment: "Imagine what you could build this year that simply was not possible last year.",
-    defaultYearly: 200,
-    defaultWeekly: 7,
-  },
-}
-
-function YourTimeSection({ archetypeId }) {
-  const data = TIME_DATA[archetypeId]
-  const [weeklyHours, setWeeklyHours] = useState(data.defaultWeekly)
-  const [yearlyHours, setYearlyHours] = useState(data.defaultYearly)
-
-  function handleChange(raw) {
-    const val = Math.max(0, Number(raw) || 0)
-    setWeeklyHours(val)
-    setYearlyHours(Math.min(400, Math.round((val * 46 * 0.054) / 10) * 10))
-  }
-
-  return (
-    <div className="py-8">
-      <div className="px-6 sm:px-8 py-8" style={{ borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
-        <div className="section-label mb-5">Your time, your way</div>
-        <p className="text-sm sm:text-base leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.82)' }}>
-          Research shows AI saves the average knowledge worker around an hour a day. But the people who feel that most are the ones who use it on their own terms.
-        </p>
-        <p className="text-sm sm:text-base leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.82)' }}>
-          {data.humanMoment}
-        </p>
-        <p className="text-sm sm:text-base leading-relaxed mb-5" style={{ color: '#ffffff' }}>
-          Most people in your position reclaim around{' '}
-          <span className="font-semibold">{yearlyHours} hours</span> a year. What would you do with yours?
-        </p>
-        <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>Adjust based on your situation:</span>
-          <input
-            type="number"
-            min={0}
-            value={weeklyHours}
-            onChange={e => handleChange(e.target.value)}
-            className="w-16 text-center text-sm font-medium"
-            style={{
-              border: '1px solid rgba(255,255,255,0.25)',
-              borderRadius: 4,
-              padding: '4px 8px',
-              color: '#ffffff',
-              background: 'rgba(255,255,255,0.1)',
-              outline: 'none',
-            }}
-          />
-          <span className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>hours per week using AI</span>
-        </div>
-        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Based on Federal Reserve and Adecco research, 2024.</p>
-      </div>
-    </div>
-  )
+  architect: [
+    {
+      type: 'Tutorial',
+      title: 'Build AI agents with n8n',
+      author: 'n8n',
+      why: 'The tool serious builders use. Open-source, self-hostable, and powerful enough to orchestrate real multi-step agents.',
+      url: 'https://n8n.io/get-started',
+    },
+    {
+      type: 'Guide',
+      title: 'Building Effective Agents',
+      author: 'Anthropic',
+      why: "Written by Anthropic's own engineers. The real thing for people ready to build seriously.",
+      url: 'https://www.anthropic.com/research/building-effective-agents',
+    },
+    {
+      type: 'Course',
+      title: 'MCP Course',
+      author: 'Hugging Face',
+      why: 'Free, cutting edge, genuinely advanced. Build a production-ready application with Anthropic, Slack, and GitHub integration.',
+      url: 'https://huggingface.co/mcp-course',
+    },
+  ],
 }
 
 // ── Full expanded archetype card ──────────────────────────────────────────────
@@ -307,6 +287,12 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
           <div className="section-label mb-5">Blind Spot</div>
           <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{a.blindSpot}</p>
         </div>
+      </div>
+
+      {/* Habits */}
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
+        <div className="section-label mb-5">Habits</div>
+        <HabitsSection habits={a.habits} />
       </div>
 
       {/* Next Steps */}
@@ -526,7 +512,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-20 px-6 py-4" style={{ background: 'rgba(107,16,32,0.95)', borderBottom: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)' }}>
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
+        <div className="max-w-[960px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: '#ffffff', fontSize: 16, fontWeight: 400 }}>Archetypes.ai</span>
             <span className="font-medium text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>· Your Results</span>
@@ -539,7 +525,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
       {/* ── PDF capture target ───────────────────────────────────────────────── */}
       <div id="results-pdf-content">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+        <div className="max-w-[960px] mx-auto px-4 sm:px-6 py-10 space-y-12">
 
           {/* ── Archetype Hero ─────────────────────────────────────────────── */}
           <RevealSection delay={80}>
@@ -587,9 +573,9 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                   Each axis represents one archetype. The gap between the two shapes is your key insight.
                 </p>
               </div>
-              <div style={{ minHeight: 360, height: 360 }}>
+              <div style={{ minHeight: 380, height: 380 }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={archetypeRadarData} margin={{ top: 16, right: 24, bottom: 8, left: 24 }}>
+                  <RadarChart data={archetypeRadarData} margin={{ top: 20, right: 30, bottom: 10, left: 30 }}>
                     <PolarGrid stroke="rgba(255,255,255,0.1)" strokeDasharray="0" />
                     <PolarAngleAxis
                       dataKey="subject"
@@ -668,6 +654,12 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
               </div>
             </div>
 
+            {/* Habits */}
+            <div className="py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+              <div className="section-label mb-5">Habits</div>
+              <HabitsSection habits={archetype.habits} />
+            </div>
+
             {/* Next Steps */}
             <div className="py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
               <div className="section-label mb-1.5">Next Steps</div>
@@ -691,9 +683,6 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                 ))}
               </ol>
             </div>
-
-            {/* Your Time, Your Way */}
-            <YourTimeSection archetypeId={archetype.id} />
 
             {/* Learning Resources */}
             {personalResources.length > 0 && (
@@ -738,7 +727,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                 <div className="section-label mb-2">Explore all archetypes</div>
                 <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Click any card to see the full profile. Your archetype is highlighted.</p>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
                 {Object.values(ARCHETYPES).map(a => (
                   <ArchetypeCompactCard
                     key={a.id}
@@ -773,7 +762,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
       </div>
 
       {/* ── Share your result ────────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-16">
+      <div className="max-w-[960px] mx-auto px-4 sm:px-6 pb-16">
         <RevealSection delay={660}>
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: 40 }}>
             <div className="section-label mb-3">Share your result</div>

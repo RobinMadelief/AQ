@@ -1,24 +1,33 @@
 import { ARCHETYPES } from './archetypes.js'
 import { ALL_QUESTIONS } from './questions.js'
 
-const TIEBREAKER = ['amplifier', 'experimenter', 'skeptic', 'delegator']
-const ARCHETYPE_KEYS = ['skeptic', 'delegator', 'experimenter', 'amplifier']
+const TIEBREAKER = ['architect', 'amplifier', 'experimenter', 'skeptic', 'delegator']
+const ARCHETYPE_KEYS = ['skeptic', 'delegator', 'experimenter', 'amplifier', 'architect']
+
+// Likert statement → which archetypes score high (agree = signal) or low (disagree = signal)
+const LIKERT_MAP = {
+  l_1: { high: ['amplifier', 'architect'], low: ['skeptic', 'delegator'] },
+  l_2: { high: ['delegator', 'amplifier', 'architect'], low: ['skeptic'] },
+  l_3: { high: ['amplifier', 'architect'], low: ['skeptic', 'delegator'] },
+  l_4: { high: ['amplifier', 'architect'], low: ['experimenter', 'delegator'] },
+  l_5: { high: ['architect'], low: ['skeptic', 'delegator', 'experimenter'] },
+}
 
 function zeroCounts() {
-  return { skeptic: 0, delegator: 0, experimenter: 0, amplifier: 0 }
+  return { skeptic: 0, delegator: 0, experimenter: 0, amplifier: 0, architect: 0 }
 }
 
 function countArchetypes(answerSet) {
   const counts = zeroCounts()
   for (const a of answerSet) {
-    if (counts[a.archetype] !== undefined) counts[a.archetype]++
+    if (a.archetype && counts[a.archetype] !== undefined) counts[a.archetype]++
   }
   return counts
 }
 
-function getDominant(counts) {
-  const max = Math.max(...Object.values(counts))
-  return TIEBREAKER.find(k => counts[k] === max)
+function getDominant(scores) {
+  const max = Math.max(...Object.values(scores))
+  return TIEBREAKER.find(k => scores[k] === max)
 }
 
 function toRadarScores(counts, total) {
@@ -30,32 +39,58 @@ function toRadarScores(counts, total) {
   return out
 }
 
-export function computeResults(answers, selectedDomains) {
-  const perceptionAnswers = []
-  const behaviorAnswers = []
-  for (const a of answers) {
-    const q = ALL_QUESTIONS.find(q => q.id === a.questionId)
-    if (q?.layer === 'perception') perceptionAnswers.push(a)
-    else behaviorAnswers.push(a)
+// Compute belief scores (0–100) from Likert answers only
+function computeLikertBeliefScores(likertAnswers) {
+  const rawScores = zeroCounts()
+  const n = likertAnswers.length
+
+  for (const answer of likertAnswers) {
+    const map = LIKERT_MAP[answer.questionId]
+    if (!map) continue
+    const v = answer.likertValue  // 1–5
+    const highScore = (v - 1) / 4   // 0 at v=1, 1.0 at v=5
+    const lowScore  = (5 - v) / 4   // 1.0 at v=1, 0 at v=5
+
+    for (const k of ARCHETYPE_KEYS) {
+      if (map.high.includes(k)) {
+        rawScores[k] += highScore
+      } else if (map.low.includes(k)) {
+        rawScores[k] += lowScore
+      } else {
+        rawScores[k] += 0.5  // neutral — statement does not discriminate this archetype
+      }
+    }
   }
 
-  const beliefCounts   = countArchetypes(perceptionAnswers)
-  const behaviorCounts = countArchetypes(behaviorAnswers)
-  const totalCounts    = countArchetypes(answers)
+  const result = {}
+  for (const k of ARCHETYPE_KEYS) {
+    result[k] = n > 0 ? Math.round((rawScores[k] / n) * 100) : 0
+  }
+  return result
+}
 
-  const beliefArchetype   = getDominant(beliefCounts)
+export function computeResults(answers, selectedDomains) {
+  // Split answers by type
+  const likertAnswers   = answers.filter(a => a.likertValue !== undefined)
+  const behaviorAnswers = answers.filter(a => a.archetype  !== undefined)
+
+  // Behavior counts drive the primary archetype
+  const behaviorCounts  = countArchetypes(behaviorAnswers)
   const behaviorArchetype = getDominant(behaviorCounts)
 
-  // Primary archetype is determined by behavior layer only (what users actually do)
+  // Likert answers drive the belief profile
+  const beliefScores    = computeLikertBeliefScores(likertAnswers)
+  const beliefArchetype = getDominant(beliefScores)
+
+  // Primary archetype is behavior-only
   const primaryArchetype = behaviorArchetype
 
-  const beliefScores   = toRadarScores(beliefCounts,   perceptionAnswers.length)
-  const behaviorScores = toRadarScores(behaviorCounts, behaviorAnswers.length)
+  const behaviorRadarScores = toRadarScores(behaviorCounts, behaviorAnswers.length)
 
   const archetypeRadarData = ARCHETYPE_KEYS.map(key => ({
-    subject: ARCHETYPES[key].name.replace('The ', ''),
+    subject:  ARCHETYPES[key].name.replace('The ', ''),
     belief:   beliefScores[key],
-    behavior: behaviorScores[key],
+    behavior: behaviorRadarScores[key],
   }))
 
   const beliefName   = ARCHETYPES[beliefArchetype].name
@@ -77,10 +112,10 @@ export function computeResults(answers, selectedDomains) {
         subtext: 'The gap between how you think about AI and how you actually use it is the core insight of your Archetypes.ai profile.',
       }
 
-  const weights = { amplifier: 100, experimenter: 60, skeptic: 50, delegator: 30 }
+  const weights = { architect: 100, amplifier: 80, experimenter: 60, skeptic: 50, delegator: 30 }
   const domainScores = {}
   for (const domain of selectedDomains) {
-    const domainAnswers = answers.filter(a => {
+    const domainAnswers = behaviorAnswers.filter(a => {
       const q = ALL_QUESTIONS.find(q => q.id === a.questionId)
       return q?.domains?.includes(domain)
     })
@@ -93,8 +128,8 @@ export function computeResults(answers, selectedDomains) {
   }
 
   return {
-    archetypeCounts: totalCounts,
-    beliefCounts,
+    archetypeCounts: behaviorCounts,
+    beliefCounts: beliefScores,
     behaviorCounts,
     primaryArchetype,
     beliefArchetype,

@@ -1,82 +1,59 @@
-// Scenario-based questions in two layers.
-// layer: 'perception' — what the user believes about AI (5 questions, always shown)
-// layer: 'behavior'   — what the user actually does with AI (domain/context filtered, 10 shown)
+// Questions in two layers.
+// layer: 'perception' — five Likert statements about AI beliefs (always shown, type: 'likert')
+// layer: 'behavior'   — scenario questions about actual AI use (domain/context filtered, 10 shown)
 //
-// Each answer maps to one of four archetypes: skeptic | delegator | experimenter | amplifier
+// Behavior answers map to one of five archetypes: skeptic | delegator | experimenter | amplifier | architect
 // Answer order is shuffled at runtime in selectQuestions() so the mapping is never predictable.
 
-// ─── LAYER 1: PERCEPTION (Belief) ─────────────────────────────────────────────
+// ─── LAYER 1: PERCEPTION (Likert Belief Statements) ────────────────────────────
+// Each is a 1–5 Likert scale: 1 = Strongly Disagree, 5 = Strongly Agree
+// Answers are stored as { questionId, likertValue } — no archetype mapping.
 
 const PERCEPTION_QUESTIONS = [
   {
-    id: 'p_1',
+    id: 'l_1',
     layer: 'perception',
+    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    question: 'Be honest: when you use AI for work or study, do you feel empowered, or a little like you\'re cheating?',
-    answers: [
-      { text: 'Mostly like I\'m cheating. Doing it myself is what actually matters.', archetype: 'skeptic' },
-      { text: 'Empowered. If AI can do it well, that\'s the whole idea.', archetype: 'delegator' },
-      { text: 'A bit of both — depends on the tool and how I\'m using it.', archetype: 'experimenter' },
-      { text: 'Empowered. Using AI well is its own skill.', archetype: 'amplifier' },
-    ],
+    statement: 'When I use AI for important work, I still feel like the author.',
   },
   {
-    id: 'p_2',
+    id: 'l_2',
     layer: 'perception',
+    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    question: 'When AI produces something and you guided it but didn\'t make it, do you consider that work authentically yours?',
-    answers: [
-      { text: 'No. If I didn\'t make it, it\'s not mine.', archetype: 'skeptic' },
-      { text: 'Yes. I defined the outcome — the method is just a detail.', archetype: 'delegator' },
-      { text: 'Depends on how well the tool got what I was actually after.', archetype: 'experimenter' },
-      { text: 'Yes. If the thinking was mine, the output is mine.', archetype: 'amplifier' },
-    ],
+    statement: 'I find it hard to imagine doing my best work without AI.',
   },
   {
-    id: 'p_3',
+    id: 'l_3',
     layer: 'perception',
+    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    question: 'What\'s the most honest description of how you relate to AI right now?',
-    answers: [
-      { text: 'Something I use sparingly and watch carefully. My own judgment comes first.', archetype: 'skeptic' },
-      { text: 'An assistant I\'ve handed a significant amount of my work to.', archetype: 'delegator' },
-      { text: 'A set of tools I\'m constantly switching between, testing, and comparing.', archetype: 'experimenter' },
-      { text: 'A thinking partner I\'ve figured out how to work with on my own terms.', archetype: 'amplifier' },
-    ],
+    statement: 'AI has changed what I see as possible, not just how efficient I am.',
   },
   {
-    id: 'p_4',
+    id: 'l_4',
     layer: 'perception',
+    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    question: 'If AI becomes capable of doing most thinking work better than humans, what\'s your most honest first reaction?',
-    answers: [
-      { text: 'Unease. I\'d want to understand what that actually leaves for people.', archetype: 'skeptic' },
-      { text: 'Relief. More can be handed off and I can focus on what I want.', archetype: 'delegator' },
-      { text: 'Excitement. More capability means more to explore.', archetype: 'experimenter' },
-      { text: 'Curiosity. What do humans choose to keep for themselves?', archetype: 'amplifier' },
-    ],
+    statement: 'The more I use AI, the more deliberate I have become about when not to.',
   },
   {
-    id: 'p_5',
+    id: 'l_5',
     layer: 'perception',
+    type: 'likert',
     domains: [],
     context: null,
     situation: null,
-    question: 'Here\'s an uncomfortable one: are you using AI in a way that makes you better, or just faster?',
-    answers: [
-      { text: 'Neither, mostly. I\'d rather build the skill myself than rely on a shortcut.', archetype: 'skeptic' },
-      { text: 'Faster, mostly. Whether it makes me better is a question I haven\'t fully settled.', archetype: 'delegator' },
-      { text: 'Still figuring out which tools actually develop me versus just speed up output.', archetype: 'experimenter' },
-      { text: 'Better, intentionally. I use it for things that stretch my thinking, not replace it.', archetype: 'amplifier' },
-    ],
+    statement: 'I think about AI as infrastructure, not just a tool.',
   },
 ]
 
@@ -96,6 +73,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I describe the client and goals to AI and use its draft as my starting point.', archetype: 'delegator' },
       { text: 'I look for a good tool for this, try a couple, and see what sticks.', archetype: 'experimenter' },
       { text: 'I outline the key arguments myself, then use AI to sharpen the language and check for gaps.', archetype: 'amplifier' },
+      { text: 'I run it through a pre-built proposal workflow I set up for exactly this type of work.', archetype: 'architect' },
     ],
   },
   {
@@ -110,6 +88,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I paste my rough notes into AI and send what it produces with minor tweaks.', archetype: 'delegator' },
       { text: 'I run it through a meeting summary tool I\'ve been trying.', archetype: 'experimenter' },
       { text: 'I write the key decisions myself, then use AI to clean up the language.', archetype: 'amplifier' },
+      { text: 'My meeting notes feed into an automated pipeline that drafts and routes the email for me.', archetype: 'architect' },
     ],
   },
   {
@@ -124,6 +103,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I use an AI data analysis tool to generate the insights and present those.', archetype: 'delegator' },
       { text: 'I try a couple of AI data tools and see which one gets there fastest.', archetype: 'experimenter' },
       { text: 'I use AI to surface the patterns, then dig into the interesting ones myself.', archetype: 'amplifier' },
+      { text: 'I have an analysis workflow set up that handles this type of dataset automatically.', archetype: 'architect' },
     ],
   },
   {
@@ -138,6 +118,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I\'m in. Anything that saves time is worth trying.', archetype: 'delegator' },
       { text: 'I\'m curious — I want to see how it compares to the other tools I\'ve been testing.', archetype: 'experimenter' },
       { text: 'I think about which parts actually need my judgment, then automate the rest.', archetype: 'amplifier' },
+      { text: 'I evaluate whether it fits into my existing system or if I should rebuild that layer.', archetype: 'architect' },
     ],
   },
   {
@@ -152,6 +133,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I give AI my notes and sign off with minor edits.', archetype: 'delegator' },
       { text: 'I try a few different approaches to see what produces the most useful output.', archetype: 'experimenter' },
       { text: 'I write my own observations first, then use AI to help structure the framing.', archetype: 'amplifier' },
+      { text: 'I have a structured review template and workflow that makes this repeatable and consistent.', archetype: 'architect' },
     ],
   },
 
@@ -168,6 +150,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I ask AI to explain it and move on once it clicks.', archetype: 'delegator' },
       { text: 'I try a couple of tools — one for explanation, one for visuals — and see what lands.', archetype: 'experimenter' },
       { text: 'I ask AI to explain it, then test myself by explaining it back without looking.', archetype: 'amplifier' },
+      { text: 'I have a learning system set up that surfaces weak areas and routes me to the right explanation.', archetype: 'architect' },
     ],
   },
   {
@@ -182,6 +165,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I use AI to draft it, then review to make sure it covers the key points.', archetype: 'delegator' },
       { text: 'I try a few AI writing tools to see which builds the strongest argument.', archetype: 'experimenter' },
       { text: 'I develop my argument myself, use AI to challenge it, then write the final essay myself.', archetype: 'amplifier' },
+      { text: 'I use a structured research-to-draft workflow that handles the scaffolding so I can focus on the ideas.', archetype: 'architect' },
     ],
   },
   {
@@ -196,6 +180,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I ask AI to map it out for me and follow what it suggests.', archetype: 'delegator' },
       { text: 'I look for the best AI learning tools for this and try a few to find the right one.', archetype: 'experimenter' },
       { text: 'I define what good looks like, use AI to surface resources and fill gaps, then adapt as I go.', archetype: 'amplifier' },
+      { text: 'I build a personal learning system with spaced repetition, notes, and progress tracking from the start.', archetype: 'architect' },
     ],
   },
   {
@@ -210,6 +195,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I ask AI whether my approach was right and let that shape my response.', archetype: 'delegator' },
       { text: 'I look for other perspectives using a few different tools to build a broader picture.', archetype: 'experimenter' },
       { text: 'I use AI to steelman both sides, then form my own response from that.', archetype: 'amplifier' },
+      { text: 'I run it through my research system to pull in relevant evidence, then make my case.', archetype: 'architect' },
     ],
   },
 
@@ -226,6 +212,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I describe what I need to AI and buy what it recommends.', archetype: 'delegator' },
       { text: 'I use a few comparison tools and see what they each come up with.', archetype: 'experimenter' },
       { text: 'I build my own shortlist first, then use AI to flag anything I might have missed.', archetype: 'amplifier' },
+      { text: 'I have a decision framework set up that I run purchases through automatically.', archetype: 'architect' },
     ],
   },
   {
@@ -240,6 +227,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I quietly ask AI what to say before responding.', archetype: 'delegator' },
       { text: 'I look for a coaching or advice tool that might help me help them better.', archetype: 'experimenter' },
       { text: 'I listen first, form my own view, then later check if I\'m missing any important angles.', archetype: 'amplifier' },
+      { text: 'I think it through myself — this kind of judgment is not something I route through a system.', archetype: 'architect' },
     ],
   },
   {
@@ -254,6 +242,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I give AI my dates and preferences and let it generate the full itinerary.', archetype: 'delegator' },
       { text: 'I compare what a few different AI travel tools come up with.', archetype: 'experimenter' },
       { text: 'I decide what I want the trip to feel like, use AI for logistics, then make the final calls myself.', archetype: 'amplifier' },
+      { text: 'I have a travel planning template that handles the research and logistics automatically.', archetype: 'architect' },
     ],
   },
 
@@ -270,6 +259,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I ask an AI health assistant for a sleep plan and follow it.', archetype: 'delegator' },
       { text: 'I download a few sleep tracking apps and see which one is most useful.', archetype: 'experimenter' },
       { text: 'I track my own patterns for a week, then use AI to suggest specific adjustments.', archetype: 'amplifier' },
+      { text: 'I have a health tracking system that flags anomalies and surfaces recommendations automatically.', archetype: 'architect' },
     ],
   },
   {
@@ -284,6 +274,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I use an AI fitness app that generates my workouts and tracks my adherence.', archetype: 'delegator' },
       { text: 'I try several AI fitness and coaching apps to find one that actually works for me.', archetype: 'experimenter' },
       { text: 'I build the routine myself, then use AI to track and adjust it.', archetype: 'amplifier' },
+      { text: 'I design a system with automated check-ins and adjustments so consistency is built in.', archetype: 'architect' },
     ],
   },
   {
@@ -298,6 +289,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I ask AI to summarize the evidence and tell me whether to change my diet.', archetype: 'delegator' },
       { text: 'I look for several AI-generated summaries and see where they land.', archetype: 'experimenter' },
       { text: 'I use AI to surface related research and counterarguments, then evaluate it myself.', archetype: 'amplifier' },
+      { text: 'I run it through my research pipeline to cross-reference it with what I already track.', archetype: 'architect' },
     ],
   },
 
@@ -314,6 +306,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I describe the project to AI and use whatever it comes up with as my direction.', archetype: 'delegator' },
       { text: 'I try a few AI creative tools — image generators, brainstorming apps — to spark something.', archetype: 'experimenter' },
       { text: 'I rough out my own ideas first, then use AI to expand and pressure-test them.', archetype: 'amplifier' },
+      { text: 'I run the brief through a creative ideation workflow I have set up for exactly this.', archetype: 'architect' },
     ],
   },
   {
@@ -328,6 +321,7 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I use AI to write a draft, then refine it until it sounds like me.', archetype: 'delegator' },
       { text: 'I try different AI writing tools and styles to see what\'s interesting.', archetype: 'experimenter' },
       { text: 'I write a rough draft myself to capture my voice, then use AI to sharpen specific sections.', archetype: 'amplifier' },
+      { text: 'I use a structured creative pipeline that handles research and drafting so I can focus on the ideas.', archetype: 'architect' },
     ],
   },
   {
@@ -342,6 +336,39 @@ const BEHAVIOR_QUESTIONS = [
       { text: 'I use AI to get it done. The deadline matters more than the process right now.', archetype: 'delegator' },
       { text: 'I find a tool built for fast creative output and use that.', archetype: 'experimenter' },
       { text: 'I nail down the core idea quickly myself, then use AI to help execute it efficiently.', archetype: 'amplifier' },
+      { text: 'I trigger a rapid-output workflow I built for exactly this kind of deadline scenario.', archetype: 'architect' },
+    ],
+  },
+
+  // ── Architect-specific behavior questions ────────────────────────────────────
+  {
+    id: 'arch_1',
+    layer: 'behavior',
+    domains: ['Work & Productivity'],
+    context: null,
+    situation: 'You notice you are doing the same AI-assisted task every week.',
+    question: 'What do you do?',
+    answers: [
+      { text: 'I keep doing it manually. Repetition builds familiarity.', archetype: 'skeptic' },
+      { text: 'I ask AI to do it for me each time. It is faster that way.', archetype: 'delegator' },
+      { text: 'I look for a tool that might automate it and test a few options.', archetype: 'experimenter' },
+      { text: 'I refine how I do it each time to get better results.', archetype: 'amplifier' },
+      { text: 'I build a workflow or agent to handle it automatically.', archetype: 'architect' },
+    ],
+  },
+  {
+    id: 'arch_2',
+    layer: 'behavior',
+    domains: ['Work & Productivity'],
+    context: null,
+    situation: 'A colleague asks how you use AI so effectively.',
+    question: 'What do you tell them?',
+    answers: [
+      { text: 'I explain that I use it sparingly and only when it genuinely helps.', archetype: 'skeptic' },
+      { text: 'I show them which tools I use and how to get quick results.', archetype: 'delegator' },
+      { text: 'I share the latest tools I have been trying and what I found.', archetype: 'experimenter' },
+      { text: 'I explain my thinking process for when and why I involve AI.', archetype: 'amplifier' },
+      { text: 'I walk them through the systems and automations I have set up.', archetype: 'architect' },
     ],
   },
 ]
@@ -365,10 +392,8 @@ function shuffle(arr) {
 }
 
 export function selectQuestions(context, selectedDomains) {
-  const perceptionQs = PERCEPTION_QUESTIONS.map(q => ({
-    ...q,
-    answers: shuffle([...q.answers]),
-  }))
+  // Likert perception questions — no answer shuffling needed
+  const perceptionQs = PERCEPTION_QUESTIONS.map(q => ({ ...q }))
 
   const behaviorEligible = BEHAVIOR_QUESTIONS.filter(q => {
     const domainMatch = q.domains.some(d => selectedDomains.includes(d))
