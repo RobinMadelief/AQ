@@ -73,7 +73,7 @@ export default function LandingPage({ onStart }) {
         {/* Framing card */}
         <div className="max-w-[600px] w-full mx-auto mb-12 p-8 sm:p-10 text-left bg-white" style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}>
           <p className="leading-relaxed text-sm sm:text-base" style={{ color: '#5f5e5a' }}>
-            AI is changing how people work, learn, and think. This assessment helps you understand where you stand and where you could go. Fifteen questions. A personal profile. No right answers.
+            AI is changing how people work, learn, and think. This assessment helps you understand where you stand and where you could go. Fifteen questions. One personal profile. No right answers.
           </p>
         </div>
 
