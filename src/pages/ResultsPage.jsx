@@ -114,11 +114,11 @@ const LEARNING_RESOURCES = {
       url: 'https://zapier.com/blog/how-to-create-ai-agents',
     },
     {
-      type: 'Course',
-      title: 'Claude 101',
-      author: 'Anthropic Academy',
-      why: 'Learn to use AI purposefully rather than just efficiently.',
-      url: 'https://anthropic.skilljar.com/claude-101',
+      type: 'Tool',
+      title: 'Try vibe coding',
+      author: 'Lovable',
+      why: 'Describe what you want to build and watch it appear. Free to start, no coding required. This is what intentional delegation looks like.',
+      url: 'https://lovable.dev',
     },
   ],
   experimenter: [
