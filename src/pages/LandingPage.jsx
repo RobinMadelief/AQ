@@ -14,7 +14,7 @@ export default function LandingPage({ onStart }) {
       {/* ── Nav ────────────────────────────────────────────────────────────── */}
       <header className="bg-white px-6 sm:px-10 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid #e8e8e4' }}>
         <div className="flex items-center gap-3">
-          <span className="font-semibold tracking-tight" style={{ color: '#1a3a2a', fontSize: 18 }}>Archetypes.ai</span>
+          <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 18, color: '#1a3a2a' }}>Archetypes.ai</span>
         </div>
         <span className="text-xs hidden sm:block tracking-wide" style={{ color: '#888780' }}>~10 min · Free</span>
       </header>
@@ -29,17 +29,36 @@ export default function LandingPage({ onStart }) {
 
         {/* Tagline */}
         <h2
-          className="max-w-2xl mx-auto mb-12"
+          className="max-w-2xl mx-auto"
           style={{
-            fontSize: 'clamp(52px, 6vw, 60px)',
-            lineHeight: 1.15,
-            letterSpacing: '0.015em',
+            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontSize: 'clamp(36px, 6vw, 58px)',
+            fontWeight: 400,
+            fontStyle: 'italic',
+            lineHeight: 1.1,
+            letterSpacing: '-0.8px',
             color: '#0a1a10',
+            marginBottom: 14,
           }}
         >
-          <span style={{ fontWeight: 300, fontStyle: 'italic' }}>Discover your </span>
-          <span style={{ fontWeight: 500 }}>AI personality.</span>
+          Discover your AI personality.
         </h2>
+
+        <p
+          className="max-w-2xl mx-auto"
+          style={{
+            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontSize: 15,
+            fontWeight: 400,
+            fontStyle: 'normal',
+            lineHeight: 1.6,
+            letterSpacing: '0.04em',
+            color: '#5a7a66',
+            marginBottom: 28,
+          }}
+        >
+          Know your type. Grow with AI.
+        </p>
 
         {/* Framing card */}
         <div className="max-w-2xl w-full mx-auto mb-12 p-8 sm:p-10 text-left bg-white" style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}>
