@@ -81,7 +81,7 @@ export function computeResults(answers, selectedDomains) {
         beliefLabel: beliefName,
         behaviorLabel: behaviorName,
         headline: `You think like ${beliefName}. But you act like ${behaviorName}.`,
-        subtext: 'The gap between how you think about AI and how you actually use it is the core insight of your AQ profile.',
+        subtext: 'The gap between how you think about AI and how you actually use it is the core insight of your Archetypes.ai profile.',
       }
 
   // Domain scores (amplifier-alignment %) — used in next steps selection

@@ -80,7 +80,7 @@ const LEARNING_RESOURCES = {
       type: 'Article',
       title: 'Get started with Claude',
       author: 'Anthropic',
-      why: 'Perfect if you have never tried AI seriously. Start here.',
+      why: 'The simplest way to take your first real step with AI.',
       url: 'https://support.claude.com/en/articles/8114491-get-started-with-claude',
     },
     {
@@ -88,7 +88,7 @@ const LEARNING_RESOURCES = {
       title: 'Elements of AI',
       author: 'University of Helsinki',
       why: 'No math, no coding, no overwhelm. Just a clear introduction to what AI actually is.',
-      url: 'https://www.elementsofai.com',
+      url: 'https://elementsofai.com',
     },
     {
       type: 'Guide',
@@ -100,6 +100,13 @@ const LEARNING_RESOURCES = {
   ],
   delegator: [
     {
+      type: 'Tool',
+      title: 'Try vibe coding',
+      author: 'Lovable',
+      why: 'Describe what you want to build and watch it appear. Free to start, no coding required. This is what intentional delegation looks like.',
+      url: 'https://lovable.dev',
+    },
+    {
       type: 'Tutorial',
       title: 'Prompt Engineering Interactive Tutorial',
       author: 'Anthropic',
@@ -108,17 +115,10 @@ const LEARNING_RESOURCES = {
     },
     {
       type: 'Guide',
-      title: 'How to create AI agents',
-      author: 'Zapier',
-      why: 'Build your first real agent using tools you already use at work. Free tier available.',
-      url: 'https://zapier.com/blog/how-to-create-ai-agents',
-    },
-    {
-      type: 'Tool',
-      title: 'Try vibe coding',
-      author: 'Lovable',
-      why: 'Describe what you want to build and watch it appear. Free to start, no coding required. This is what intentional delegation looks like.',
-      url: 'https://lovable.dev',
+      title: 'Learn Prompting',
+      author: 'LearnPrompting.org',
+      why: 'Free, open source, cited by OpenAI and Google. The practical guide to getting better results from any AI tool.',
+      url: 'https://learnprompting.org',
     },
   ],
   experimenter: [
@@ -130,21 +130,28 @@ const LEARNING_RESOURCES = {
       url: 'https://anthropic.skilljar.com/introduction-to-agent-skills',
     },
     {
-      type: 'Guide',
-      title: 'Anthropic Prompt Engineering documentation',
-      author: 'Anthropic',
-      why: 'The framework that turns curiosity into mastery.',
-      url: 'https://docs.claude.com',
+      type: 'Course',
+      title: 'AI Agents Course',
+      author: 'Hugging Face',
+      why: 'Free, hands-on, community-driven. Build real agents with LlamaIndex and LangGraph.',
+      url: 'https://huggingface.co/learn/agents-course',
     },
     {
       type: 'Tutorial',
       title: 'Getting started with n8n',
       author: 'n8n',
-      why: 'Build your first real workflow agent using a free open-source tool. More powerful than Zapier, no deep coding required.',
+      why: 'Pick one use case and build one agent. Go deep for 30 days.',
       url: 'https://n8n.io/get-started',
     },
   ],
   amplifier: [
+    {
+      type: 'Guide',
+      title: 'Lovable Agent Mode',
+      author: 'Lovable',
+      why: 'Build full apps autonomously. The tool that turns your vision into a working product with minimal hand-holding.',
+      url: 'https://docs.lovable.dev/features/agent-mode',
+    },
     {
       type: 'Guide',
       title: 'Building Effective Agents',
@@ -153,18 +160,11 @@ const LEARNING_RESOURCES = {
       url: 'https://www.anthropic.com/research/building-effective-agents',
     },
     {
-      type: 'Tutorial',
-      title: 'Build AI agents with n8n',
-      author: 'n8n',
-      why: 'The tool serious builders use. Open-source, self-hostable, and powerful enough to orchestrate real multi-step agents.',
-      url: 'https://n8n.io/get-started',
-    },
-    {
       type: 'Course',
-      title: 'Introduction to Agent Skills',
-      author: 'Anthropic',
-      why: 'Advanced agent orchestration for people who already use AI well.',
-      url: 'https://anthropic.skilljar.com/introduction-to-agent-skills',
+      title: 'MCP Course',
+      author: 'Hugging Face',
+      why: 'Free, cutting edge, and genuinely advanced. Build a production-ready application with Anthropic, Slack, and GitHub integration.',
+      url: 'https://huggingface.co/mcp-course',
     },
   ],
 }
@@ -393,7 +393,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
       <header className="bg-white sticky top-0 z-20 px-6 py-4" style={{ borderBottom: '1px solid #e8e8e4' }}>
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <span className="font-semibold tracking-tight" style={{ color: '#1a3a2a', fontSize: 18 }}>AQ</span>
+            <span className="font-semibold tracking-tight" style={{ color: '#1a3a2a', fontSize: 18 }}>Archetypes.ai</span>
             <span className="font-medium text-sm" style={{ color: '#888780' }}>Your Results</span>
           </div>
           <button onClick={onRestart} className="btn-secondary text-sm py-2 px-4">

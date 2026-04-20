@@ -14,8 +14,7 @@ export default function LandingPage({ onStart }) {
       {/* ── Nav ────────────────────────────────────────────────────────────── */}
       <header className="bg-white px-6 sm:px-10 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid #e8e8e4' }}>
         <div className="flex items-center gap-3">
-          <span className="font-semibold tracking-tight" style={{ color: '#1a3a2a', fontSize: 18 }}>AQ</span>
-          <span className="text-xs hidden sm:block" style={{ color: '#888780' }}>AI Quotient</span>
+          <span className="font-semibold tracking-tight" style={{ color: '#1a3a2a', fontSize: 18 }}>Archetypes.ai</span>
         </div>
         <span className="text-xs hidden sm:block tracking-wide" style={{ color: '#888780' }}>~10 min · Free</span>
       </header>
@@ -24,20 +23,16 @@ export default function LandingPage({ onStart }) {
       <div className="px-6 sm:px-10 py-20 flex flex-col items-center text-center" style={{ backgroundColor: '#f7f9f7', borderBottom: '1px solid #dde8e0' }}>
 
         {/* Wordmark */}
-        <h1 className="font-black leading-none tracking-tighter mb-3" style={{ fontSize: 'clamp(72px, 14vw, 120px)', color: '#0a1a10' }}>
-          AQ
+        <h1 className="font-black leading-none tracking-tighter mb-10" style={{ fontSize: 'clamp(48px, 10vw, 96px)', color: '#0a1a10' }}>
+          Archetypes.ai
         </h1>
-        <p className="font-light tracking-[0.25em] uppercase mb-10 italic" style={{ fontSize: '1.1rem', color: '#5a7a66' }}>
-          AI Quotient
-        </p>
 
         {/* Tagline */}
-        <p className="max-w-xl mx-auto leading-relaxed mb-4" style={{ fontSize: '1rem', color: '#5f5e5a' }}>
-          IQ measures how you think.{' '}
-          EQ measures how you connect.
+        <p className="max-w-xl mx-auto font-semibold leading-relaxed mb-2" style={{ fontSize: '1.25rem', color: '#0a1a10' }}>
+          Discover your AI personality.
         </p>
-        <p className="max-w-xl mx-auto font-semibold leading-relaxed mb-12" style={{ fontSize: '1rem', color: '#0a1a10' }}>
-          AQ measures how you grow with AI.
+        <p className="max-w-xl mx-auto leading-relaxed mb-12" style={{ fontSize: '1rem', color: '#5f5e5a' }}>
+          Know your type. Grow with AI.
         </p>
 
         {/* Framing card */}
