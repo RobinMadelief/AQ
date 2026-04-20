@@ -1,26 +1,29 @@
 import ArchetypeIllustration from '../components/ArchetypeIllustration.jsx'
 
 const ARCHETYPE_PREVIEWS = [
-  { id: 'skeptic',      label: 'The Skeptic',      quote: '"I\'d rather do it myself."' },
-  { id: 'delegator',   label: 'The Delegator',    quote: '"Why do it myself if AI can?"' },
-  { id: 'experimenter',label: 'The Experimenter',  quote: '"Have you tried this new tool?"' },
-  { id: 'amplifier',   label: 'The Amplifier',    quote: '"AI helps me be more of who I am."' },
+  { id: 'skeptic',       label: 'The Skeptic',      quote: '"I\'d rather do it myself."' },
+  { id: 'delegator',    label: 'The Delegator',    quote: '"Why do it myself if AI can?"' },
+  { id: 'experimenter', label: 'The Experimenter', quote: '"Have you tried this new tool?"' },
+  { id: 'amplifier',    label: 'The Amplifier',    quote: '"AI helps me be more of who I am."' },
 ]
 
 export default function LandingPage({ onStart }) {
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#fafaf8' }}>
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#6B1020' }}>
 
-      {/* ── Nav ────────────────────────────────────────────────────────────── */}
-      <header className="bg-white px-6 sm:px-10 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid #e8e8e4' }}>
-        <div className="flex items-center gap-3">
-          <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 16, color: '#1a3a2a' }}>Archetypes.ai</span>
-        </div>
-        <span className="text-xs hidden sm:block tracking-wide" style={{ color: '#888780' }}>~10 min · Free</span>
+      {/* ── Nav ─────────────────────────────────────────────────────────────── */}
+      <header
+        className="px-6 sm:px-10 py-4 flex items-center justify-between"
+        style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
+      >
+        <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 16, color: '#ffffff' }}>
+          Archetypes.ai
+        </span>
+        <span className="text-xs hidden sm:block tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>~10 min · Free</span>
       </header>
 
-      {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <div className="px-6 sm:px-10 py-20 flex flex-col items-center text-center" style={{ backgroundColor: '#f7f9f7', borderBottom: '1px solid #dde8e0' }}>
+      {/* ── Hero ────────────────────────────────────────────────────────────── */}
+      <div className="px-6 sm:px-10 py-20 flex flex-col items-center text-center">
 
         {/* Primary heading */}
         <h1
@@ -32,7 +35,7 @@ export default function LandingPage({ onStart }) {
             fontStyle: 'italic',
             lineHeight: 1.1,
             letterSpacing: '-0.8px',
-            color: '#0a1a10',
+            color: '#ffffff',
             marginBottom: 18,
           }}
         >
@@ -46,7 +49,7 @@ export default function LandingPage({ onStart }) {
             fontSize: 26,
             fontStyle: 'italic',
             lineHeight: 1.3,
-            color: '#2c2c2a',
+            color: '#ffffff',
             marginBottom: 14,
           }}
         >
@@ -60,45 +63,45 @@ export default function LandingPage({ onStart }) {
             fontFamily: "Georgia, 'Times New Roman', serif",
             fontSize: 15,
             fontWeight: 400,
-            fontStyle: 'normal',
             lineHeight: 1.3,
             letterSpacing: '0.04em',
-            color: '#5a7a66',
+            color: 'rgba(255,255,255,0.9)',
             marginBottom: 28,
           }}
         >
           Know your type. Grow with AI.
         </p>
 
-        {/* Framing card */}
-        <div className="max-w-[600px] w-full mx-auto mb-12 p-8 sm:p-10 text-left bg-white" style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}>
-          <p className="leading-relaxed text-sm sm:text-base" style={{ color: '#5f5e5a' }}>
-            AI is changing how people work, learn, and think. This assessment helps you understand where you stand and where you could go. Fifteen questions. One personal profile. No right answers.
-          </p>
-        </div>
+        {/* Divider between subtitle and intro */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', maxWidth: 480, width: '100%', marginBottom: 28 }} />
+
+        {/* Intro text — no box */}
+        <p
+          className="max-w-[480px] mx-auto text-sm sm:text-base leading-relaxed"
+          style={{ color: 'rgba(255,255,255,0.82)', marginBottom: 36 }}
+        >
+          AI is changing how people work, learn, and think. This assessment helps you understand where you stand and where you could go. Fifteen questions. One personal profile. No right answers.
+        </p>
 
         {/* CTA */}
         <div className="flex flex-col items-center gap-4">
-          <button
-            onClick={onStart}
-            className="btn-primary"
-          >
+          <button onClick={onStart} className="btn-landing">
             Start Assessment
-            <svg className="ml-2.5 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <svg className="ml-2.5 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </button>
-          <p className="text-xs tracking-wide" style={{ color: '#888780' }}>No account required · Results stay on your device</p>
+          <p className="text-xs tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>No account required · Results stay on your device</p>
         </div>
       </div>
 
-      {/* ── Four Archetypes ────────────────────────────────────────────────── */}
-      <section className="px-6 sm:px-10 py-16" style={{ backgroundColor: '#fafaf8' }}>
+      {/* ── Four Archetypes ──────────────────────────────────────────────────── */}
+      <section className="px-6 sm:px-10 py-16">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <div className="section-label justify-center mb-3">What you'll discover</div>
-            <h2 className="font-bold mb-3" style={{ fontSize: '1.5rem', color: '#1a3a2a' }}>Four archetypes. One honest mirror.</h2>
-            <p className="max-w-lg mx-auto text-sm sm:text-base leading-relaxed" style={{ color: '#888780' }}>
+            <h2 className="font-bold mb-3" style={{ fontSize: '1.5rem', color: '#ffffff' }}>Four archetypes. One honest mirror.</h2>
+            <p className="max-w-lg mx-auto text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
               Your answers reveal not just which archetype you are, but the gap between how you think about AI and how you actually use it.
             </p>
           </div>
@@ -107,36 +110,36 @@ export default function LandingPage({ onStart }) {
             {ARCHETYPE_PREVIEWS.map(a => (
               <div
                 key={a.id}
-                className="flex flex-col items-center text-center gap-4 p-6 bg-white"
-                style={{ border: '1px solid #e8e8e4', borderRadius: 4 }}
+                className="flex flex-col items-center text-center gap-4 p-6"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4 }}
               >
                 <ArchetypeIllustration archetypeId={a.id} size={72} />
                 <div>
-                  <p className="font-semibold text-sm mb-1" style={{ color: '#1a3a2a' }}>{a.label}</p>
-                  <p className="text-xs font-medium leading-relaxed" style={{ color: '#888780' }}>{a.quote}</p>
+                  <p className="font-semibold text-sm mb-1" style={{ color: '#ffffff' }}>{a.label}</p>
+                  <p className="text-xs font-medium leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)' }}>{a.quote}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Bottom strip */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-10" style={{ borderTop: '1px solid #e8e8e4' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-10" style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
             <div className="flex items-center gap-6 flex-wrap justify-center sm:justify-start">
               {['4 archetypes', '15 scenarios', 'Domain-adapted results', 'Belief vs. behavior gap'].map(item => (
-                <span key={item} className="flex items-center gap-1.5 text-xs" style={{ color: '#888780' }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#2d9e5f', display: 'inline-block' }} />
+                <span key={item} className="flex items-center gap-1.5 text-xs" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.4)', display: 'inline-block' }} />
                   {item}
                 </span>
               ))}
             </div>
             <button
               onClick={onStart}
-              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-              style={{ color: '#2d9e5f' }}
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
+              style={{ color: 'rgba(255,255,255,0.85)' }}
             >
               Begin the assessment
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </button>
           </div>

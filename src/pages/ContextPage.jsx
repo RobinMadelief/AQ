@@ -34,12 +34,12 @@ const OPTIONS = [
 
 export default function ContextPage({ onSelect }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16" style={{ backgroundColor: '#fafaf8' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16" style={{ backgroundColor: '#6B1020' }}>
       <div className="max-w-2xl w-full">
         <div className="mb-10 text-center">
           <div className="section-label justify-center mb-3">Step 1 of 2</div>
-          <h2 className="text-3xl font-bold mb-3" style={{ color: '#1a3a2a' }}>What describes you best?</h2>
-          <p className="leading-relaxed" style={{ color: '#888780' }}>
+          <h2 className="text-3xl font-bold mb-3" style={{ color: '#ffffff' }}>What describes you best?</h2>
+          <p className="leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
             This shapes which scenarios are most relevant to your life.
           </p>
         </div>
@@ -49,20 +49,20 @@ export default function ContextPage({ onSelect }) {
             <button
               key={opt.id}
               onClick={() => onSelect(opt.id)}
-              className="w-full text-left p-6 flex items-start gap-5 group bg-white transition-all duration-200"
-              style={{ border: '1px solid #e8e8e4', borderRadius: 4, cursor: 'pointer' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#2d9e5f' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#e8e8e4' }}
+              className="w-full text-left p-6 flex items-start gap-5 transition-all duration-200"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 4, cursor: 'pointer' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
             >
               <div
-                className="flex-shrink-0 w-12 h-12 flex items-center justify-center transition-colors duration-200"
-                style={{ borderRadius: 4, backgroundColor: '#f5f5f3', color: '#888780' }}
+                className="flex-shrink-0 w-12 h-12 flex items-center justify-center"
+                style={{ borderRadius: 4, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.6)' }}
               >
                 {opt.icon}
               </div>
               <div>
-                <div className="font-semibold mb-1" style={{ color: '#1a3a2a' }}>{opt.label}</div>
-                <div className="text-sm leading-relaxed" style={{ color: '#888780' }}>{opt.description}</div>
+                <div className="font-semibold mb-1" style={{ color: '#ffffff' }}>{opt.label}</div>
+                <div className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{opt.description}</div>
               </div>
             </button>
           ))}

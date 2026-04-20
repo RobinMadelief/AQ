@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
   ResponsiveContainer, Tooltip,
@@ -11,10 +11,10 @@ function RadarTooltip({ active, payload }) {
   if (!active || !payload?.length) return null
   const { subject } = payload[0].payload
   return (
-    <div className="px-4 py-3 text-xs" style={{ backgroundColor: '#1a3a2a', border: '1px solid #e8e8e4', borderRadius: 4 }}>
-      <p className="font-semibold text-white mb-2">{subject}</p>
+    <div className="px-4 py-3 text-xs" style={{ background: 'rgba(0,0,0,0.7)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 4 }}>
+      <p className="font-semibold mb-2" style={{ color: '#ffffff' }}>{subject}</p>
       {payload.map(p => (
-        <p key={p.name} style={{ color: p.color }} className="font-medium">
+        <p key={p.name} className="font-medium" style={{ color: p.color }}>
           {p.name}: {p.value}%
         </p>
       ))}
@@ -27,12 +27,12 @@ function RadarLegend() {
   return (
     <div className="flex items-center justify-center gap-6 mt-4">
       <div className="flex items-center gap-2">
-        <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#2d9e5f' }} />
-        <span className="text-xs font-medium" style={{ color: '#888780' }}>How you think</span>
+        <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#ffffff' }} />
+        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>How you think</span>
       </div>
       <div className="flex items-center gap-2">
-        <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#1a3a2a' }} />
-        <span className="text-xs font-medium" style={{ color: '#888780' }}>How you act</span>
+        <div style={{ width: 12, height: 2, backgroundColor: 'rgba(255,255,255,0.5)' }} />
+        <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>How you act</span>
       </div>
     </div>
   )
@@ -41,10 +41,7 @@ function RadarLegend() {
 // ── Animated section wrapper ──────────────────────────────────────────────────
 function RevealSection({ children, delay = 0, className = '' }) {
   return (
-    <div
-      className={`opacity-anim-start animate-fade-up ${className}`}
-      style={{ animationDelay: `${delay}ms` }}
-    >
+    <div className={`opacity-anim-start animate-fade-up ${className}`} style={{ animationDelay: `${delay}ms` }}>
       {children}
     </div>
   )
@@ -55,20 +52,22 @@ function ArchetypeCompactCard({ a, isYou, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="flex flex-col items-center p-5 text-center cursor-pointer transition-all duration-150 w-full bg-white"
+      className="flex flex-col items-center p-5 text-center cursor-pointer transition-all duration-150 w-full"
       style={isYou
-        ? { borderRadius: 4, border: '1px solid #e8e8e4', borderLeft: '3px solid #2d9e5f', backgroundColor: '#f7fbf8' }
-        : { borderRadius: 4, border: '1px solid #e8e8e4' }
+        ? { borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', borderLeft: '3px solid rgba(255,255,255,0.6)', background: 'rgba(255,255,255,0.1)' }
+        : { borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }
       }
+      onMouseEnter={e => { if (!isYou) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)' }}
+      onMouseLeave={e => { if (!isYou) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}
     >
       {isYou && (
-        <p className="text-[9px] uppercase font-semibold mb-1" style={{ letterSpacing: '0.12em', color: '#2d9e5f' }}>
+        <p className="text-[9px] uppercase font-semibold mb-1" style={{ letterSpacing: '0.12em', color: 'rgba(255,255,255,0.6)' }}>
           your result
         </p>
       )}
       <ArchetypeIllustration archetypeId={a.id} size={72} />
-      <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#1a3a2a' }}>{a.name}</h3>
-      <p className="text-xs italic leading-relaxed" style={{ color: '#888780' }}>{a.tagline}</p>
+      <h3 className="font-bold text-sm mt-3 mb-2" style={{ color: '#ffffff' }}>{a.name}</h3>
+      <p className="text-xs italic leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{a.tagline}</p>
     </button>
   )
 }
@@ -103,7 +102,7 @@ const LEARNING_RESOURCES = {
       type: 'Tool',
       title: 'Try vibe coding',
       author: 'Lovable',
-      why: 'Describe what you want to build and watch it appear. Free to start, no coding required. This is what intentional delegation looks like.',
+      why: 'Describe what you want to build and watch it appear. Free to start, no coding required.',
       url: 'https://lovable.dev',
     },
     {
@@ -149,7 +148,7 @@ const LEARNING_RESOURCES = {
       type: 'Guide',
       title: 'Lovable Agent Mode',
       author: 'Lovable',
-      why: 'Build full apps autonomously. The tool that turns your vision into a working product with minimal hand-holding.',
+      why: 'Build full apps autonomously. The tool that turns your vision into a working product.',
       url: 'https://docs.lovable.dev/features/agent-mode',
     },
     {
@@ -206,37 +205,44 @@ function YourTimeSection({ archetypeId }) {
 
   return (
     <div className="py-8">
-      <div className="bg-white px-6 sm:px-8 py-8" style={{ borderRadius: 4, border: '1px solid #e8e8e4' }}>
+      <div className="px-6 sm:px-8 py-8" style={{ borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
         <div className="section-label mb-5">Your time, your way</div>
-        <p className="text-sm sm:text-base leading-relaxed mb-4" style={{ color: '#5f5e5a' }}>
+        <p className="text-sm sm:text-base leading-relaxed mb-4" style={{ color: 'rgba(255,255,255,0.82)' }}>
           Research shows AI saves the average knowledge worker around an hour a day. But the people who feel that most are the ones who use it on their own terms.
         </p>
-        <p className="text-sm sm:text-base leading-relaxed mb-6" style={{ color: '#5f5e5a' }}>
+        <p className="text-sm sm:text-base leading-relaxed mb-6" style={{ color: 'rgba(255,255,255,0.82)' }}>
           {data.humanMoment}
         </p>
-        <p className="text-sm sm:text-base leading-relaxed mb-5" style={{ color: '#1a3a2a' }}>
+        <p className="text-sm sm:text-base leading-relaxed mb-5" style={{ color: '#ffffff' }}>
           Most people in your position reclaim around{' '}
           <span className="font-semibold">{yearlyHours} hours</span> a year. What would you do with yours?
         </p>
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="text-sm" style={{ color: '#5f5e5a' }}>Adjust based on your situation:</span>
+          <span className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>Adjust based on your situation:</span>
           <input
             type="number"
             min={0}
             value={weeklyHours}
             onChange={e => handleChange(e.target.value)}
             className="w-16 text-center text-sm font-medium"
-            style={{ border: '1px solid #e8e8e4', borderRadius: 4, padding: '4px 8px', color: '#1a3a2a', outline: 'none' }}
+            style={{
+              border: '1px solid rgba(255,255,255,0.25)',
+              borderRadius: 4,
+              padding: '4px 8px',
+              color: '#ffffff',
+              background: 'rgba(255,255,255,0.1)',
+              outline: 'none',
+            }}
           />
-          <span className="text-sm" style={{ color: '#5f5e5a' }}>hours per week using AI</span>
+          <span className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>hours per week using AI</span>
         </div>
-        <p className="text-xs" style={{ color: '#888780' }}>Based on Federal Reserve and Adecco research, 2024.</p>
+        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.35)' }}>Based on Federal Reserve and Adecco research, 2024.</p>
       </div>
     </div>
   )
 }
 
-// ── Full expanded archetype card for the explore section ──────────────────────
+// ── Full expanded archetype card ──────────────────────────────────────────────
 function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
   const nextSteps = (() => {
     if (isYou && selectedDomains?.length) {
@@ -251,47 +257,47 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
 
   return (
     <div
-      className="bg-white overflow-hidden mt-4"
+      className="overflow-hidden mt-4"
       style={isYou
-        ? { borderRadius: 4, border: '1px solid #e8e8e4', borderLeft: '3px solid #2d9e5f' }
-        : { borderRadius: 4, border: '1px solid #e8e8e4' }
+        ? { borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', borderLeft: '3px solid rgba(255,255,255,0.6)', background: 'rgba(255,255,255,0.04)' }
+        : { borderRadius: 4, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }
       }
     >
       {/* Header */}
-      <div className="px-6 sm:px-8 py-8 bg-white" style={{ borderBottom: '1px solid #e8e8e4' }}>
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="flex-shrink-0">
             <ArchetypeIllustration archetypeId={a.id} size={96} />
           </div>
           <div className="flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: '#888780' }}>
+            <p className="text-xs font-semibold uppercase tracking-widest mb-1.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
               {isYou ? 'Your Archetype' : 'Archetype'}
             </p>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-1" style={{ color: '#0a1a10' }}>{a.name}</h2>
-            <p className="text-base font-medium italic mb-4" style={{ color: '#5a7a66' }}>{a.tagline}</p>
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: '#5f5e5a' }}>{a.intro}</p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-1" style={{ color: '#ffffff' }}>{a.name}</h2>
+            <p className="text-base font-medium italic mb-4" style={{ color: 'rgba(255,255,255,0.9)' }}>{a.tagline}</p>
+            <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{a.intro}</p>
           </div>
         </div>
       </div>
 
       {/* Quote */}
-      <div className="px-6 sm:px-8 py-6" style={{ borderBottom: '1px solid #e8e8e4' }}>
+      <div className="px-6 sm:px-8 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
         <blockquote
           className="text-lg sm:text-xl font-medium italic pl-5 leading-relaxed"
-          style={{ color: '#5f5e5a', borderLeft: '3px solid #2d9e5f' }}
+          style={{ color: 'rgba(255,255,255,0.82)', borderLeft: '3px solid rgba(255,255,255,0.4)' }}
         >
           {a.quote}
         </blockquote>
       </div>
 
       {/* Strengths + Blind Spot */}
-      <div className="px-6 sm:px-8 py-8 grid sm:grid-cols-2 gap-8" style={{ borderBottom: '1px solid #e8e8e4' }}>
+      <div className="px-6 sm:px-8 py-8 grid sm:grid-cols-2 gap-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
         <div>
           <div className="section-label mb-5">Strengths</div>
           <ul className="space-y-3.5">
             {a.strengths.map((s, i) => (
-              <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: '#5f5e5a' }}>
-                <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: '#2d9e5f', display: 'block' }} />
+              <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
                 {s}
               </li>
             ))}
@@ -299,23 +305,23 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
         </div>
         <div>
           <div className="section-label mb-5">Blind Spot</div>
-          <p className="text-sm leading-relaxed" style={{ color: '#5f5e5a' }}>{a.blindSpot}</p>
+          <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{a.blindSpot}</p>
         </div>
       </div>
 
       {/* Next Steps */}
-      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid #e8e8e4', backgroundColor: '#fafaf8' }}>
+      <div className="px-6 sm:px-8 py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.12)', background: 'rgba(0,0,0,0.1)' }}>
         <div className="section-label mb-1.5">Next Steps</div>
         {isYou && selectedDomains?.length > 0 && (
-          <p className="text-xs mb-5" style={{ color: '#888780' }}>Tailored to your selected domains: {selectedDomains.join(', ')}</p>
+          <p className="text-xs mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>Tailored to your selected domains: {selectedDomains.join(', ')}</p>
         )}
         {(!isYou || !selectedDomains?.length) && <div className="mb-5" />}
         <ol className="space-y-4">
           {nextSteps.map((step, i) => (
-            <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: '#5f5e5a' }}>
+            <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
               <span
-                className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-xs font-bold text-white"
-                style={{ borderRadius: 4, backgroundColor: '#2d9e5f' }}
+                className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-xs font-bold"
+                style={{ borderRadius: 4, backgroundColor: '#ffffff', color: '#6B1020' }}
               >
                 {i + 1}
               </span>
@@ -329,7 +335,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
       {resources.length > 0 && (
         <div className="px-6 sm:px-8 py-8">
           <div className="section-label mb-5">Learning Path</div>
-          <div style={{ borderTop: '1px solid #e8e8e4' }}>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}>
             {resources.map((r, i) => (
               <a
                 key={i}
@@ -337,20 +343,20 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block group py-4"
-                style={{ borderBottom: '1px solid #e8e8e4' }}
+                style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
               >
                 <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 text-xs font-bold uppercase tracking-wide mt-0.5" style={{ color: '#2d9e5f' }}>
+                  <span className="flex-shrink-0 text-xs font-bold uppercase tracking-wide mt-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>
                     {r.type}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm leading-snug" style={{ color: '#1a3a2a' }}>
+                    <p className="font-semibold text-sm leading-snug" style={{ color: '#ffffff' }}>
                       {r.title}
-                      <span className="font-normal" style={{ color: '#888780' }}> by {r.author}</span>
+                      <span className="font-normal" style={{ color: 'rgba(255,255,255,0.45)' }}> by {r.author}</span>
                     </p>
-                    <p className="text-xs mt-1 leading-relaxed" style={{ color: '#888780' }}>{r.why}</p>
+                    <p className="text-xs mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{r.why}</p>
                   </div>
-                  <svg className="flex-shrink-0 w-4 h-4 mt-0.5" style={{ color: '#e8e8e4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="flex-shrink-0 w-4 h-4 mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 </div>
@@ -363,18 +369,60 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
   )
 }
 
+// ── Share card (off-screen, captured by html2canvas) ─────────────────────────
+function ShareCard({ cardRef, archetype, gapCallout }) {
+  return (
+    <div
+      ref={cardRef}
+      style={{
+        position: 'fixed',
+        left: -9999,
+        top: 0,
+        width: 540,
+        height: 540,
+        backgroundColor: '#6B1020',
+        padding: 60,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        fontFamily: "'Inter', system-ui, sans-serif",
+        boxSizing: 'border-box',
+      }}
+    >
+      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', fontSize: 18, fontWeight: 400 }}>
+        Archetypes.ai
+      </div>
+      <div>
+        <div style={{ color: '#ffffff', fontSize: 60, fontWeight: 800, lineHeight: 1.05, marginBottom: 24, letterSpacing: '-1px' }}>
+          {archetype.name}
+        </div>
+        <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: 17, fontStyle: 'italic', lineHeight: 1.55, marginBottom: 24 }}>
+          "{archetype.quote}"
+        </div>
+        {gapCallout.headline && (
+          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.5 }}>
+            {gapCallout.headline}
+          </div>
+        )}
+      </div>
+      <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12, letterSpacing: '0.04em' }}>
+        archetypes.ai
+      </div>
+    </div>
+  )
+}
+
 // ── Main ResultsPage ──────────────────────────────────────────────────────────
 export default function ResultsPage({ results, selectedDomains, onRestart }) {
   const [selectedArchetype, setSelectedArchetype] = useState(null)
+  const [shareStatus, setShareStatus] = useState(null)
+  const [pdfStatus, setPdfStatus] = useState(null)
+  const shareCardRef = useRef(null)
 
   const {
     archetype,
-    beliefCounts,
-    behaviorCounts,
     archetypeRadarData,
     gapCallout,
-    beliefArchetype,
-    behaviorArchetype,
   } = results
 
   const personalNextSteps = (() => {
@@ -386,253 +434,384 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
   const personalResources = LEARNING_RESOURCES[archetype.id] || []
 
-  return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fafaf8' }}>
+  async function handleCopyShareCard() {
+    if (shareStatus === 'loading') return
+    setShareStatus('loading')
+    try {
+      const { default: html2canvas } = await import('html2canvas')
+      const el = shareCardRef.current
+      const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: '#6B1020' })
 
-      {/* ── Header ──────────────────────────────────────────────────────── */}
-      <header className="bg-white sticky top-0 z-20 px-6 py-4" style={{ borderBottom: '1px solid #e8e8e4' }}>
+      let copied = false
+      if (navigator.clipboard?.write) {
+        try {
+          await new Promise(resolve => canvas.toBlob(async (blob) => {
+            try {
+              await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+              copied = true
+            } catch {}
+            resolve()
+          }, 'image/png'))
+        } catch {}
+      }
+
+      if (copied) {
+        setShareStatus('copied')
+      } else {
+        const url = canvas.toDataURL('image/png')
+        window.open(url, '_blank')
+        setShareStatus('opened')
+      }
+      setTimeout(() => setShareStatus(null), 3000)
+    } catch (err) {
+      console.error(err)
+      setShareStatus(null)
+    }
+  }
+
+  async function handleDownloadPDF() {
+    if (pdfStatus === 'loading') return
+    setPdfStatus('loading')
+    try {
+      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+        import('html2canvas'),
+        import('jspdf'),
+      ])
+
+      const el = document.getElementById('results-pdf-content')
+      const fullCanvas = await html2canvas(el, {
+        scale: 1.5,
+        useCORS: true,
+        backgroundColor: '#6B1020',
+        logging: false,
+      })
+
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' })
+      const pdfWidth  = pdf.internal.pageSize.getWidth()
+      const pdfHeight = pdf.internal.pageSize.getHeight()
+      const scale     = fullCanvas.width / pdfWidth
+      const totalPages = Math.ceil(fullCanvas.height / (pdfHeight * scale))
+
+      for (let page = 0; page < totalPages; page++) {
+        if (page > 0) pdf.addPage()
+        const srcY = Math.round(page * pdfHeight * scale)
+        const srcH = Math.round(Math.min(pdfHeight * scale, fullCanvas.height - srcY))
+        if (srcH <= 0) break
+
+        const pageCanvas = document.createElement('canvas')
+        pageCanvas.width  = fullCanvas.width
+        pageCanvas.height = srcH
+        const ctx = pageCanvas.getContext('2d')
+        ctx.drawImage(fullCanvas, 0, srcY, fullCanvas.width, srcH, 0, 0, fullCanvas.width, srcH)
+
+        const imgData = pageCanvas.toDataURL('image/jpeg', 0.88)
+        const renderedH = srcH / scale
+        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, renderedH)
+      }
+
+      pdf.save('archetypes-ai-result.pdf')
+      setPdfStatus('done')
+      setTimeout(() => setPdfStatus(null), 3000)
+    } catch (err) {
+      console.error(err)
+      setPdfStatus(null)
+    }
+  }
+
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: '#6B1020' }}>
+
+      {/* Off-screen share card for html2canvas */}
+      <ShareCard cardRef={shareCardRef} archetype={archetype} gapCallout={gapCallout} />
+
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-20 px-6 py-4" style={{ background: 'rgba(107,16,32,0.95)', borderBottom: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)' }}>
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <span className="font-semibold tracking-tight" style={{ color: '#1a3a2a', fontSize: 18 }}>Archetypes.ai</span>
-            <span className="font-medium text-sm" style={{ color: '#888780' }}>Your Results</span>
+            <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: '#ffffff', fontSize: 16, fontWeight: 400 }}>Archetypes.ai</span>
+            <span className="font-medium text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>· Your Results</span>
           </div>
-          <button onClick={onRestart} className="btn-secondary text-sm py-2 px-4">
+          <button onClick={onRestart} className="btn-secondary" style={{ padding: '6px 16px', fontSize: 12 }}>
             Retake
           </button>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+      {/* ── PDF capture target ───────────────────────────────────────────────── */}
+      <div id="results-pdf-content">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-12">
 
-        {/* ── Archetype Hero ───────────────────────────────────────────────── */}
-        <RevealSection delay={80}>
-          <div className="px-1">
-            <div className="section-label mb-4">Your archetype</div>
-            <h1 className="leading-tight mb-3" style={{ fontSize: 48, fontWeight: 600, color: '#0a1a10' }}>
-              {archetype.name}
-            </h1>
-            <p className="text-base italic" style={{ color: '#5a7a66' }}>{archetype.tagline}</p>
-          </div>
-        </RevealSection>
-
-        {/* ── Gap Callout ─────────────────────────────────────────────────── */}
-        <RevealSection delay={160}>
-          <div
-            className="px-6 py-6 bg-white"
-            style={{ border: '1px solid #e8e8e4', borderLeft: '3px solid #2d9e5f', borderRadius: 4 }}
-          >
-            {gapCallout.hasGap ? (
-              <>
-                <p className="text-xl sm:text-2xl font-bold leading-snug mb-1" style={{ color: '#0a1a10' }}>
-                  You think like <span style={{ color: '#2d9e5f' }}>{gapCallout.beliefLabel}.</span>
-                </p>
-                <p className="text-xl sm:text-2xl font-bold leading-snug mb-4" style={{ color: '#1a3a2a' }}>
-                  But you act like {gapCallout.behaviorLabel}.
-                </p>
-              </>
-            ) : (
-              <p className="text-xl sm:text-2xl font-bold leading-snug mb-4" style={{ color: '#0a1a10' }}>
-                Consistent <span style={{ color: '#2d9e5f' }}>{gapCallout.beliefLabel}.</span>
-              </p>
-            )}
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: '#5f5e5a' }}>
-              {gapCallout.subtext}
-            </p>
-          </div>
-        </RevealSection>
-
-        {/* ── Radar Chart ─────────────────────────────────────────────────── */}
-        <RevealSection delay={220}>
-          <div>
-            <div className="mb-4 px-1">
-              <div className="section-label mb-1">Belief vs. Behavior</div>
-              <p className="text-xs" style={{ color: '#888780' }}>
-                Each axis represents one archetype. The gap between the two shapes is your key insight.
-              </p>
+          {/* ── Archetype Hero ─────────────────────────────────────────────── */}
+          <RevealSection delay={80}>
+            <div className="px-1">
+              <div className="section-label mb-4">Your archetype</div>
+              <h1 className="leading-tight mb-3" style={{ fontSize: 48, fontWeight: 600, color: '#ffffff' }}>
+                {archetype.name}
+              </h1>
+              <p className="text-base italic" style={{ color: 'rgba(255,255,255,0.9)' }}>{archetype.tagline}</p>
             </div>
-            <div style={{ minHeight: 360, height: 360 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <RadarChart data={archetypeRadarData} margin={{ top: 16, right: 24, bottom: 8, left: 24 }}>
-                  <PolarGrid stroke="#e8e8e4" strokeDasharray="0" />
-                  <PolarAngleAxis
-                    dataKey="subject"
-                    tick={{ fontSize: 12, fill: '#5f5e5a', fontWeight: 600 }}
-                  />
-                  <PolarRadiusAxis
-                    angle={90}
-                    domain={[0, 100]}
-                    tick={{ fontSize: 9, fill: '#888780' }}
-                    tickCount={4}
-                    axisLine={false}
-                  />
-                  <Radar
-                    name="How you think"
-                    dataKey="belief"
-                    stroke="#2d9e5f"
-                    fill="#2d9e5f"
-                    fillOpacity={0.18}
-                    strokeWidth={2}
-                    dot={{ fill: '#2d9e5f', r: 4, strokeWidth: 0 }}
-                  />
-                  <Radar
-                    name="How you act"
-                    dataKey="behavior"
-                    stroke="#1a3a2a"
-                    fill="#1a3a2a"
-                    fillOpacity={0.12}
-                    strokeWidth={2}
-                    dot={{ fill: '#1a3a2a', r: 4, strokeWidth: 0 }}
-                  />
-                  <Tooltip content={<RadarTooltip />} />
-                </RadarChart>
-              </ResponsiveContainer>
-            </div>
-            <RadarLegend />
-          </div>
-        </RevealSection>
+          </RevealSection>
 
-        {/* ── Personal Archetype Profile ───────────────────────────────────── */}
-        <RevealSection delay={360}>
-          {/* Illustration + intro */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 px-1">
-            <div className="flex-shrink-0">
-              <ArchetypeIllustration archetypeId={archetype.id} size={96} />
-            </div>
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: '#5f5e5a' }}>{archetype.intro}</p>
-          </div>
-
-          {/* Quote */}
-          <div className="py-6" style={{ borderTop: '1px solid #e8e8e4', borderBottom: '1px solid #e8e8e4' }}>
-            <blockquote
-              className="text-lg sm:text-xl font-medium italic pl-5 leading-relaxed"
-              style={{ color: '#5f5e5a', borderLeft: '3px solid #2d9e5f' }}
+          {/* ── Gap Callout ────────────────────────────────────────────────── */}
+          <RevealSection delay={160}>
+            <div
+              className="px-6 py-6"
+              style={{ border: '1px solid rgba(255,255,255,0.12)', borderLeft: '3px solid rgba(255,255,255,0.5)', borderRadius: 4, background: 'rgba(255,255,255,0.06)' }}
             >
-              {archetype.quote}
-            </blockquote>
-          </div>
-
-          {/* Strengths + Blind Spot */}
-          <div className="py-8 grid sm:grid-cols-2 gap-8" style={{ borderBottom: '1px solid #e8e8e4' }}>
-            <div>
-              <div className="section-label mb-5">Strengths</div>
-              <ul className="space-y-3.5">
-                {archetype.strengths.map((s, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: '#5f5e5a' }}>
-                    <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: '#2d9e5f', display: 'block' }} />
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <div className="section-label mb-5">Blind Spot</div>
-              <p className="text-sm leading-relaxed" style={{ color: '#5f5e5a' }}>{archetype.blindSpot}</p>
-            </div>
-          </div>
-
-          {/* Next Steps */}
-          <div className="py-8" style={{ borderBottom: '1px solid #e8e8e4' }}>
-            <div className="section-label mb-1.5">Next Steps</div>
-            {selectedDomains.length > 0 && (
-              <p className="text-xs mb-5" style={{ color: '#888780' }}>
-                Tailored to your selected domains: {selectedDomains.join(', ')}
+              {gapCallout.hasGap ? (
+                <>
+                  <p className="text-xl sm:text-2xl font-bold leading-snug mb-1" style={{ color: '#ffffff' }}>
+                    You think like <span style={{ color: 'rgba(255,255,255,0.7)' }}>{gapCallout.beliefLabel}.</span>
+                  </p>
+                  <p className="text-xl sm:text-2xl font-bold leading-snug mb-4" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                    But you act like {gapCallout.behaviorLabel}.
+                  </p>
+                </>
+              ) : (
+                <p className="text-xl sm:text-2xl font-bold leading-snug mb-4" style={{ color: '#ffffff' }}>
+                  Consistent <span style={{ color: 'rgba(255,255,255,0.7)' }}>{gapCallout.beliefLabel}.</span>
+                </p>
+              )}
+              <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                {gapCallout.subtext}
               </p>
-            )}
-            {!selectedDomains.length && <div className="mb-5" />}
-            <ol className="space-y-4">
-              {personalNextSteps.map((step, i) => (
-                <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: '#5f5e5a' }}>
-                  <span
-                    className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-xs font-bold text-white"
-                    style={{ borderRadius: 4, backgroundColor: '#2d9e5f' }}
-                  >
-                    {i + 1}
-                  </span>
-                  {step}
-                </li>
-              ))}
-            </ol>
-          </div>
+            </div>
+          </RevealSection>
 
-          {/* Your Time, Your Way */}
-          <YourTimeSection archetypeId={archetype.id} />
+          {/* ── Radar Chart ────────────────────────────────────────────────── */}
+          <RevealSection delay={220}>
+            <div>
+              <div className="mb-4 px-1">
+                <div className="section-label mb-1">Belief vs. Behavior</div>
+                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  Each axis represents one archetype. The gap between the two shapes is your key insight.
+                </p>
+              </div>
+              <div style={{ minHeight: 360, height: 360 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={archetypeRadarData} margin={{ top: 16, right: 24, bottom: 8, left: 24 }}>
+                    <PolarGrid stroke="rgba(255,255,255,0.1)" strokeDasharray="0" />
+                    <PolarAngleAxis
+                      dataKey="subject"
+                      tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.6)', fontWeight: 600 }}
+                    />
+                    <PolarRadiusAxis
+                      angle={90}
+                      domain={[0, 100]}
+                      tick={{ fontSize: 9, fill: 'rgba(255,255,255,0.3)' }}
+                      tickCount={4}
+                      axisLine={false}
+                    />
+                    <Radar
+                      name="How you think"
+                      dataKey="belief"
+                      stroke="#ffffff"
+                      fill="rgba(255,255,255,0.15)"
+                      fillOpacity={1}
+                      strokeWidth={2}
+                      dot={{ fill: '#ffffff', r: 4, strokeWidth: 0 }}
+                    />
+                    <Radar
+                      name="How you act"
+                      dataKey="behavior"
+                      stroke="rgba(255,255,255,0.5)"
+                      fill="rgba(255,255,255,0.08)"
+                      fillOpacity={1}
+                      strokeWidth={2}
+                      strokeDasharray="4 4"
+                      dot={{ fill: 'rgba(255,255,255,0.5)', r: 4, strokeWidth: 0 }}
+                    />
+                    <Tooltip content={<RadarTooltip />} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+              <RadarLegend />
+            </div>
+          </RevealSection>
 
-          {/* Learning Resources */}
-          {personalResources.length > 0 && (
-            <div className="py-8">
-              <div className="section-label mb-5">Your Learning Path</div>
-              <div style={{ borderTop: '1px solid #e8e8e4' }}>
-                {personalResources.map((r, i) => (
-                  <a
-                    key={i}
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block group py-4"
-                    style={{ borderBottom: '1px solid #e8e8e4' }}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className="flex-shrink-0 text-xs font-bold uppercase tracking-wide mt-0.5" style={{ color: '#2d9e5f' }}>
-                        {r.type}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-sm leading-snug" style={{ color: '#1a3a2a' }}>
-                          {r.title}
-                          <span className="font-normal" style={{ color: '#888780' }}> by {r.author}</span>
-                        </p>
-                        <p className="text-xs mt-1 leading-relaxed" style={{ color: '#888780' }}>{r.why}</p>
-                      </div>
-                      <svg className="flex-shrink-0 w-4 h-4 mt-0.5" style={{ color: '#e8e8e4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </div>
-                  </a>
-                ))}
+          {/* ── Personal Archetype Profile ──────────────────────────────────── */}
+          <RevealSection delay={360}>
+            {/* Illustration + intro */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 px-1">
+              <div className="flex-shrink-0">
+                <ArchetypeIllustration archetypeId={archetype.id} size={96} />
+              </div>
+              <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{archetype.intro}</p>
+            </div>
+
+            {/* Quote */}
+            <div className="py-6" style={{ borderTop: '1px solid rgba(255,255,255,0.15)', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+              <blockquote
+                className="text-lg sm:text-xl font-medium italic pl-5 leading-relaxed"
+                style={{ color: 'rgba(255,255,255,0.82)', borderLeft: '3px solid rgba(255,255,255,0.4)' }}
+              >
+                {archetype.quote}
+              </blockquote>
+            </div>
+
+            {/* Strengths + Blind Spot */}
+            <div className="py-8 grid sm:grid-cols-2 gap-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+              <div>
+                <div className="section-label mb-5">Strengths</div>
+                <ul className="space-y-3.5">
+                  {archetype.strengths.map((s, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                      <span className="flex-shrink-0 mt-1" style={{ width: 3, height: 14, backgroundColor: 'rgba(255,255,255,0.5)', display: 'block' }} />
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <div className="section-label mb-5">Blind Spot</div>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>{archetype.blindSpot}</p>
               </div>
             </div>
-          )}
-        </RevealSection>
 
-        {/* ── Explore all archetypes ───────────────────────────────────────── */}
-        <RevealSection delay={480}>
-          <div>
-            <div className="mb-6 px-1">
-              <div className="section-label mb-2">Explore all archetypes</div>
-              <p className="text-sm" style={{ color: '#888780' }}>Click any card to see the full profile. Your archetype is highlighted.</p>
+            {/* Next Steps */}
+            <div className="py-8" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+              <div className="section-label mb-1.5">Next Steps</div>
+              {selectedDomains.length > 0 && (
+                <p className="text-xs mb-5" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  Tailored to your selected domains: {selectedDomains.join(', ')}
+                </p>
+              )}
+              {!selectedDomains.length && <div className="mb-5" />}
+              <ol className="space-y-4">
+                {personalNextSteps.map((step, i) => (
+                  <li key={i} className="flex items-start gap-4 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.82)' }}>
+                    <span
+                      className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-xs font-bold"
+                      style={{ borderRadius: 4, backgroundColor: '#ffffff', color: '#6B1020' }}
+                    >
+                      {i + 1}
+                    </span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-              {Object.values(ARCHETYPES).map(a => (
-                <ArchetypeCompactCard
-                  key={a.id}
-                  a={a}
-                  isYou={a.id === archetype.id}
-                  isSelected={selectedArchetype === a.id}
-                  onClick={() => setSelectedArchetype(prev => prev === a.id ? null : a.id)}
-                />
-              ))}
-            </div>
-            {selectedArchetype && (
-              <ArchetypeExploreCard
-                key={selectedArchetype}
-                a={ARCHETYPES[selectedArchetype]}
-                isYou={selectedArchetype === archetype.id}
-                selectedDomains={selectedDomains}
-              />
+
+            {/* Your Time, Your Way */}
+            <YourTimeSection archetypeId={archetype.id} />
+
+            {/* Learning Resources */}
+            {personalResources.length > 0 && (
+              <div className="py-8">
+                <div className="section-label mb-5">Your Learning Path</div>
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)' }}>
+                  {personalResources.map((r, i) => (
+                    <a
+                      key={i}
+                      href={r.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block group py-4"
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.12)' }}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="flex-shrink-0 text-xs font-bold uppercase tracking-wide mt-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                          {r.type}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-sm leading-snug" style={{ color: '#ffffff' }}>
+                            {r.title}
+                            <span className="font-normal" style={{ color: 'rgba(255,255,255,0.45)' }}> by {r.author}</span>
+                          </p>
+                          <p className="text-xs mt-1 leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>{r.why}</p>
+                        </div>
+                        <svg className="flex-shrink-0 w-4 h-4 mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
             )}
-          </div>
-        </RevealSection>
+          </RevealSection>
 
-        {/* ── Restart CTA ─────────────────────────────────────────────────── */}
-        <RevealSection delay={580}>
-          <div className="text-center py-8">
-            <p className="text-sm mb-4" style={{ color: '#888780' }}>Retake with a different context or domain selection.</p>
-            <button onClick={onRestart} className="btn-secondary">
-              Start Over
-            </button>
-          </div>
-        </RevealSection>
+          {/* ── Explore all archetypes ──────────────────────────────────────── */}
+          <RevealSection delay={480}>
+            <div>
+              <div className="mb-6 px-1">
+                <div className="section-label mb-2">Explore all archetypes</div>
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Click any card to see the full profile. Your archetype is highlighted.</p>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                {Object.values(ARCHETYPES).map(a => (
+                  <ArchetypeCompactCard
+                    key={a.id}
+                    a={a}
+                    isYou={a.id === archetype.id}
+                    onClick={() => setSelectedArchetype(prev => prev === a.id ? null : a.id)}
+                  />
+                ))}
+              </div>
+              {selectedArchetype && (
+                <ArchetypeExploreCard
+                  key={selectedArchetype}
+                  a={ARCHETYPES[selectedArchetype]}
+                  isYou={selectedArchetype === archetype.id}
+                  selectedDomains={selectedDomains}
+                />
+              )}
+            </div>
+          </RevealSection>
 
+          {/* ── Restart CTA ────────────────────────────────────────────────── */}
+          <RevealSection delay={580}>
+            <div className="text-center py-8">
+              <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.45)' }}>Retake with a different context or domain selection.</p>
+              <button onClick={onRestart} className="btn-secondary">
+                Start Over
+              </button>
+            </div>
+          </RevealSection>
+
+        </div>
       </div>
+
+      {/* ── Share your result ────────────────────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-16">
+        <RevealSection delay={660}>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: 40 }}>
+            <div className="section-label mb-3">Share your result</div>
+            <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.55)' }}>
+              Save your archetype as an image for social sharing, or download the full profile as a PDF.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleCopyShareCard}
+                disabled={shareStatus === 'loading'}
+                className="btn-secondary"
+              >
+                {shareStatus === 'loading' && (
+                  <svg className="animate-spin mr-2 w-3 h-3" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                )}
+                {shareStatus === 'copied' ? 'Copied to clipboard' : shareStatus === 'opened' ? 'Opened in new tab' : shareStatus === 'loading' ? 'Generating…' : 'Copy share card'}
+              </button>
+              <button
+                onClick={handleDownloadPDF}
+                disabled={pdfStatus === 'loading'}
+                className="btn-secondary"
+              >
+                {pdfStatus === 'loading' && (
+                  <svg className="animate-spin mr-2 w-3 h-3" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                )}
+                {pdfStatus === 'loading' ? 'Generating…' : pdfStatus === 'done' ? 'Downloaded' : 'Download as PDF'}
+              </button>
+            </div>
+          </div>
+        </RevealSection>
+      </div>
+
     </div>
   )
 }

@@ -60,12 +60,12 @@ export default function DomainPage({ onSelect }) {
   const canContinue = selected.length >= 2
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16" style={{ backgroundColor: '#fafaf8' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16" style={{ backgroundColor: '#6B1020' }}>
       <div className="max-w-2xl w-full">
         <div className="mb-10 text-center">
           <div className="section-label justify-center mb-3">Step 2 of 2</div>
-          <h2 className="text-3xl font-bold mb-3" style={{ color: '#1a3a2a' }}>Where does AI show up most in your life?</h2>
-          <p className="leading-relaxed" style={{ color: '#888780' }}>
+          <h2 className="text-3xl font-bold mb-3" style={{ color: '#ffffff' }}>Where does AI show up most in your life?</h2>
+          <p className="leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Pick 2–3 domains. Your results will be tailored to these areas.
           </p>
         </div>
@@ -84,8 +84,8 @@ export default function DomainPage({ onSelect }) {
                 className="w-full text-left p-5 flex items-center gap-4 transition-all duration-200"
                 style={{
                   borderRadius: 4,
-                  border: isSelected ? '1.5px solid #2d9e5f' : '1px solid #e8e8e4',
-                  backgroundColor: isSelected ? '#f7fbf8' : '#ffffff',
+                  border: isSelected ? '1.5px solid rgba(255,255,255,0.7)' : '1px solid rgba(255,255,255,0.12)',
+                  background: isSelected ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)',
                   opacity: isDisabled ? 0.4 : 1,
                   cursor: isDisabled ? 'not-allowed' : 'pointer',
                 }}
@@ -95,26 +95,26 @@ export default function DomainPage({ onSelect }) {
                   className="flex-shrink-0 w-5 h-5 flex items-center justify-center transition-colors duration-200"
                   style={{
                     borderRadius: 4,
-                    border: isSelected ? 'none' : '2px solid #e8e8e4',
-                    backgroundColor: isSelected ? '#2d9e5f' : 'transparent',
+                    border: isSelected ? 'none' : '2px solid rgba(255,255,255,0.25)',
+                    background: isSelected ? '#ffffff' : 'transparent',
                   }}
                 >
                   {isSelected && (
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" style={{ color: '#6B1020' }}>
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   )}
                 </div>
                 {/* Icon */}
-                <div style={{ color: isSelected ? '#2d9e5f' : '#888780' }}>
+                <div style={{ color: isSelected ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.45)' }}>
                   {meta.icon}
                 </div>
                 {/* Text */}
                 <div>
-                  <div className="font-semibold text-sm" style={{ color: isSelected ? '#1a3a2a' : '#5f5e5a' }}>
+                  <div className="font-semibold text-sm" style={{ color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.82)' }}>
                     {domain}
                   </div>
-                  <div className="text-xs mt-0.5" style={{ color: '#888780' }}>{meta.description}</div>
+                  <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.45)' }}>{meta.description}</div>
                 </div>
               </button>
             )
@@ -122,7 +122,7 @@ export default function DomainPage({ onSelect }) {
         </div>
 
         <div className="flex items-center justify-between">
-          <p className="text-sm" style={{ color: '#888780' }}>
+          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>
             {selected.length === 0 && 'Select at least 2 domains'}
             {selected.length === 1 && 'Select 1 more'}
             {selected.length === 2 && 'Good. Add one more if you like.'}
@@ -132,7 +132,6 @@ export default function DomainPage({ onSelect }) {
             onClick={() => canContinue && onSelect(selected)}
             disabled={!canContinue}
             className="btn-primary"
-            style={{ opacity: canContinue ? 1 : 0.4, cursor: canContinue ? 'pointer' : 'not-allowed' }}
           >
             Continue
             <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
