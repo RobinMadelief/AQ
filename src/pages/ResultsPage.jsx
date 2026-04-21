@@ -458,14 +458,14 @@ function ShareCard({ cardRef, archetype }) {
         background: 'rgba(255,255,255,0.07)',
         border: '1px solid rgba(255,255,255,0.12)',
         borderRadius: 24,
-        padding: 40,
+        padding: 28,
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
       }}>
 
         {/* Top row: illustration + text */}
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 36 }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 20 }}>
           {/* Illustration */}
           <div style={{
             width: 200,
@@ -496,7 +496,7 @@ function ShareCard({ cardRef, archetype }) {
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 20, marginBottom: 20 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 16, marginBottom: 12 }} />
 
         {/* About You label */}
         <div style={{
@@ -512,22 +512,22 @@ function ShareCard({ cardRef, archetype }) {
 
         {/* Introduction paragraph */}
         <div style={{
-          fontSize: 18,
+          fontSize: 15,
           color: 'rgba(255,255,255,0.82)',
-          lineHeight: 1.8,
-          marginBottom: 20,
+          lineHeight: 1.6,
+          marginBottom: 12,
         }}>
           {archetype.intro}
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 0, marginBottom: 20 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 0, marginBottom: 12 }} />
 
         {/* Two columns: Strengths + Blind Spot */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: 28,
+          gap: 20,
         }}>
           {/* Strengths */}
           <div>
@@ -545,9 +545,9 @@ function ShareCard({ cardRef, archetype }) {
               <div key={i} style={{
                 borderLeft: '2px solid rgba(255,255,255,0.25)',
                 paddingLeft: 10,
-                fontSize: 16,
+                fontSize: 14,
                 color: 'rgba(255,255,255,0.82)',
-                lineHeight: 1.7,
+                lineHeight: 1.5,
                 marginBottom: 8,
               }}>
                 {s}
@@ -568,9 +568,9 @@ function ShareCard({ cardRef, archetype }) {
               Blind Spot
             </div>
             <div style={{
-              fontSize: 16,
+              fontSize: 14,
               color: 'rgba(255,255,255,0.82)',
-              lineHeight: 1.7,
+              lineHeight: 1.5,
             }}>
               {archetype.blindSpot}
             </div>
@@ -578,7 +578,7 @@ function ShareCard({ cardRef, archetype }) {
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 20, marginBottom: 20 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 12, marginBottom: 12 }} />
 
         {/* URL */}
         <div style={{
