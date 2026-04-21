@@ -442,97 +442,104 @@ function ShareCard({ cardRef, archetype }) {
         left: -9999,
         top: 0,
         width: 1080,
-        height: 1440,
+        height: 1350,
         backgroundColor: '#6B1020',
-        padding: 80,
+        borderRadius: 24,
+        padding: 36,
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center',
         boxSizing: 'border-box',
       }}
     >
       {/* Wordmark */}
-      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', fontSize: 20, fontWeight: 400, marginBottom: 28 }}>
-        archetypes-ai.vercel.app
+      <div style={{
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        fontStyle: 'italic',
+        color: 'rgba(255,255,255,0.5)',
+        fontSize: 14,
+        fontWeight: 400,
+        marginBottom: 20,
+        textAlign: 'center',
+      }}>
+        Archetypes.ai
       </div>
 
-      {/* Divider */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 36 }} />
+      {/* Circular avatar */}
+      <div style={{
+        width: 160,
+        height: 160,
+        borderRadius: '50%',
+        background: '#F5EFE6',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+        flexShrink: 0,
+      }}>
+        <img src={ARCHETYPE_IMAGES[archetype.id] || skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
 
       {/* "Your AI archetype is" */}
-      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', fontSize: 18, marginBottom: 16 }}>
+      <div style={{
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        fontStyle: 'italic',
+        color: 'rgba(255,255,255,0.5)',
+        fontSize: 12,
+        textAlign: 'center',
+      }}>
         Your AI archetype is
       </div>
 
       {/* Archetype name */}
-      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 700, fontSize: 68, color: '#ffffff', lineHeight: 1.05, marginBottom: 36 }}>
+      <div style={{
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        fontStyle: 'italic',
+        fontWeight: 400,
+        fontSize: 36,
+        color: '#ffffff',
+        textAlign: 'center',
+        marginBottom: 8,
+      }}>
         {archetype.name}
       </div>
 
-      {/* Illustration */}
-      <div style={{ marginBottom: 36 }}>
-        <div style={{ background: '#F5EFE6', borderRadius: 24, width: 240, height: 240, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={ARCHETYPE_IMAGES[archetype.id] || skepticImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-      </div>
-
-      {/* Quote */}
-      <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.88)', fontSize: 22, lineHeight: 1.55, marginBottom: 40 }}>
-        {archetype.quote}
+      {/* Signature quote */}
+      <div style={{
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        fontStyle: 'italic',
+        color: 'rgba(255,255,255,0.65)',
+        fontSize: 14,
+        textAlign: 'center',
+        marginBottom: 16,
+      }}>
+        {archetype.tagline}
       </div>
 
       {/* Divider */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 36 }} />
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', width: '100%', marginBottom: 16 }} />
 
-      {/* About you label */}
-      <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', marginBottom: 18 }}>
-        About you
-      </div>
-
-      {/* Intro */}
-      <div style={{ color: 'rgba(255,255,255,0.88)', fontSize: 18, lineHeight: 1.7, marginBottom: 40, fontFamily: "'Inter', system-ui, sans-serif" }}>
+      {/* Introduction paragraph */}
+      <div style={{
+        color: 'rgba(255,255,255,0.75)',
+        fontSize: 12,
+        lineHeight: 1.7,
+        textAlign: 'left',
+        marginBottom: 16,
+        width: '100%',
+      }}>
         {archetype.intro}
       </div>
 
-      {/* Divider */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 36 }} />
-
-      {/* Two columns */}
-      <div style={{ display: 'flex', gap: 48, marginBottom: 40, flex: '0 0 auto' }}>
-        {/* Strengths */}
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', marginBottom: 18 }}>
-            Strengths
-          </div>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {archetype.strengths.map((s, i) => (
-              <li key={i} style={{ color: 'rgba(255,255,255,0.88)', fontSize: 16, lineHeight: 1.5, fontFamily: "'Inter', system-ui, sans-serif" }}>
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* Blind spot */}
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)', marginBottom: 18 }}>
-            Blind spot
-          </div>
-          <p style={{ color: 'rgba(255,255,255,0.88)', fontSize: 16, lineHeight: 1.5, margin: 0, fontFamily: "'Inter', system-ui, sans-serif" }}>
-            {archetype.blindSpot}
-          </p>
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', marginBottom: 28 }} />
-
-      {/* Footer */}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
-          archetypes-ai.vercel.app
-        </div>
-        <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, fontFamily: "'Inter', system-ui, sans-serif" }}>
-          Take the test at archetypes-ai.vercel.app
-        </div>
+      {/* URL */}
+      <div style={{
+        fontSize: 12,
+        color: 'rgba(255,255,255,0.4)',
+        textAlign: 'center',
+        marginTop: 'auto',
+      }}>
+        archetypes-ai.vercel.app
       </div>
     </div>
   )
@@ -858,6 +865,19 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
           <SectionDivider />
 
+          {/* Feedback link – location 1 */}
+          <div style={{ textAlign: 'center', fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 48 }}>
+            Tried Archetypes.ai? Help us make it better.{' '}
+            <a
+              href="https://forms.cloud.microsoft/r/6biGS5Mk8H"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'underline' }}
+            >
+              Share your feedback
+            </a>
+          </div>
+
           {/* ── 5. Explore all archetypes ─────────────────────────────────────── */}
           <RevealSection delay={420}>
             <div>
@@ -922,6 +942,19 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
               </button>
             </div>
           </RevealSection>
+
+          {/* Feedback link – location 2 */}
+          <div style={{ textAlign: 'center', fontSize: 13, color: 'rgba(255,255,255,0.5)', paddingBottom: 48 }}>
+            Tried Archetypes.ai? Help us make it better.{' '}
+            <a
+              href="https://forms.cloud.microsoft/r/6biGS5Mk8H"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'underline' }}
+            >
+              Share your feedback
+            </a>
+          </div>
 
         </div>
       </div>

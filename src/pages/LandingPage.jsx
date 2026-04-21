@@ -105,7 +105,7 @@ export default function LandingPage({ onStart }) {
         <div className="max-w-[960px] mx-auto">
           <div className="text-center mb-12">
             <div className="section-label justify-center mb-3">What you'll discover</div>
-            <h2 className="font-bold mb-3" style={{ fontSize: '1.5rem', color: '#ffffff' }}>Five archetypes. One honest mirror.</h2>
+            <h2 className="font-bold mb-3" style={{ fontSize: '1.5rem', color: '#ffffff' }}>Five archetypes. One personal profile.</h2>
             <p className="max-w-lg mx-auto text-sm sm:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
               Your answers reveal not just which archetype you are, but the gap between how you think about AI and how you actually use it.
             </p>

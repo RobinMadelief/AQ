@@ -17,7 +17,7 @@ export const ARCHETYPES = {
       'Strong personal voice: in writing, decisions, and creative work, your fingerprint is unmistakable',
       'Deep ownership: when something succeeds, you know exactly why. When it fails, you learn from it.',
     ],
-    blindSpot: `While you work to maintain authenticity, the gap between you and your field is quietly widening. Others are using AI not to replace their thinking, but to do more of it, faster and on bigger problems. The risk is not that AI will make you inauthentic. It is that protecting yourself from it may mean doing more low-value work while missing the high-value opportunities.`,
+    blindSpot: `While you work to maintain authenticity, the gap between you and your field is quietly widening. Others are using AI to do more thinking, faster and on bigger problems. The risk is that protecting yourself from it may mean doing more low-value work while missing high-value opportunities.`,
     habits: {
       drop: [
         'Assuming AI use means losing your edge',
@@ -36,7 +36,7 @@ export const ARCHETYPES = {
         'Notice one task that costs you time but does not require your judgment. That is a good candidate to try first.',
       ],
       'Learning & Education': [
-        'After studying a concept, ask AI to quiz you on it. Use it to test, not replace, the learning.',
+        'After studying a concept, ask AI to quiz you on it. Use it to test your understanding.',
         'When stuck on a problem, ask AI for a hint or a different angle rather than the full answer.',
         'Let AI generate a wrong explanation of something you know well. Then correct it.',
       ],
@@ -79,7 +79,7 @@ export const ARCHETYPES = {
       'Pragmatism: you care about results, not rituals. You reach the destination faster.',
       'Speed under pressure: when deadlines hit, you have a system that delivers',
     ],
-    blindSpot: `The risk is not what you are producing. It is what you are not building. Every time AI does the thinking, you skip the cognitive work that compounds into expertise. Writing that summary yourself was slow, but it forced you to understand the material. Solving that problem manually was inefficient, but you would have recognised the pattern next time. Over time, the gap between your output and your actual capability quietly widens.`,
+    blindSpot: `The real risk is what you are not building. Every time AI does the thinking, you skip the cognitive work that compounds into expertise. Writing that summary yourself was slow, but it forced you to understand the material. Solving that problem manually was inefficient, but you would have recognised the pattern next time. Over time, the gap between your output and your actual capability quietly widens.`,
     habits: {
       drop: [
         'Sending AI output that sounds inauthentic',
@@ -141,7 +141,7 @@ export const ARCHETYPES = {
       'Always current: you are aware of what AI can do at the edge, not just the mainstream',
       'High openness: you bring ideas from unexpected places and make surprising connections',
     ],
-    blindSpot: `Novelty is seductive. But there is a difference between exploring and accumulating. You have probably started more workflows than you have finished, and installed more tools than you have mastered. The problem is not curiosity. Insight without integration produces noise, not signal. The next step forward for you is not a new tool. It is depth. Staying long enough in one place to actually change how you work.`,
+    blindSpot: `Novelty is seductive. But there is a difference between exploring and accumulating. You have probably started more workflows than you have finished, and installed more tools than you have mastered. Curiosity without direction produces noise. The next step forward is depth: staying long enough in one place to actually change how you work.`,
     habits: {
       drop: [
         'Switching tools before mastering the current one',
@@ -196,7 +196,7 @@ export const ARCHETYPES = {
     bgClass: 'bg-emerald-50',
     borderClass: 'border-emerald-300',
     accentClass: 'bg-emerald-600',
-    intro: `You have found the relationship with AI that most people are still looking for. You use it deliberately, to extend your thinking, not replace it. You know when to lean in and when to step back. Your work reflects your judgment, your values, and your voice, but it goes further and moves faster because of how you have integrated AI. That is not something you stumbled into. It came from knowing yourself.`,
+    intro: `You have found the relationship with AI that most people are still looking for. You use it deliberately, to extend your thinking. You know when to lean in and when to step back. Your work reflects your judgment, your values, and your voice, but it goes further and moves faster because of how you have integrated AI. That came from knowing yourself.`,
     quote: '"AI doesn\'t do my thinking. It makes my thinking go further."',
     strengths: [
       'Intentionality: you have clear principles for how and when you use AI, and you stick to them',
@@ -206,7 +206,7 @@ export const ARCHETYPES = {
     blindSpot: `As AI improves, this relationship requires ongoing attention. The tools you use today will be substantially more capable in 12 months, and with more capability comes more temptation to hand over tasks that used to sharpen you. The Amplifier who does not stay intentional gradually becomes a Delegator who does not notice. Stay honest: keep asking whether you are using AI to grow, or just to produce.`,
     habits: {
       drop: [
-        'Using AI for tasks that genuinely need your full attention',
+        'Using AI for tasks that need your full attention',
         'Letting AI polish work that still needs your real thinking',
       ],
       build: [
@@ -228,7 +228,7 @@ export const ARCHETYPES = {
       ],
       'Work & Productivity': [
         'Present your AI workflow to your team. Make the implicit explicit and invite critique.',
-        'Identify the highest-leverage task in your role and ask whether AI could help you do it at a qualitatively higher level.',
+        'Identify the highest-impact task in your role and ask whether AI could help you do it at a qualitatively higher level.',
         'Set a quarterly review: what has AI made you better at, and what have you let it take over that you should not have?',
       ],
       'Creativity': [
@@ -263,9 +263,9 @@ export const ARCHETYPES = {
     strengths: [
       'Systems thinking: you see the whole workflow, not just the individual step',
       'Builds for scale: you design solutions that keep working without your constant attention',
-      'Turns AI into infrastructure: for you, AI is not a tool you pick up. It is the foundation you build on.',
+      'Turns AI into infrastructure: for you, AI is the foundation you build on.',
     ],
-    blindSpot: `Systems can become a way of avoiding the messy human work that still matters. Not everything should be automated. The risk is optimising away the friction that produces insight, the conversations that build trust, the slow work that compounds into wisdom. Keep asking: is this automation creating leverage, or just distance?`,
+    blindSpot: `Systems can become a way of avoiding the messy human work that still matters. Not everything should be automated. The risk is optimising away the friction that produces insight, the conversations that build trust, the slow work that compounds into wisdom. Keep asking: is this automation creating real impact, or just distance?`,
     habits: {
       drop: [
         'Automating decisions that still need human judgment',
