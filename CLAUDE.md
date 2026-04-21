@@ -237,6 +237,7 @@ These rules apply to every piece of text written or edited in this project. No e
 - Git repository connected to GitHub (RobinMadelief/AQ)
 - Deployed on Vercel, auto-deploys on push to main
 - Two collaborators: Robin and Henrik
+- Live URL: https://archetypes-ai.vercel.app
 
 ---
 
