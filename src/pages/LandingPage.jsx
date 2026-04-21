@@ -24,7 +24,10 @@ export default function LandingPage({ onStart }) {
         <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', fontWeight: 400, fontSize: 16, color: '#ffffff' }}>
           Archetypes.ai
         </span>
-        <span className="text-xs hidden sm:block tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>~10 min · Free</span>
+        <div className="hidden sm:flex items-center gap-3">
+          <span className="text-xs tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>~10 min · Free</span>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontFamily: 'sans-serif' }}>v0.4</span>
+        </div>
       </header>
 
       {/* ── Hero ────────────────────────────────────────────────────────────── */}
