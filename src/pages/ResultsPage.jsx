@@ -452,7 +452,7 @@ function ShareCard({ cardRef, archetype }) {
     >
       {/* Wordmark */}
       <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.6)', fontSize: 20, fontWeight: 400, marginBottom: 28 }}>
-        aq-beta.vercel.app
+        archetypes-ai.vercel.app
       </div>
 
       {/* Divider */}
@@ -528,10 +528,10 @@ function ShareCard({ cardRef, archetype }) {
       {/* Footer */}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
         <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>
-          aq-beta.vercel.app
+          archetypes-ai.vercel.app
         </div>
         <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, fontFamily: "'Inter', system-ui, sans-serif" }}>
-          Take the test at aq-beta.vercel.app
+          Take the test at archetypes-ai.vercel.app
         </div>
       </div>
     </div>
