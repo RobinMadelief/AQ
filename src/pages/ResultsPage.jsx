@@ -435,6 +435,7 @@ function ArchetypeExploreCard({ a, isYou, selectedDomains }) {
 // ── Share card (off-screen, captured by html2canvas) ─────────────────────────
 function ShareCard({ cardRef, archetype }) {
   const src = ARCHETYPE_IMAGES[archetype.id] || skepticImg
+  const serif = "Georgia, 'Times New Roman', serif"
   return (
     <div
       ref={cardRef}
@@ -451,130 +452,102 @@ function ShareCard({ cardRef, archetype }) {
         boxSizing: 'border-box',
       }}
     >
-      {/* Floating card */}
       <div style={{
-        width: 960,
-        background: 'rgba(255,255,255,0.08)',
-        border: '1px solid rgba(255,255,255,0.15)',
+        width: 984,
+        background: 'rgba(255,255,255,0.07)',
+        border: '1px solid rgba(255,255,255,0.12)',
         borderRadius: 24,
         padding: 48,
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
       }}>
 
-        {/* Wordmark */}
-        <div style={{
-          fontFamily: "Georgia, 'Times New Roman', serif",
-          fontStyle: 'italic',
-          color: 'rgba(255,255,255,0.45)',
-          fontSize: 13,
-          fontWeight: 400,
-          marginBottom: 20,
-          textAlign: 'center',
-        }}>
-          Archetypes.ai
-        </div>
+        {/* Top row: illustration + text */}
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 36 }}>
+          {/* Illustration */}
+          <div style={{
+            width: 220,
+            height: 220,
+            borderRadius: 20,
+            background: '#F5EFE6',
+            overflow: 'hidden',
+            flexShrink: 0,
+          }}>
+            <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
 
-        {/* Illustration */}
-        <div style={{
-          width: 140,
-          height: 140,
-          borderRadius: 16,
-          background: '#F5EFE6',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 16,
-          flexShrink: 0,
-        }}>
-          <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-
-        {/* "Your AI archetype is" */}
-        <div style={{
-          fontFamily: "Georgia, 'Times New Roman', serif",
-          fontStyle: 'italic',
-          color: 'rgba(255,255,255,0.5)',
-          fontSize: 12,
-          textAlign: 'center',
-          marginBottom: 4,
-        }}>
-          Your AI archetype is
-        </div>
-
-        {/* Archetype name */}
-        <div style={{
-          fontFamily: "Georgia, 'Times New Roman', serif",
-          fontStyle: 'italic',
-          fontWeight: 400,
-          fontSize: 36,
-          color: '#ffffff',
-          textAlign: 'center',
-          marginBottom: 8,
-        }}>
-          {archetype.name}
-        </div>
-
-        {/* Signature quote */}
-        <div style={{
-          fontFamily: "Georgia, 'Times New Roman', serif",
-          fontStyle: 'italic',
-          color: 'rgba(255,255,255,0.65)',
-          fontSize: 13,
-          textAlign: 'center',
-          marginBottom: 16,
-        }}>
-          {archetype.tagline}
+          {/* Text stack */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, justifyContent: 'center', paddingTop: 8 }}>
+            <div style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 16, color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>
+              Archetypes.ai
+            </div>
+            <div style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 16, color: 'rgba(255,255,255,0.5)', fontWeight: 400 }}>
+              Your AI archetype is
+            </div>
+            <div style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 52, fontWeight: 400, color: '#ffffff', lineHeight: 1.1 }}>
+              {archetype.name}
+            </div>
+            <div style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 18, color: 'rgba(255,255,255,0.6)', fontWeight: 400 }}>
+              {archetype.tagline}
+            </div>
+          </div>
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', width: '100%', marginBottom: 16 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 28, marginBottom: 28 }} />
+
+        {/* About You label */}
+        <div style={{
+          fontSize: 13,
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          color: 'rgba(255,255,255,0.4)',
+          fontWeight: 500,
+          marginBottom: 14,
+        }}>
+          About You
+        </div>
 
         {/* Introduction paragraph */}
         <div style={{
+          fontSize: 18,
           color: 'rgba(255,255,255,0.82)',
-          fontSize: 12,
           lineHeight: 1.8,
-          textAlign: 'left',
-          marginBottom: 16,
-          width: '100%',
+          marginBottom: 28,
         }}>
           {archetype.intro}
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', width: '100%', marginBottom: 16 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 0, marginBottom: 28 }} />
 
         {/* Two columns: Strengths + Blind Spot */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: 16,
-          width: '100%',
-          textAlign: 'left',
+          gap: 32,
         }}>
           {/* Strengths */}
           <div>
             <div style={{
-              fontSize: 10,
+              fontSize: 13,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'rgba(255,255,255,0.45)',
-              marginBottom: 8,
+              color: 'rgba(255,255,255,0.4)',
+              fontWeight: 500,
+              marginBottom: 14,
             }}>
               Strengths
             </div>
             {archetype.strengths.map((s, i) => (
               <div key={i} style={{
                 borderLeft: '2px solid rgba(255,255,255,0.25)',
-                paddingLeft: 8,
-                fontSize: 11,
+                paddingLeft: 10,
+                fontSize: 16,
                 color: 'rgba(255,255,255,0.82)',
-                lineHeight: 1.6,
-                marginBottom: 8,
+                lineHeight: 1.7,
+                marginBottom: 10,
               }}>
                 {s}
               </div>
@@ -584,18 +557,19 @@ function ShareCard({ cardRef, archetype }) {
           {/* Blind Spot */}
           <div>
             <div style={{
-              fontSize: 10,
+              fontSize: 13,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'rgba(255,255,255,0.45)',
-              marginBottom: 8,
+              color: 'rgba(255,255,255,0.4)',
+              fontWeight: 500,
+              marginBottom: 14,
             }}>
               Blind Spot
             </div>
             <div style={{
-              fontSize: 11,
+              fontSize: 16,
               color: 'rgba(255,255,255,0.82)',
-              lineHeight: 1.6,
+              lineHeight: 1.7,
             }}>
               {archetype.blindSpot}
             </div>
@@ -603,12 +577,12 @@ function ShareCard({ cardRef, archetype }) {
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', width: '100%', marginTop: 16, marginBottom: 12 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 28, marginBottom: 28 }} />
 
         {/* URL */}
         <div style={{
-          fontSize: 11,
-          color: 'rgba(255,255,255,0.35)',
+          fontSize: 14,
+          color: 'rgba(255,255,255,0.3)',
           textAlign: 'center',
         }}>
           Take the test at archetypes-ai.vercel.app
