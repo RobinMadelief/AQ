@@ -4,6 +4,7 @@ import {
   ResponsiveContainer, Tooltip,
 } from 'recharts'
 import { ARCHETYPES } from '../data/archetypes.js'
+import { APP_VERSION } from '../version.js'
 import skepticImg from '../assets/skeptic.png'
 import delegatorImg from '../assets/delegator.png'
 import experimenterImg from '../assets/experimenter.png'
@@ -444,7 +445,7 @@ function ShareCard({ cardRef, archetype }) {
         left: -9999,
         top: 0,
         width: 1080,
-        height: 1350,
+        height: 1080,
         backgroundColor: '#6B1020',
         display: 'flex',
         alignItems: 'center',
@@ -457,7 +458,7 @@ function ShareCard({ cardRef, archetype }) {
         background: 'rgba(255,255,255,0.07)',
         border: '1px solid rgba(255,255,255,0.12)',
         borderRadius: 24,
-        padding: 48,
+        padding: 40,
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
@@ -467,8 +468,8 @@ function ShareCard({ cardRef, archetype }) {
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 36 }}>
           {/* Illustration */}
           <div style={{
-            width: 220,
-            height: 220,
+            width: 200,
+            height: 200,
             borderRadius: 20,
             background: '#F5EFE6',
             overflow: 'hidden',
@@ -488,14 +489,14 @@ function ShareCard({ cardRef, archetype }) {
             <div style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 52, fontWeight: 400, color: '#ffffff', lineHeight: 1.1 }}>
               {archetype.name}
             </div>
-            <div style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 18, color: 'rgba(255,255,255,0.6)', fontWeight: 400 }}>
+            <div style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 18, color: 'rgba(255,255,255,0.6)', fontWeight: 400, marginTop: 16 }}>
               {archetype.tagline}
             </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 28, marginBottom: 28 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 20, marginBottom: 20 }} />
 
         {/* About You label */}
         <div style={{
@@ -504,7 +505,7 @@ function ShareCard({ cardRef, archetype }) {
           letterSpacing: '0.1em',
           color: 'rgba(255,255,255,0.4)',
           fontWeight: 500,
-          marginBottom: 14,
+          marginBottom: 10,
         }}>
           About You
         </div>
@@ -514,19 +515,19 @@ function ShareCard({ cardRef, archetype }) {
           fontSize: 18,
           color: 'rgba(255,255,255,0.82)',
           lineHeight: 1.8,
-          marginBottom: 28,
+          marginBottom: 20,
         }}>
           {archetype.intro}
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 0, marginBottom: 28 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 0, marginBottom: 20 }} />
 
         {/* Two columns: Strengths + Blind Spot */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: 32,
+          gap: 28,
         }}>
           {/* Strengths */}
           <div>
@@ -536,7 +537,7 @@ function ShareCard({ cardRef, archetype }) {
               letterSpacing: '0.1em',
               color: 'rgba(255,255,255,0.4)',
               fontWeight: 500,
-              marginBottom: 14,
+              marginBottom: 10,
             }}>
               Strengths
             </div>
@@ -547,7 +548,7 @@ function ShareCard({ cardRef, archetype }) {
                 fontSize: 16,
                 color: 'rgba(255,255,255,0.82)',
                 lineHeight: 1.7,
-                marginBottom: 10,
+                marginBottom: 8,
               }}>
                 {s}
               </div>
@@ -562,7 +563,7 @@ function ShareCard({ cardRef, archetype }) {
               letterSpacing: '0.1em',
               color: 'rgba(255,255,255,0.4)',
               fontWeight: 500,
-              marginBottom: 14,
+              marginBottom: 10,
             }}>
               Blind Spot
             </div>
@@ -577,7 +578,7 @@ function ShareCard({ cardRef, archetype }) {
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 28, marginBottom: 28 }} />
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: 20, marginBottom: 20 }} />
 
         {/* URL */}
         <div style={{
@@ -646,6 +647,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
   const [selectedArchetype, setSelectedArchetype] = useState(null)
   const [shareModalUrl, setShareModalUrl] = useState(null)
   const [shareStatus, setShareStatus] = useState(null)
+  const [suggestStatus, setSuggestStatus] = useState(null)
   const shareCardRef = useRef(null)
 
   const { archetype, archetypeRadarData, gapCallout } = results
@@ -699,7 +701,7 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
             <span className="font-medium text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>· Your Results</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontFamily: 'sans-serif' }}>v0.4</span>
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontFamily: 'sans-serif' }}>{APP_VERSION}</span>
             <button onClick={onRestart} className="btn-secondary" style={{ padding: '6px 16px', fontSize: 12 }}>
               Retake
             </button>
@@ -916,19 +918,6 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
 
           <SectionDivider />
 
-          {/* Feedback link – location 1 */}
-          <div style={{ textAlign: 'center', fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 48 }}>
-            Tried Archetypes.ai? Help us make it better.{' '}
-            <a
-              href="https://forms.cloud.microsoft/r/6biGS5Mk8H"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'rgba(255,255,255,0.75)', textDecoration: 'underline' }}
-            >
-              Share your feedback
-            </a>
-          </div>
-
           {/* ── 5. Explore all archetypes ─────────────────────────────────────── */}
           <RevealSection delay={420}>
             <div>
@@ -979,6 +968,25 @@ export default function ResultsPage({ results, selectedDomains, onRestart }) {
                     </svg>
                   )}
                   {shareStatus === 'loading' ? 'Generating…' : 'Share your result'}
+                </button>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('https://archetypes-ai.vercel.app').then(() => {
+                      setSuggestStatus('copied')
+                      setTimeout(() => setSuggestStatus(null), 2000)
+                    })
+                  }}
+                  style={{
+                    border: '1px solid rgba(255,255,255,0.45)',
+                    background: 'transparent',
+                    color: 'rgba(255,255,255,0.85)',
+                    borderRadius: 999,
+                    padding: '9px 24px',
+                    fontSize: 12,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {suggestStatus === 'copied' ? 'Link copied!' : 'Suggest to a friend'}
                 </button>
               </div>
             </div>

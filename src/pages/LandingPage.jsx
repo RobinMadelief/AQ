@@ -1,4 +1,5 @@
 import skepticImg from '../assets/skeptic.png'
+import { APP_VERSION } from '../version.js'
 import delegatorImg from '../assets/delegator.png'
 import experimenterImg from '../assets/experimenter.png'
 import amplifierImg from '../assets/amplifier.png'
@@ -26,7 +27,7 @@ export default function LandingPage({ onStart }) {
         </span>
         <div className="hidden sm:flex items-center gap-3">
           <span className="text-xs tracking-wide" style={{ color: 'rgba(255,255,255,0.45)' }}>~10 min · Free</span>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontFamily: 'sans-serif' }}>v0.4</span>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', fontFamily: 'sans-serif' }}>{APP_VERSION}</span>
         </div>
       </header>
 
@@ -144,10 +145,19 @@ export default function LandingPage({ onStart }) {
             </div>
             <button
               onClick={onStart}
-              className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
-              style={{ color: 'rgba(255,255,255,0.85)' }}
+              className="inline-flex items-center gap-2"
+              style={{
+                border: '1px solid rgba(255,255,255,0.45)',
+                background: 'transparent',
+                color: 'rgba(255,255,255,0.85)',
+                borderRadius: 999,
+                padding: '9px 24px',
+                fontSize: 12,
+                fontWeight: 400,
+                cursor: 'pointer',
+              }}
             >
-              Begin the assessment
+              Start assessment
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
