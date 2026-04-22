@@ -78,9 +78,8 @@ The gap callout compares the dominant belief archetype (from perception) with th
 
 **Typography:**
 - Wordmark "Archetypes.ai": Georgia serif, italic, font-weight 400
-- Main hero heading: Georgia serif, italic, font-size 58px on desktop, font-weight 400, color #ffffff
+- Main hero heading: Georgia serif, italic, fluid font-size clamp(56px, 16vw, 220px), font-weight 400, letter-spacing -0.015em, line-height 1.05, color #ffffff. Spans most of the viewport width — no max-width cap.
 - Tagline "Discover your AI personality.": Georgia serif, italic, font-size 26px. "Discover your" is font-weight 400, "AI personality." is font-weight 700
-- Subtitle "Know your type. Grow with AI.": Georgia serif, normal, font-size 15px, letter-spacing 0.04em, color rgba(255,255,255,0.45)
 - Section labels: uppercase, font-size 13px, font-weight 500, letter-spacing 0.1em, preceded by a short horizontal line
 
 **Border radius:**
@@ -101,7 +100,7 @@ The gap callout compares the dominant belief archetype (from perception) with th
 ## Landing page structure
 
 1. Nav bar: "Archetypes.ai" wordmark top left in italic Georgia serif, "~10 min · Free" top right
-2. Hero: "Archetypes.ai" large italic serif heading centered, "Discover your AI personality." tagline below, "Know your type. Grow with AI." subtitle, thin divider line, intro paragraph, outline CTA button
+2. Hero: "Archetypes.ai" oversized italic serif heading spanning most of the viewport, "Discover your AI personality." tagline below, thin divider line, intro paragraph, outline CTA button
 3. Five archetype preview cards below: each shows illustration in beige box, archetype name, signature quote
 
 **Intro paragraph (do not change):**

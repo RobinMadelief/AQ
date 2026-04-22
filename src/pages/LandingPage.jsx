@@ -36,16 +36,17 @@ export default function LandingPage({ onStart }) {
 
         {/* Primary heading */}
         <h1
-          className="max-w-2xl mx-auto"
+          className="mx-auto"
           style={{
             fontFamily: "Georgia, 'Times New Roman', serif",
-            fontSize: 'clamp(36px, 8vw, 58px)',
+            fontSize: 'clamp(56px, 16vw, 220px)',
             fontWeight: 400,
             fontStyle: 'italic',
-            lineHeight: 1.1,
-            letterSpacing: '-0.8px',
+            lineHeight: 1.05,
+            letterSpacing: '-0.015em',
             color: '#ffffff',
-            marginBottom: 18,
+            marginBottom: 28,
+            width: '100%',
           }}
         >
           Archetypes.ai
@@ -59,29 +60,14 @@ export default function LandingPage({ onStart }) {
             fontStyle: 'italic',
             lineHeight: 1.3,
             color: '#ffffff',
-            marginBottom: 14,
+            marginBottom: 28,
           }}
         >
           <span style={{ fontWeight: 400 }}>Discover your </span>
           <span style={{ fontWeight: 700 }}>AI personality.</span>
         </p>
 
-        <p
-          className="max-w-2xl mx-auto"
-          style={{
-            fontFamily: "Georgia, 'Times New Roman', serif",
-            fontSize: 15,
-            fontWeight: 400,
-            lineHeight: 1.3,
-            letterSpacing: '0.04em',
-            color: 'rgba(255,255,255,0.9)',
-            marginBottom: 28,
-          }}
-        >
-          Know your type. Grow with AI.
-        </p>
-
-        {/* Divider between subtitle and intro */}
+        {/* Divider between tagline and intro */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', maxWidth: 480, width: '100%', marginBottom: 28 }} />
 
         {/* Intro text — no box */}
